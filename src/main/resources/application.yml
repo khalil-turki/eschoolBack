@@ -11,7 +11,9 @@ spring:
     show-sql: false
     properties:
       hibernate:
-
+  mvc:
+  pathmatch:
+    matching-strategy: ant_path_matcher
     # Hibernate DDL Auto (create, create-drop, update)
     hibernate:
       ddl-auto: update
@@ -19,3 +21,10 @@ spring:
 
 server:
   port: 8081
+
+flickr:
+ apiKey:  bcfbdaf42d10bd7df1c8e795e82b0c4e
+ apiSecret: 361e17f1379ffb53
+ appKey: 72157720860742033-37699e781dac0ce9
+ appSecret: 4de252e26e89af0e
+

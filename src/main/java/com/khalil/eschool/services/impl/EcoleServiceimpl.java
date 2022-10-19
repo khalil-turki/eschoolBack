@@ -39,7 +39,7 @@ public class EcoleServiceimpl implements EcoleService {
 
         return EcoleDto.fromEntity(
                 ecoleRepository.save(
-                        ecoleDto.toEntity(ecoleDto)
+                        EcoleDto.toEntity(ecoleDto)
                 )
         );
     }

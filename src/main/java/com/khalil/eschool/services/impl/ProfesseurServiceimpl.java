@@ -39,7 +39,7 @@ public class ProfesseurServiceimpl implements ProfesseurService {
 
         return ProfesseurDto.fromEntity(
                 professeurRepository.save(
-                        professeurDto.toEntity(professeurDto)
+                        ProfesseurDto.toEntity(professeurDto)
                 )
         );
     }

@@ -39,7 +39,7 @@ public class UtilisateurServiceimpl implements UtilisateurService {
 
         return UtilisateurDto.fromEntity(
                 utilisateurRepository.save(
-                        utilisateurDto.toEntity(utilisateurDto)
+                        UtilisateurDto.toEntity(utilisateurDto)
                 )
         );    }
 

@@ -9,7 +9,10 @@ import javax.persistence.*;
 import java.util.List;
 @Data
 @Entity
-
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+@Table(name = "matiere")
 public class Matiere extends AbstractEntity  {
 
     @Column(name = "nom")

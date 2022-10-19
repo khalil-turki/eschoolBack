@@ -3,11 +3,16 @@ package com.khalil.eschool.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khalil.eschool.model.Matiere;
 import com.khalil.eschool.model.Professeur;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.List;
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class MatiereDto {
     private Integer id ;
 
@@ -41,8 +46,8 @@ public class MatiereDto {
         }
         Matiere matiere = new Matiere();
         matiere.setId(matiereDto.getId());
-        matiere.setDescription(matiere.getDescription());
-        matiere.setNom(matiere.getNom());
+        matiere.setDescription(matiereDto.getDescription());
+        matiere.setNom(matiereDto.getNom());
 
         return matiere;
     }

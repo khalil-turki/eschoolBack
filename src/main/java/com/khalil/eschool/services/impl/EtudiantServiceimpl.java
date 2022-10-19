@@ -44,7 +44,7 @@ public class EtudiantServiceimpl implements EtudiantService {
 
         return EtudiantDto.fromEntity(
                 etudiantRepository.save(
-                        etudiantDto.toEntity(etudiantDto)
+                        EtudiantDto.toEntity(etudiantDto)
                 )
         );
 

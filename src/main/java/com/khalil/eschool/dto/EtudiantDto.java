@@ -1,11 +1,15 @@
 package com.khalil.eschool.dto;
 import com.khalil.eschool.model.Etudiant;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class EtudiantDto {
 
     private Integer id ;

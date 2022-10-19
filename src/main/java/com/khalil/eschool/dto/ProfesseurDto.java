@@ -3,12 +3,16 @@ package com.khalil.eschool.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.khalil.eschool.model.Matiere;
 import com.khalil.eschool.model.Professeur;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProfesseurDto {
 
     private Integer id ;

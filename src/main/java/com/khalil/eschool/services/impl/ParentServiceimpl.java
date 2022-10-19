@@ -39,7 +39,7 @@ public class ParentServiceimpl implements ParentService {
 
         return ParentDto.fromEntity(
                 parentRepository.save(
-                        parentDto.toEntity(parentDto)
+                        ParentDto.toEntity(parentDto)
                 )
         );
     }

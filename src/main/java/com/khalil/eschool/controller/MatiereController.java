@@ -12,12 +12,17 @@ import java.util.List;
 @RestController
 public class MatiereController implements MatiereApi {
 
-    @Autowired private MatiereService matiereService;
+    private MatiereService matiereService;
+    @Autowired
 
-
+public MatiereController(MatiereService matiereService)
+    {
+        this.matiereService=matiereService;
+    }
 
     @Override
     public MatiereDto save(MatiereDto matiereDto) {
+
         return matiereService.save(matiereDto);
     }
 

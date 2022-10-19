@@ -38,7 +38,7 @@ public class ClasseServiceimpl implements ClasseService {
 
         return ClasseDto.fromEntity(
                 classeRepository.save(
-                        classeDto.toEntity(classeDto)
+                        ClasseDto.toEntity(classeDto)
                 )
         );
     }
