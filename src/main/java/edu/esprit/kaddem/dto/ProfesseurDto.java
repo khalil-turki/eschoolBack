@@ -2,6 +2,7 @@ package edu.esprit.kaddem.dto;
 
 import edu.esprit.kaddem.model.Classe;
 import edu.esprit.kaddem.model.user.Etudiant;
+import edu.esprit.kaddem.model.user.Parent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class ProfesseurDto extends AbstractUserDto<Etudiant> implements Serializable {
+public class ProfesseurDto extends AbstractUserDto<Parent> implements Serializable {
     private List<ClasseDto> classes;
     private List<MatiereDto> matieres;
 }

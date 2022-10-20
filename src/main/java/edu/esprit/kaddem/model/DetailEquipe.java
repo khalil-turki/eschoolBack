@@ -3,8 +3,10 @@ package edu.esprit.kaddem.model;
 import edu.esprit.kaddem.lib.AbstractEntity;
 import lombok.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -20,6 +22,9 @@ public class DetailEquipe extends AbstractEntity<DetailEquipe> implements Serial
     private Long salle;
     @Column
     private String thematique;
+
+    @OneToOne(mappedBy = "detailEquipe", cascade = CascadeType.ALL)
+    private Equipe equipe;
 
 
     @Override

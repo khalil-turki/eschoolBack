@@ -1,11 +1,9 @@
 package edu.esprit.kaddem.lib;
 
-import io.swagger.annotations.Api;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 
 public abstract class AbstractCrudController<T extends AbstractEntity<?>, U extends AbstractDto<?>> {
     @Autowired
@@ -30,7 +28,7 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
     }
 
     @GetMapping("{id}")
-    public U findById(@PathParam("id") Integer id) {
+    public U findById(@PathVariable("id") Integer id) {
         return toDto(service.findById(id));
     }
 
@@ -42,12 +40,14 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathParam("id") Integer id) {
+    public void delete(@PathVariable("id") Integer id) {
         service.deleteById(id);
     }
 
     @PutMapping("{id}")
-    public U update(@RequestBody U dto) {
-        return toDto(service.update(toEntity(dto)));
+    public U update(@PathVariable("id") Integer id, @RequestBody U dto) {
+        var newEntity = toEntity(dto);
+        var updated = service.update(id, newEntity);
+        return toDto(updated);
     }
 }

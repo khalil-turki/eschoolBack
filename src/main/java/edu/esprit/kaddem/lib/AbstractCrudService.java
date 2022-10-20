@@ -1,5 +1,6 @@
 package edu.esprit.kaddem.lib;
 
+import edu.esprit.kaddem.exception.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,11 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
         return repository.save(entity);
     }
 
-    public T update(T entity) {
+    public T update(Integer id, T entity) {
+        if(!existsById(id)) {
+            throw new EntityNotFoundException();
+        }
+        entity.setId(id);
         return repository.save(entity);
     }
 
@@ -23,8 +28,9 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
     }
 
     public T findById(Integer id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
     }
+
 
     public Iterable<T> findAll() {
         return repository.findAll();
