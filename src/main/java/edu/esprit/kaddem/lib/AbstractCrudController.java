@@ -4,6 +4,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.json.JsonMergePatch;
+
 
 public abstract class AbstractCrudController<T extends AbstractEntity<?>, U extends AbstractDto<?>> {
     @Autowired
@@ -27,7 +29,7 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
         return service.getAll().stream().map(this::toDto).toList();
     }
 
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public U findById(@PathVariable("id") Integer id) {
         return toDto(service.findById(id));
     }
@@ -44,17 +46,15 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
         service.deleteById(id);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public U update(@PathVariable("id") Integer id, @RequestBody U dto) {
         var newEntity = toEntity(dto);
         var updated = service.update(id, newEntity);
         return toDto(updated);
     }
 
-    @PatchMapping("{id}")
-    public U patch(@PathVariable("id") Integer id, @RequestBody U dto) {
-        var newEntity = toEntity(dto);
-        var updated = service.patch(id, newEntity);
-        return toDto(updated);
+    @PatchMapping(path="/{id}", consumes = "application/merge-patch+json")
+    public U patch(@PathVariable("id") Integer id, @RequestBody JsonMergePatch patch) {
+        return toDto(service.patch(id, patch));
     }
 }
