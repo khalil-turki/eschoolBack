@@ -50,4 +50,11 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
         var updated = service.update(id, newEntity);
         return toDto(updated);
     }
+
+    @PatchMapping("{id}")
+    public U patch(@PathVariable("id") Integer id, @RequestBody U dto) {
+        var newEntity = toEntity(dto);
+        var updated = service.patch(id, newEntity);
+        return toDto(updated);
+    }
 }

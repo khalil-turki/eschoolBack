@@ -1,6 +1,7 @@
 package edu.esprit.kaddem.lib;
 
 import edu.esprit.kaddem.exception.EntityNotFoundException;
+import org.hibernate.cfg.NotYetImplementedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -68,5 +69,9 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
         return repository.findAll();
     }
 
+
+    public T patch(Integer id, T entity) {
+        throw new NotYetImplementedException();
+    }
 
 }
