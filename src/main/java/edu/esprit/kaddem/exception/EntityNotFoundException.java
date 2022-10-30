@@ -7,6 +7,10 @@ public class EntityNotFoundException extends RuntimeException {
         @Getter
         private ErrorCodes errorCode;
 
+        public EntityNotFoundException() {
+            super();
+        }
+
         public EntityNotFoundException(String message) {
             super(message);
         }
