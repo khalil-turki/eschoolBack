@@ -1,21 +1,25 @@
 package edu.esprit.kaddem.handlers;
 
 import edu.esprit.kaddem.exception.EntityNotFoundException;
+import edu.esprit.kaddem.exception.ErrorCodes;
 import edu.esprit.kaddem.exception.InvalidEntityException;
 import edu.esprit.kaddem.exception.InvalidOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import java.util.Collections;
+
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
-
-    @ExceptionHandler(EntityNotFoundException.class)
+    @ExceptionHandler({EntityNotFoundException.class, javax.persistence.EntityNotFoundException.class, JpaObjectRetrievalFailureException.class})
     public ResponseEntity<ErrorDto> handleException(EntityNotFoundException exception, WebRequest webRequest) {
-
         final HttpStatus notFound = HttpStatus.NOT_FOUND;
         final ErrorDto errorDto = ErrorDto.builder()
                 .code(exception.getErrorCode())
@@ -53,7 +57,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDto, badRequest);
     }
 
-   /* @ExceptionHandler(BadCredentialsException.class)
+    @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorDto> handleException(BadCredentialsException exception, WebRequest webRequest) {
         final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
 
@@ -66,5 +70,4 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
         return new ResponseEntity<>(errorDto, badRequest);
     }
-*/
 }

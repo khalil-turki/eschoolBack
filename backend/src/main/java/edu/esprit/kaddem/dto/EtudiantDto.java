@@ -18,6 +18,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class EtudiantDto extends AbstractUserDto<Etudiant> implements Serializable {
-    private ParentDto parent;
-    private ClasseDto classe;
+    private int parentId;
+    private int classeId;
 }

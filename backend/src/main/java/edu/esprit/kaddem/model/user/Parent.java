@@ -1,15 +1,20 @@
 package edu.esprit.kaddem.model.user;
 
-import edu.esprit.kaddem.lib.AbstractEntity;
 import lombok.*;
+import org.hibernate.Hibernate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.Objects;
 
-@Data
-@NoArgsConstructor
+@Getter
+@Setter
+@ToString
+@RequiredArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @Entity
 @DiscriminatorValue(Role.Values.ROLE_PARENT)
 
@@ -19,5 +24,19 @@ public class Parent extends Utilisateur {
     private String cin;
 
     @OneToMany(mappedBy = "parent")
+    @ToString.Exclude
     private List<Etudiant> etudiants;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
+        Parent parent = (Parent) o;
+        return getId() != null && Objects.equals(getId(), parent.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }

@@ -4,16 +4,27 @@ import edu.esprit.kaddem.lib.AbstractEntity;
 import edu.esprit.kaddem.model.Adresse;
 import edu.esprit.kaddem.model.Ecole;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Collection;
+import java.util.Collections;
 
 @NoArgsConstructor
-@Getter @Setter
+@Getter
+@Setter
 @AllArgsConstructor
+@Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
-public abstract class Utilisateur extends AbstractEntity<Utilisateur> {
+@Component
+public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDetails {
     @Column(name = "nom")
     private String nom;
 
@@ -29,14 +40,20 @@ public abstract class Utilisateur extends AbstractEntity<Utilisateur> {
     @Column(name = "datedenaissance")
     private Instant dateDeNaissance;
 
-    @Column(name = "motdepasse")
-    private String moteDePasse;
+    @Column(name = "password")
+    private String password;
 
     @OneToOne
     private Adresse adresse;
 
     @Column(name = "photo")
     private String photo;
+
+    @Column(name = "avatar")
+    private String avatar;
+
+    @Column
+    private String confirmationToken;
 
     @ManyToOne
     @JoinColumn(name = "idecole")
@@ -45,4 +62,39 @@ public abstract class Utilisateur extends AbstractEntity<Utilisateur> {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, insertable = false, updatable = false)
     private Role role;
+
+    private String plainPassword;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + this.getRole().toString()));
+    }
+
+    @Override
+    public String getUsername() {
+        return this.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return this.enabled;
+    }
 }

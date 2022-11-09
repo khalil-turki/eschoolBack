@@ -3,6 +3,7 @@ package edu.esprit.kaddem.lib;
 import edu.esprit.kaddem.exception.EntityNotFoundException;
 import edu.esprit.kaddem.utils.PatchHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Component;
 
 import javax.json.JsonMergePatch;
@@ -17,11 +18,15 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
     private PatchHelper patchHelper;
 
     public T create(T entity) {
-        return repository.save(entity);
+        try {
+            return repository.save(entity);
+        } catch (JpaObjectRetrievalFailureException e) {
+            throw new EntityNotFoundException(e.getMessage());
+        }
     }
 
     public T update(Integer id, T entity) {
-        if(!existsById(id)) {
+        if (!existsById(id)) {
             throw new EntityNotFoundException();
         }
         entity.setId(id);
