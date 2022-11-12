@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/university?createDatabaseIfNotExist=true&userSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
-    password: root
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   ## Specify DBMS
   jpa:
@@ -44,3 +44,10 @@ jwt:
   secret: 1234567890
   expirationDateInMs: 86400000 # 24 hours
   refreshExpirationDateInMs: 604800000 # 7 days
+
+app:
+  twillio:
+    fromPhoneNo: +14246229984
+    accountSID: AC2ebedfd3ee1e0b41e0065f6166bbd642
+    authToken: 80de8f7aedda794f21c3825da35d58f2
+    toPhoneNo: +21698975800

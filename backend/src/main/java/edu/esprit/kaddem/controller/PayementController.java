@@ -7,6 +7,7 @@ import com.stripe.model.StripeObject;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import edu.esprit.kaddem.services.PaymentService;
+import edu.esprit.kaddem.services.TwilioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -20,6 +21,15 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class PayementController {
     @Autowired private PaymentService paymentService;
 
+    @Autowired
+    TwilioService twillioService;
+
+    @Value("+14246229984")
+    private String from;
+
+    @Value("+21698975800")
+    private String to;
+
     @Value("${stripe.public_key}")
     private String publicKey;
 
@@ -28,7 +38,11 @@ public class PayementController {
 
     @GetMapping("/pay")
     public String pay() {
+
+        String body = "Salam alaykoum, votre payement a été effectué avec succés, merci de votre confiance";
+        twillioService.sendSms(to, from, body);
         return paymentService.createCheckoutSession();
+
     }
 
 
