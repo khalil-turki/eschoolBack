@@ -5,7 +5,9 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.*;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.PaymentLinkCreateParams;
+import edu.esprit.kaddem.model.PaymentSession;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,9 @@ import java.util.Map;
 
 @Service
 public class PaymentService {
+
+    @Autowired
+    PayementSessionService payementSessionService;
 
     @Value("${stripe.private_key}")
     private String secretKey;
@@ -51,6 +56,17 @@ public class PaymentService {
         Session session = Session.create(params);
         System.out.println("session = " + session);
         session.getId();
+
+        var affec = new PaymentSession();
+        affec.setPaid(true);
+        affec.setInitiator(null); //get user id !
+        affec.setStripe_checkout_session_id(session.getId());
+        payementSessionService.create(affec);
+
+
+
+
+
         return session.getUrl();
     }
 
@@ -80,4 +96,9 @@ public class PaymentService {
     public void fullfillOrder(StripeObject session) {
         System.out.println("session = " + session);
     }
+
+
+
+
+
 }

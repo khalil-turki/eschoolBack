@@ -13,10 +13,10 @@ import java.util.Arrays;
 
 @Service
 public class TwilioService implements Twilioo {
-    @Value("AC2ebedfd3ee1e0b41e0065f6166bbd642")
+    @Value("AC3056699d3c53fa31d6956cbd4bb00a86")
     private String ACCOUNT_SID;
 
-    @Value("80de8f7aedda794f21c3825da35d58f2")
+    @Value("0df7c2d8b7aa719e71057aec76fc3173")
     private String AUTH_TOKEN;
     @Override
     public void sendSms(String to,String from,String body) {

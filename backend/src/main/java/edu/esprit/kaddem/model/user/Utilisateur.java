@@ -3,6 +3,7 @@ package edu.esprit.kaddem.model.user;
 import edu.esprit.kaddem.lib.AbstractEntity;
 import edu.esprit.kaddem.model.Adresse;
 import edu.esprit.kaddem.model.Ecole;
+import edu.esprit.kaddem.model.PaymentSession;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +16,7 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -58,6 +60,9 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     @ManyToOne
     @JoinColumn(name = "idecole")
     private Ecole ecole;
+
+    @OneToMany(mappedBy = "initiator")
+    private List<PaymentSession> paymentSessions;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, insertable = false, updatable = false)
