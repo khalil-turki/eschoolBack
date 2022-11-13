@@ -67,7 +67,7 @@ public class FlickrConfiguration {
 
 
     }
-
+    */
     @Bean
     public Flickr getFlickr2() {
         Flickr flickr = new Flickr(apiKey, apiSecret, new REST());
@@ -80,5 +80,5 @@ public class FlickrConfiguration {
         flickr.setAuth(auth);
         return flickr;
     }
- */
+
 }

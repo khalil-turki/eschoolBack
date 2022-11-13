@@ -5,9 +5,9 @@ import edu.esprit.kaddem.model.Ecole;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Getter
@@ -18,14 +18,15 @@ import java.util.Objects;
 @Entity
 @DiscriminatorValue(Role.Values.ROLE_ETUDIANT)
 public class Etudiant extends Utilisateur {
-    @ManyToOne
-    private Parent parent;
+
+    @ManyToMany()
+    private List<Parent> parents = new ArrayList<>();
 
     @ManyToOne
-    private Classe classe;
+    private Classe classe = null;
 
     @ManyToOne
-    private Ecole ecole;
+    private Ecole ecole = null;
 
     @Override
     public boolean equals(Object o) {

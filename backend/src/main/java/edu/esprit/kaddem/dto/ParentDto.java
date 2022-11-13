@@ -7,9 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import javax.persistence.Column;
 import java.io.Serializable;
-import java.time.Instant;
 import java.util.List;
 
 /**

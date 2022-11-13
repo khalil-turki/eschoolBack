@@ -3,10 +3,8 @@ package edu.esprit.kaddem.model.user;
 import lombok.*;
 import org.hibernate.Hibernate;
 
-import javax.persistence.Column;
-import javax.persistence.DiscriminatorValue;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,9 +21,9 @@ public class Parent extends Utilisateur {
     @Column(name = "cin")
     private String cin;
 
-    @OneToMany(mappedBy = "parent")
+    @ManyToMany()
     @ToString.Exclude
-    private List<Etudiant> etudiants;
+    private List<Etudiant> etudiants = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

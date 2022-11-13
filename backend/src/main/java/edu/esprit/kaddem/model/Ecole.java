@@ -48,4 +48,5 @@ public class Ecole extends AbstractEntity<Ecole> {
 
     @OneToMany(mappedBy = "ecole")
     private List<Professeur> professeurs;
+
 }

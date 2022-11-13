@@ -1,4 +1,5 @@
 package edu.esprit.kaddem.lib;
+import org.springframework.data.jpa.domain.AbstractAuditable;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -8,7 +9,7 @@ import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public abstract class AbstractEntity<T> extends AbstractPersistable<Integer> implements Serializable {
+public abstract class AbstractEntity<T> extends AbstractAuditable<T, Integer> implements Serializable {
     public void setId(Integer id) {
         super.setId(id);
     }

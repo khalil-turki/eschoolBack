@@ -6,6 +6,7 @@ import com.stripe.model.Charge;
 import com.stripe.model.StripeObject;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
+import edu.esprit.kaddem.model.PaymentSession;
 import edu.esprit.kaddem.services.PaymentService;
 import edu.esprit.kaddem.services.TwilioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,7 @@ public class PayementController {
 
     @GetMapping("/pay")
     public String pay() {
+        var session = new PaymentSession();
 
         String body = "Salam alaykoum, votre payement a été effectué avec succés, merci de votre confiance";
         twillioService.sendSms(to, from, body);

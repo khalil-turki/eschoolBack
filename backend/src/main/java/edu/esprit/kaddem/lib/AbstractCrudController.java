@@ -1,5 +1,6 @@
 package edu.esprit.kaddem.lib;
 
+import edu.esprit.kaddem.model.user.Utilisateur;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -56,5 +57,9 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
     @PatchMapping(path="/{id}", consumes = "application/merge-patch+json")
     public U patch(@PathVariable("id") Integer id, @RequestBody JsonMergePatch patch) {
         return toDto(service.patch(id, patch));
+    }
+
+    private Utilisateur getAuthenticatedUser(){
+        return new Utilisateur();
     }
 }

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * A DTO for the {@link Etudiant} entity
@@ -18,6 +19,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Accessors(chain = true)
 public class EtudiantDto extends AbstractUserDto<Etudiant> implements Serializable {
-    private int parentId;
+    private List<Integer> parentIds;
     private int classeId;
 }
