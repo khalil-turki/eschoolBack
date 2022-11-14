@@ -21,8 +21,6 @@ import java.util.List;
 @Accessors(chain = true)
 public class ClasseDto extends AbstractDto<Classe> implements Serializable {
     private Integer id;
-    private Instant createdDate;
-    private Instant lastModifiedDate;
     private String nomClasse;
     private String specialite;
     private List<ProfesseurDto> professeurs;

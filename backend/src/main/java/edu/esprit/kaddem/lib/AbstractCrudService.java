@@ -7,6 +7,7 @@ import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Component;
 
 import javax.json.JsonMergePatch;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Component
@@ -19,6 +20,7 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
 
     public T create(T entity) {
         try {
+            entity.setCreatedDate(LocalDateTime.now());
             return repository.save(entity);
         } catch (JpaObjectRetrievalFailureException e) {
             throw new EntityNotFoundException(e.getMessage());
@@ -29,7 +31,9 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
         if (!existsById(id)) {
             throw new EntityNotFoundException();
         }
+        entity.setLastModifiedDate(LocalDateTime.now());
         entity.setId(id);
+
         return repository.save(entity);
     }
 
@@ -75,6 +79,9 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
     }
 
     public List<T> getAll() {
+
+
+
         return repository.findAll();
     }
 
