@@ -1,0 +1,2897 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Api Documentation",
+        "version": "1.0",
+        "title": "Api Documentation",
+        "termsOfService": "urn:tos",
+        "contact": {},
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0"
+        }
+    },
+    "host": "localhost:8081",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "adresse-controller",
+            "description": "Adresse Controller"
+        },
+        {
+            "name": "authentication-controller",
+            "description": "Authentication Controller"
+        },
+        {
+            "name": "basic-error-controller",
+            "description": "Basic Error Controller"
+        },
+        {
+            "name": "classe-controller",
+            "description": "Classe Controller"
+        },
+        {
+            "name": "ecole-controller",
+            "description": "Ecole Controller"
+        },
+        {
+            "name": "equipe-controller",
+            "description": "Equipe Controller"
+        },
+        {
+            "name": "etudiant-controller",
+            "description": "Etudiant Controller"
+        },
+        {
+            "name": "parent-controller",
+            "description": "Parent Controller"
+        },
+        {
+            "name": "payement-controller",
+            "description": "Payement Controller"
+        },
+        {
+            "name": "professeur-controller",
+            "description": "Professeur Controller"
+        },
+        {
+            "name": "twillio-controller",
+            "description": "Twillio Controller"
+        }
+    ],
+    "paths": {
+        "/adresses": {
+            "get": {
+                "tags": [
+                    "adresse-controller"
+                ],
+                "summary": "findAll",
+                "operationId": "findAllUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Iterable«AdresseDto»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "adresse-controller"
+                ],
+                "summary": "create",
+                "operationId": "createUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/AdresseDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/AdresseDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/adresses/{id}": {
+            "get": {
+                "tags": [
+                    "adresse-controller"
+                ],
+                "summary": "findById",
+                "operationId": "findByIdUsingGET",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/AdresseDto"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "adresse-controller"
+                ],
+                "summary": "update",
+                "operationId": "updateUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/AdresseDto"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/AdresseDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "adresse-controller"
+                ],
+                "summary": "delete",
+                "operationId": "deleteUsingDELETE",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "adresse-controller"
+                ],
+                "summary": "patch",
+                "operationId": "patchUsingPATCH",
+                "consumes": [
+                    "application/merge-patch+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "in": "body",
+                        "name": "patch",
+                        "description": "patch",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/JsonMergePatch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/AdresseDto"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/classes": {
+            "get": {
+                "tags": [
+                    "classe-controller"
+                ],
+                "summary": "findAll",
+                "operationId": "findAllUsingGET_1",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Iterable«ClasseDto»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "classe-controller"
+                ],
+                "summary": "create",
+                "operationId": "createUsingPOST_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ClasseDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ClasseDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/classes/{id}": {
+            "get": {
+                "tags": [
+                    "classe-controller"
+                ],
+                "summary": "findById",
+                "operationId": "findByIdUsingGET_1",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ClasseDto"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "classe-controller"
+                ],
+                "summary": "update",
+                "operationId": "updateUsingPUT_1",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ClasseDto"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ClasseDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "classe-controller"
+                ],
+                "summary": "delete",
+                "operationId": "deleteUsingDELETE_1",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "classe-controller"
+                ],
+                "summary": "patch",
+                "operationId": "patchUsingPATCH_1",
+                "consumes": [
+                    "application/merge-patch+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "in": "body",
+                        "name": "patch",
+                        "description": "patch",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/JsonMergePatch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ClasseDto"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/ecoles": {
+            "get": {
+                "tags": [
+                    "ecole-controller"
+                ],
+                "summary": "findAll",
+                "operationId": "findAllUsingGET_2",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Iterable«EcoleDto»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "ecole-controller"
+                ],
+                "summary": "create",
+                "operationId": "createUsingPOST_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/EcoleDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EcoleDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/ecoles/{id}": {
+            "get": {
+                "tags": [
+                    "ecole-controller"
+                ],
+                "summary": "findById",
+                "operationId": "findByIdUsingGET_2",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EcoleDto"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "ecole-controller"
+                ],
+                "summary": "update",
+                "operationId": "updateUsingPUT_2",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/EcoleDto"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EcoleDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "ecole-controller"
+                ],
+                "summary": "delete",
+                "operationId": "deleteUsingDELETE_2",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "ecole-controller"
+                ],
+                "summary": "patch",
+                "operationId": "patchUsingPATCH_2",
+                "consumes": [
+                    "application/merge-patch+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "in": "body",
+                        "name": "patch",
+                        "description": "patch",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/JsonMergePatch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EcoleDto"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/equipes": {
+            "get": {
+                "tags": [
+                    "equipe-controller"
+                ],
+                "summary": "findAll",
+                "operationId": "findAllUsingGET_3",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Iterable«EquipeDto»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "equipe-controller"
+                ],
+                "summary": "create",
+                "operationId": "createUsingPOST_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/EquipeDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EquipeDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/equipes/{id}": {
+            "get": {
+                "tags": [
+                    "equipe-controller"
+                ],
+                "summary": "findById",
+                "operationId": "findByIdUsingGET_3",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EquipeDto"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "equipe-controller"
+                ],
+                "summary": "update",
+                "operationId": "updateUsingPUT_3",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/EquipeDto"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EquipeDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "equipe-controller"
+                ],
+                "summary": "delete",
+                "operationId": "deleteUsingDELETE_3",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "equipe-controller"
+                ],
+                "summary": "patch",
+                "operationId": "patchUsingPATCH_3",
+                "consumes": [
+                    "application/merge-patch+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "in": "body",
+                        "name": "patch",
+                        "description": "patch",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/JsonMergePatch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EquipeDto"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/error": {
+            "get": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "head": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingHEAD",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingDELETE",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "options": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingOPTIONS",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "basic-error-controller"
+                ],
+                "summary": "error",
+                "operationId": "errorUsingPATCH",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/etudiants": {
+            "get": {
+                "tags": [
+                    "etudiant-controller"
+                ],
+                "summary": "findAll",
+                "operationId": "findAllUsingGET_4",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Iterable«EtudiantDto»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "etudiant-controller"
+                ],
+                "summary": "create",
+                "operationId": "createUsingPOST_4",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/EtudiantDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EtudiantDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/etudiants/affecttoclasse/{etudiantid}/{classeid}": {
+            "post": {
+                "tags": [
+                    "etudiant-controller"
+                ],
+                "summary": "assignEtudiantToClasse",
+                "operationId": "assignEtudiantToClasseUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "classeid",
+                        "in": "path",
+                        "description": "classeid",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "etudiantid",
+                        "in": "path",
+                        "description": "etudiantid",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/etudiants/affecttoecole/{etudiantid}/{ecoleid}": {
+            "post": {
+                "tags": [
+                    "etudiant-controller"
+                ],
+                "summary": "assignEtudiantToEcole",
+                "operationId": "assignEtudiantToEcoleUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "ecoleid",
+                        "in": "path",
+                        "description": "ecoleid",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "etudiantid",
+                        "in": "path",
+                        "description": "etudiantid",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/etudiants/desafectfromclasse/{etudiantid}/{classeid}": {
+            "post": {
+                "tags": [
+                    "etudiant-controller"
+                ],
+                "summary": "removeEtudiantFromClasse",
+                "operationId": "removeEtudiantFromClasseUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "classeid",
+                        "in": "path",
+                        "description": "classeid",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "etudiantid",
+                        "in": "path",
+                        "description": "etudiantid",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/etudiants/desafectfromecole/{etudiantid}/{ecoleid}": {
+            "post": {
+                "tags": [
+                    "etudiant-controller"
+                ],
+                "summary": "removeEtudiantFromEcole",
+                "operationId": "removeEtudiantFromEcoleUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "ecoleid",
+                        "in": "path",
+                        "description": "ecoleid",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "etudiantid",
+                        "in": "path",
+                        "description": "etudiantid",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/etudiants/{id}": {
+            "get": {
+                "tags": [
+                    "etudiant-controller"
+                ],
+                "summary": "findById",
+                "operationId": "findByIdUsingGET_4",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EtudiantDto"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "etudiant-controller"
+                ],
+                "summary": "update",
+                "operationId": "updateUsingPUT_4",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/EtudiantDto"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EtudiantDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "etudiant-controller"
+                ],
+                "summary": "delete",
+                "operationId": "deleteUsingDELETE_4",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "etudiant-controller"
+                ],
+                "summary": "patch",
+                "operationId": "patchUsingPATCH_4",
+                "consumes": [
+                    "application/merge-patch+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "in": "body",
+                        "name": "patch",
+                        "description": "patch",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/JsonMergePatch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/EtudiantDto"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/makeCall": {
+            "get": {
+                "tags": [
+                    "twillio-controller"
+                ],
+                "summary": "makeVoiceCall",
+                "operationId": "makeVoiceCallUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/parents": {
+            "get": {
+                "tags": [
+                    "parent-controller"
+                ],
+                "summary": "findAll",
+                "operationId": "findAllUsingGET_5",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Iterable«ParentDto»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "parent-controller"
+                ],
+                "summary": "create",
+                "operationId": "createUsingPOST_5",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ParentDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ParentDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/parents/{id}": {
+            "get": {
+                "tags": [
+                    "parent-controller"
+                ],
+                "summary": "findById",
+                "operationId": "findByIdUsingGET_5",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ParentDto"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "parent-controller"
+                ],
+                "summary": "update",
+                "operationId": "updateUsingPUT_5",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ParentDto"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ParentDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "parent-controller"
+                ],
+                "summary": "delete",
+                "operationId": "deleteUsingDELETE_5",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "parent-controller"
+                ],
+                "summary": "patch",
+                "operationId": "patchUsingPATCH_5",
+                "consumes": [
+                    "application/merge-patch+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "in": "body",
+                        "name": "patch",
+                        "description": "patch",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/JsonMergePatch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ParentDto"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/payment/pay": {
+            "get": {
+                "tags": [
+                    "payement-controller"
+                ],
+                "summary": "pay",
+                "operationId": "payUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/payment/webhook": {
+            "post": {
+                "tags": [
+                    "payement-controller"
+                ],
+                "summary": "webhook",
+                "operationId": "webhookUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "payload",
+                        "description": "payload",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "Stripe-Signature",
+                        "in": "header",
+                        "description": "Stripe-Signature",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/professeurs": {
+            "get": {
+                "tags": [
+                    "professeur-controller"
+                ],
+                "summary": "findAll",
+                "operationId": "findAllUsingGET_6",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Iterable«ProfesseurDto»"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "professeur-controller"
+                ],
+                "summary": "create",
+                "operationId": "createUsingPOST_6",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ProfesseurDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProfesseurDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/professeurs/{id}": {
+            "get": {
+                "tags": [
+                    "professeur-controller"
+                ],
+                "summary": "findById",
+                "operationId": "findByIdUsingGET_6",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProfesseurDto"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "professeur-controller"
+                ],
+                "summary": "update",
+                "operationId": "updateUsingPUT_6",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "dto",
+                        "description": "dto",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/ProfesseurDto"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProfesseurDto"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "professeur-controller"
+                ],
+                "summary": "delete",
+                "operationId": "deleteUsingDELETE_6",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "professeur-controller"
+                ],
+                "summary": "patch",
+                "operationId": "patchUsingPATCH_6",
+                "consumes": [
+                    "application/merge-patch+json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "in": "body",
+                        "name": "patch",
+                        "description": "patch",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/JsonMergePatch"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ProfesseurDto"
+                        }
+                    },
+                    "204": {
+                        "description": "No Content"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/refreshtoken": {
+            "get": {
+                "tags": [
+                    "authentication-controller"
+                ],
+                "summary": "refreshtoken",
+                "operationId": "refreshtokenUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/sendSms": {
+            "get": {
+                "tags": [
+                    "twillio-controller"
+                ],
+                "summary": "sendSms",
+                "operationId": "sendSmsUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/signin": {
+            "post": {
+                "tags": [
+                    "authentication-controller"
+                ],
+                "summary": "createAuthenticationToken",
+                "operationId": "createAuthenticationTokenUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "authenticationRequest",
+                        "description": "authenticationRequest",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/AuthReqDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        },
+        "/signup": {
+            "post": {
+                "tags": [
+                    "authentication-controller"
+                ],
+                "summary": "saveUser",
+                "operationId": "saveUserUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "user",
+                        "description": "user",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/EtudiantDto"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object"
+                        }
+                    },
+                    "201": {
+                        "description": "Created"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "AdresseDto": {
+            "type": "object",
+            "properties": {
+                "adresse1": {
+                    "type": "string"
+                },
+                "adresse2": {
+                    "type": "string"
+                },
+                "codePostale": {
+                    "type": "string"
+                },
+                "pays": {
+                    "type": "string"
+                },
+                "ville": {
+                    "type": "string"
+                }
+            },
+            "title": "AdresseDto"
+        },
+        "AuthReqDto": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string"
+                },
+                "username": {
+                    "type": "string"
+                }
+            },
+            "title": "AuthReqDto"
+        },
+        "ClasseDto": {
+            "type": "object",
+            "properties": {
+                "creationDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "lastModifiedDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "nomClasse": {
+                    "type": "string"
+                },
+                "professeurs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ProfesseurDto"
+                    }
+                },
+                "specialite": {
+                    "type": "string"
+                }
+            },
+            "title": "ClasseDto"
+        },
+        "DetailEquipeDto": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "salle": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "thematique": {
+                    "type": "string"
+                }
+            },
+            "title": "DetailEquipeDto"
+        },
+        "EcoleDto": {
+            "type": "object",
+            "properties": {
+                "adresse": {
+                    "$ref": "#/definitions/AdresseDto"
+                },
+                "codeFiscal": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "nom": {
+                    "type": "string"
+                },
+                "numTel": {
+                    "type": "string"
+                },
+                "photo": {
+                    "type": "string"
+                },
+                "steWeb": {
+                    "type": "string"
+                }
+            },
+            "title": "EcoleDto"
+        },
+        "EquipeDto": {
+            "type": "object",
+            "properties": {
+                "detailEquipe": {
+                    "$ref": "#/definitions/DetailEquipeDto"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "niveau": {
+                    "type": "string",
+                    "enum": [
+                        "EXPERT",
+                        "JUNIOR",
+                        "SENIOR"
+                    ]
+                },
+                "nomEquipe": {
+                    "type": "string"
+                }
+            },
+            "title": "EquipeDto"
+        },
+        "EtudiantDto": {
+            "type": "object",
+            "properties": {
+                "classeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "dateDeNaissance": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "nom": {
+                    "type": "string"
+                },
+                "numTel": {
+                    "type": "string"
+                },
+                "parentId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "prenom": {
+                    "type": "string"
+                }
+            },
+            "title": "EtudiantDto"
+        },
+        "Iterable«AdresseDto»": {
+            "type": "object",
+            "title": "Iterable«AdresseDto»"
+        },
+        "Iterable«ClasseDto»": {
+            "type": "object",
+            "title": "Iterable«ClasseDto»"
+        },
+        "Iterable«EcoleDto»": {
+            "type": "object",
+            "title": "Iterable«EcoleDto»"
+        },
+        "Iterable«EquipeDto»": {
+            "type": "object",
+            "title": "Iterable«EquipeDto»"
+        },
+        "Iterable«EtudiantDto»": {
+            "type": "object",
+            "title": "Iterable«EtudiantDto»"
+        },
+        "Iterable«ParentDto»": {
+            "type": "object",
+            "title": "Iterable«ParentDto»"
+        },
+        "Iterable«ProfesseurDto»": {
+            "type": "object",
+            "title": "Iterable«ProfesseurDto»"
+        },
+        "JsonMergePatch": {
+            "type": "object",
+            "title": "JsonMergePatch"
+        },
+        "MatiereDto": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "nom": {
+                    "type": "string"
+                },
+                "professeurs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ProfesseurDto"
+                    }
+                }
+            },
+            "title": "MatiereDto"
+        },
+        "ModelAndView": {
+            "type": "object",
+            "properties": {
+                "empty": {
+                    "type": "boolean"
+                },
+                "model": {
+                    "type": "object"
+                },
+                "modelMap": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object"
+                    }
+                },
+                "reference": {
+                    "type": "boolean"
+                },
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "ACCEPTED",
+                        "ALREADY_REPORTED",
+                        "BAD_GATEWAY",
+                        "BAD_REQUEST",
+                        "BANDWIDTH_LIMIT_EXCEEDED",
+                        "CHECKPOINT",
+                        "CONFLICT",
+                        "CONTINUE",
+                        "CREATED",
+                        "DESTINATION_LOCKED",
+                        "EXPECTATION_FAILED",
+                        "FAILED_DEPENDENCY",
+                        "FORBIDDEN",
+                        "FOUND",
+                        "GATEWAY_TIMEOUT",
+                        "GONE",
+                        "HTTP_VERSION_NOT_SUPPORTED",
+                        "IM_USED",
+                        "INSUFFICIENT_SPACE_ON_RESOURCE",
+                        "INSUFFICIENT_STORAGE",
+                        "INTERNAL_SERVER_ERROR",
+                        "I_AM_A_TEAPOT",
+                        "LENGTH_REQUIRED",
+                        "LOCKED",
+                        "LOOP_DETECTED",
+                        "METHOD_FAILURE",
+                        "METHOD_NOT_ALLOWED",
+                        "MOVED_PERMANENTLY",
+                        "MOVED_TEMPORARILY",
+                        "MULTIPLE_CHOICES",
+                        "MULTI_STATUS",
+                        "NETWORK_AUTHENTICATION_REQUIRED",
+                        "NON_AUTHORITATIVE_INFORMATION",
+                        "NOT_ACCEPTABLE",
+                        "NOT_EXTENDED",
+                        "NOT_FOUND",
+                        "NOT_IMPLEMENTED",
+                        "NOT_MODIFIED",
+                        "NO_CONTENT",
+                        "OK",
+                        "PARTIAL_CONTENT",
+                        "PAYLOAD_TOO_LARGE",
+                        "PAYMENT_REQUIRED",
+                        "PERMANENT_REDIRECT",
+                        "PRECONDITION_FAILED",
+                        "PRECONDITION_REQUIRED",
+                        "PROCESSING",
+                        "PROXY_AUTHENTICATION_REQUIRED",
+                        "REQUESTED_RANGE_NOT_SATISFIABLE",
+                        "REQUEST_ENTITY_TOO_LARGE",
+                        "REQUEST_HEADER_FIELDS_TOO_LARGE",
+                        "REQUEST_TIMEOUT",
+                        "REQUEST_URI_TOO_LONG",
+                        "RESET_CONTENT",
+                        "SEE_OTHER",
+                        "SERVICE_UNAVAILABLE",
+                        "SWITCHING_PROTOCOLS",
+                        "TEMPORARY_REDIRECT",
+                        "TOO_EARLY",
+                        "TOO_MANY_REQUESTS",
+                        "UNAUTHORIZED",
+                        "UNAVAILABLE_FOR_LEGAL_REASONS",
+                        "UNPROCESSABLE_ENTITY",
+                        "UNSUPPORTED_MEDIA_TYPE",
+                        "UPGRADE_REQUIRED",
+                        "URI_TOO_LONG",
+                        "USE_PROXY",
+                        "VARIANT_ALSO_NEGOTIATES"
+                    ]
+                },
+                "view": {
+                    "$ref": "#/definitions/View"
+                },
+                "viewName": {
+                    "type": "string"
+                }
+            },
+            "title": "ModelAndView"
+        },
+        "ParentDto": {
+            "type": "object",
+            "properties": {
+                "cin": {
+                    "type": "string"
+                },
+                "dateDeNaissance": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "etudiants": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/EtudiantDto"
+                    }
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "nom": {
+                    "type": "string"
+                },
+                "numTel": {
+                    "type": "string"
+                },
+                "prenom": {
+                    "type": "string"
+                }
+            },
+            "title": "ParentDto"
+        },
+        "ProfesseurDto": {
+            "type": "object",
+            "properties": {
+                "classes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ClasseDto"
+                    }
+                },
+                "dateDeNaissance": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "matieres": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/MatiereDto"
+                    }
+                },
+                "nom": {
+                    "type": "string"
+                },
+                "numTel": {
+                    "type": "string"
+                },
+                "prenom": {
+                    "type": "string"
+                }
+            },
+            "title": "ProfesseurDto"
+        },
+        "View": {
+            "type": "object",
+            "properties": {
+                "contentType": {
+                    "type": "string"
+                }
+            },
+            "title": "View"
+        }
+    }
+}
