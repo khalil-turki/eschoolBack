@@ -17,26 +17,44 @@ import { FaqModule } from 'app/main/pages/faq/faq.module';
 import { AccountSettingsModule } from './account-settings/account-settings.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
+import { ClassesComponent } from './classes/classes.component';
+import { EcoleComponent } from './ecole/ecole-list/ecole.component';
+import { EtudiantsComponent } from './etudiants/etudiants.component';
+import { PaymentSessionComponent } from './payment-session/payment-session.component';
+import {NgxDatatableModule} from "@swimlane/ngx-datatable";
+import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
+import {CoreSidebarModule} from "../../../@core/components";
+import {CardSnippetModule} from "../../../@core/components/card-snippet/card-snippet.module";
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    CoreCommonModule,
-    ContentHeaderModule,
-    NgbModule,
-    NgSelectModule,
-    FormsModule,
-    AuthenticationModule,
-    MiscellaneousModule,
-    Ng2FlatpickrModule,
-    PricingModule,
-    BlogModule,
-    ProfileModule,
-    KbModule,
-    FaqModule,
-    AccountSettingsModule
+  declarations: [
+    ClassesComponent,
+    EcoleComponent,
+    EtudiantsComponent,
+    PaymentSessionComponent
+
   ],
+    imports: [
+        CommonModule,
+        CoreCommonModule,
+        ContentHeaderModule,
+        NgbModule,
+        NgSelectModule,
+        FormsModule,
+        AuthenticationModule,
+        MiscellaneousModule,
+        Ng2FlatpickrModule,
+        PricingModule,
+        BlogModule,
+        ProfileModule,
+        KbModule,
+        FaqModule,
+        AccountSettingsModule,
+        NgxDatatableModule,
+        SweetAlert2Module,
+        CoreSidebarModule,
+        CardSnippetModule
+    ],
 
   providers: []
 })

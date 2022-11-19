@@ -34,4 +34,8 @@ export class CustomDatepickerI18n extends NgbDatepickerI18n {
     return `${date.day}-${date.month}-${date.year}`;
   }
 
+  getWeekdayShortName(weekday: number): string {
+    return "";
+  }
+
 }

@@ -30,6 +30,10 @@ import { ContextMenuComponent } from 'app/main/extensions/context-menu/context-m
 import { AnimatedCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/animated-custom-context-menu/animated-custom-context-menu.component';
 import { BasicCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/basic-custom-context-menu/basic-custom-context-menu.component';
 import { SubMenuCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/sub-menu-custom-context-menu/sub-menu-custom-context-menu.component';
+import {ClassesComponent} from "./main/pages/classes/classes.component";
+import {EcoleComponent} from "./main/pages/ecole/ecole-list/ecole.component";
+import {NgxDatatableModule} from "@swimlane/ngx-datatable";
+import {DatatablesService} from "./main/tables/datatables/datatables.service";
 
 const appRoutes: Routes = [
   {
@@ -45,6 +49,16 @@ const appRoutes: Routes = [
     path: 'pages',
     loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
   },
+    { path : 'classes',
+        component : ClassesComponent,
+
+    } ,
+    { path : 'ecoles',
+        component : EcoleComponent,
+
+    },
+
+
   {
     path: 'ui',
     loadChildren: () => import('./main/ui/ui.module').then(m => m.UIModule),
@@ -116,14 +130,21 @@ const appRoutes: Routes = [
         CoreThemeCustomizerModule,
         CardSnippetModule,
         LayoutModule,
-        ContentHeaderModule
+        ContentHeaderModule,
+        NgxDatatableModule
     ],
     providers: [
+          [DatatablesService],
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         // ! IMPORTANT: Provider used to create fake backend, comment while using real API
-        fakeBackendProvider
+        fakeBackendProvider,
+
+
+
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+
+
 })
 export class AppModule {}
