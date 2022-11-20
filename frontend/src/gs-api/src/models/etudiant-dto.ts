@@ -1,11 +1,18 @@
 /* tslint:disable */
+import {AdresseDto} from "./adresse-dto";
+import {ClasseDto} from "./classe-dto";
+import {ParentDto} from "./parent-dto";
+
 export interface EtudiantDto {
-  classeId?: number;
+  classe?: ClasseDto;
   dateDeNaissance?: string;
   email?: string;
   id?: number;
   nom?: string;
   numTel?: string;
-  parentId?: number;
+  parent?: ParentDto;
   prenom?: string;
+  adresse?: AdresseDto;
+  photo?: string;
+
 }
