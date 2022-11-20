@@ -78,6 +78,22 @@ export const menu: CoreMenu[] = [
         url: 'apps/calendar'
       },
       {
+        id: 'ecoles',
+        title: 'Ecoles',
+        translate: 'MENU.PAGES.SECTION',
+        type: 'collapsible',
+        icon: 'home',
+        children: [{
+
+          id: 'ecoles',
+          title: 'List Ecoles',
+          translate: 'MENU.PAGES.PRICING',
+          type: 'item',
+          icon: 'list',
+          url: 'ecoles/listecoles'
+        } ]
+      },
+      {
         id: 'pages',
         title: 'Pages',
         translate: 'MENU.PAGES.SECTION',
@@ -198,6 +214,7 @@ export const menu: CoreMenu[] = [
             icon: 'circle',
             url: 'pages/pricing'
           },
+
 
           {
             id: 'blog',
