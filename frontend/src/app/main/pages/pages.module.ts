@@ -27,6 +27,7 @@ import {CoreSidebarModule} from "../../../@core/components";
 import {CardSnippetModule} from "../../../@core/components/card-snippet/card-snippet.module";
 import {CsvModule} from "@ctrl/ngx-csv";
 import { InvoiceComponent } from './invoice/invoice.component';
+import { EcoleNewComponent } from './ecole/ecole-new/ecole-new.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { InvoiceComponent } from './invoice/invoice.component';
     EcoleComponent,
     EtudiantsComponent,
     PaymentSessionComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    EcoleNewComponent
 
   ],
     imports: [

@@ -85,7 +85,7 @@ export const menu: CoreMenu[] = [
         icon: 'home',
         children: [{
 
-          id: 'ecoles',
+          id: 'ecoless',
           title: 'List Ecoles',
           translate: 'MENU.PAGES.PRICING',
           type: 'item',
