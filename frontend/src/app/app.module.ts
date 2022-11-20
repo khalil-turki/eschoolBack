@@ -53,7 +53,7 @@ const appRoutes: Routes = [
         component : ClassesComponent,
 
     } ,
-    { path : 'ecoles',
+    { path : 'ecoles/listecoles',
         component : EcoleComponent,
 
     },

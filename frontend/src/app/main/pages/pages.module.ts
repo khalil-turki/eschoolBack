@@ -25,6 +25,7 @@ import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 import {CoreSidebarModule} from "../../../@core/components";
 import {CardSnippetModule} from "../../../@core/components/card-snippet/card-snippet.module";
+import {CsvModule} from "@ctrl/ngx-csv";
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import {CardSnippetModule} from "../../../@core/components/card-snippet/card-sni
         NgxDatatableModule,
         SweetAlert2Module,
         CoreSidebarModule,
-        CardSnippetModule
+        CardSnippetModule,
+        CsvModule
     ],
 
   providers: []
