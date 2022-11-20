@@ -5,7 +5,14 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">List of Schools</h4>
-            </div>
+
+
+                <div class="col-12 mb-50">
+                    <a csvLink [data]="exportCSVData" class="btn btn-outline-secondary float-right mr-1" rippleEffect
+                    >Export CSV</a
+                    >
+
+
             <div class="card-body">
                 <div class="w-100">
                     <ngx-datatable
@@ -21,10 +28,12 @@
                     >
                         <!-- Row Detail Template -->
                         <ngx-datatable-row-detail [rowHeight]="50">
+
                             <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
                                 <strong>Address : </strong> <span>{{ joinAddressBlocks(row.adresse) }}</span>
                             </ng-template>
                         </ngx-datatable-row-detail>
+
 
                         <ngx-datatable-column
                                 [width]="50"
@@ -33,7 +42,7 @@
                                 [draggable]="false"
                                 [canAutoResize]="false"
                         >
-                            <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                            <ng-template let-row="row" let-expanded="expanded"  ngx-datatable-cell-template>
                                 <a
                                         href="javascript:void(0)"
                                         [class.datatable-icon-right]="!expanded"
@@ -44,25 +53,25 @@
                                 </a>
                             </ng-template>
                         </ngx-datatable-column>
-                        <ngx-datatable-column name="Nom_" prop="nom" [width]="250"></ngx-datatable-column>
-                        <ngx-datatable-column name="Email" prop="email" [width]="250"></ngx-datatable-column>
-                        <ngx-datatable-column name="Num Tel" prop="numTel" [width]="120"></ngx-datatable-column>
-                        <ngx-datatable-column name="Code Fiscal" prop="codeFiscal" [width]="120"></ngx-datatable-column>
+                        <ngx-datatable-column name="Nom_    🍆" prop="nom" [width]="250"></ngx-datatable-column>
+                        <ngx-datatable-column name="Email    🍆" prop="email" [width]="250"></ngx-datatable-column>
+                        <ngx-datatable-column name="Num Tel   🍆" prop="numTel" [width]="120"></ngx-datatable-column>
+                        <ngx-datatable-column name="Code Fiscal   🍆" prop="codeFiscal"
+                                              [width]="120"></ngx-datatable-column>
                         <ngx-datatable-column name="Actions" [width]="120" [sortable]="false">
 
                             <ng-template ngx-datatable-cell-template>
                                 <div class="d-flex align-items-center">
                                     <div ngbDropdown container="body">
-
-                                        <a
-                                                ngbDropdownToggle
-                                                href="javascript:void(0);"
-                                                class="hide-arrow"
-                                                id="dropdownBrowserState"
-                                                data-toggle="dropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="false"
+                                        <a ngbDropdownToggle
+                                           href="javascript:void(0);"
+                                           class="hide-arrow"
+                                           id="dropdownBrowserState"
+                                           data-toggle="dropdown"
+                                           aria-haspopup="true"
+                                           aria-expanded="false"
                                         >
+
                                             <i data-feather="more-vertical"
                                                class="text-primary cursor-pointer mr-50"></i>
                                         </a>
@@ -85,10 +94,16 @@
 
                                     <i data-feather="edit" class="text-primary cursor-pointer"></i>
                                 </div>
+
+
                             </ng-template>
 
+
                         </ngx-datatable-column>
+
+
                     </ngx-datatable>
+
                 </div>
             </div>
         </div>

@@ -1,8 +1,8 @@
 import {Component, Injectable, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {Router} from "@angular/router";
+import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from "@angular/router";
 import {EcoleControllerService} from "gs-api/src/services/ecole-controller.service";
 import {DatatableComponent, ColumnMode} from "@swimlane/ngx-datatable";
-import {BehaviorSubject, Subject} from "rxjs";
+import {BehaviorSubject, Observable, Subject} from "rxjs";
 import {CoreSidebarService} from "@core/components/core-sidebar/core-sidebar.service";
 import {takeUntil} from "rxjs/operators";
 import {ClasseDto} from "../../../../../gs-api/src/models/classe-dto";
@@ -18,7 +18,7 @@ import {DatatablesService} from "../../../tables/datatables/datatables.service";
     templateUrl: './ecole.component.html',
     styleUrls: ['./ecole.component.scss'],
 })
-export class EcoleComponent implements OnInit {
+export class EcoleComponent implements OnInit, Resolve<any> {
     @ViewChild('tableRowDetails') tableRowDetails: any;
     public ColumnMode = ColumnMode;
     @Input() ecoleDto: EcoleDto = {};
@@ -27,6 +27,10 @@ export class EcoleComponent implements OnInit {
 
     private _unsubscribeAll: Subject<any>;
     private tempData = [];
+    public exportCSVData;
+    public kitchenSinkRows: any;
+    public pageBasicText = 1;
+
 
 
     constructor(
@@ -47,11 +51,47 @@ export class EcoleComponent implements OnInit {
     }
 
     ngOnInit(): void {
+
         this.findAllEcoles();
         this.onDatatablessChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-            if(!response) return;
+            if (!response) return;
             this.rows = response;
             this.tempData = this.rows;
+            this.exportCSVData = this.rows;
+        });
+    }
+
+    /**
+     * Search (filter)
+     *
+     * @param event
+     */
+    filterUpdate(event) {
+        const val = event.target.value.toLowerCase();
+
+        // filter our data
+        const temp = this.tempData.filter(function (d) {
+            return d.nom.toLowerCase().indexOf(val) !== -1 || !val;
+        });
+
+        // update the rows
+        this.rows = temp;
+        // Whenever the filter changes, always go back to the first page
+
+    }
+
+    /**
+     * Resolver
+     *
+     * @param {ActivatedRouteSnapshot} route
+     * @param {RouterStateSnapshot} state
+     * @returns {Observable<any> | Promise<any> | any}
+     */
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
+        return new Promise<void>((resolve, reject) => {
+            Promise.all([this.findAllEcoles()]).then(() => {
+                resolve();
+            }, reject);
         });
     }
 
@@ -62,8 +102,8 @@ export class EcoleComponent implements OnInit {
         });
     }
 
-    joinAddressBlocks(address): string{
-        if(!address || address.length < 1) return "N/A"
+    joinAddressBlocks(address): string {
+        if (!address || address.length < 1) return "N/A"
         return Object.values(address).join(" ");
     }
 }
