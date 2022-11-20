@@ -26,13 +26,15 @@ import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 import {CoreSidebarModule} from "../../../@core/components";
 import {CardSnippetModule} from "../../../@core/components/card-snippet/card-snippet.module";
 import {CsvModule} from "@ctrl/ngx-csv";
+import { InvoiceComponent } from './invoice/invoice.component';
 
 @NgModule({
   declarations: [
     ClassesComponent,
     EcoleComponent,
     EtudiantsComponent,
-    PaymentSessionComponent
+    PaymentSessionComponent,
+    InvoiceComponent
 
   ],
     imports: [

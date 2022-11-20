@@ -34,6 +34,9 @@ import {ClassesComponent} from "./main/pages/classes/classes.component";
 import {EcoleComponent} from "./main/pages/ecole/ecole-list/ecole.component";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {DatatablesService} from "./main/tables/datatables/datatables.service";
+import {InvoiceComponent} from "./main/pages/invoice/invoice.component";
+import {InvoicePreviewService} from "./main/apps/invoice/invoice-preview/invoice-preview.service";
+import {InvoiceService} from "./main/pages/invoice/invoice.service";
 
 const appRoutes: Routes = [
   {
@@ -55,6 +58,11 @@ const appRoutes: Routes = [
     } ,
     { path : 'ecoles/listecoles',
         component : EcoleComponent,
+
+    },
+    { path : 'invoices',
+        component : InvoiceComponent,
+        data: {  animation: 'InvoiceComponent' }
 
     },
 

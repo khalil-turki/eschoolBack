@@ -94,6 +94,16 @@ export const menu: CoreMenu[] = [
         } ]
       },
       {
+
+        id: 'invoices',
+        title: 'Invoices',
+        translate: 'MENU.PAGES.PRICING',
+        type: 'item',
+        icon: 'list',
+        url: 'invoices'
+      },
+
+      {
         id: 'pages',
         title: 'Pages',
         translate: 'MENU.PAGES.SECTION',
