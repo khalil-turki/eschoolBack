@@ -30,10 +30,15 @@ import { ContextMenuComponent } from 'app/main/extensions/context-menu/context-m
 import { AnimatedCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/animated-custom-context-menu/animated-custom-context-menu.component';
 import { BasicCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/basic-custom-context-menu/basic-custom-context-menu.component';
 import { SubMenuCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/sub-menu-custom-context-menu/sub-menu-custom-context-menu.component';
-import {ClassesComponent} from "./main/pages/classes/classes.component";
 import {EcoleComponent} from "./main/pages/ecole/ecole-list/ecole.component";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {DatatablesService} from "./main/tables/datatables/datatables.service";
+import {ClasseListComponent} from "./main/pages/classe/classe-list/classe-list/classe-list.component";
+import {NouveauClasseComponent} from "./main/pages/classe/nouveau-classe/nouveau-classe.component";
+import {
+    NouveauEtudiantComponent
+} from "./main/pages/etudiant/nouveau-etudiant/nouveau-etudiant/nouveau-etudiant.component";
+import {PageEtudiantsComponent} from "./main/pages/etudiant/etudiant-list/etudiant-list/page-etudiants.component";
 
 const appRoutes: Routes = [
   {
@@ -50,12 +55,35 @@ const appRoutes: Routes = [
     loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
   },
     { path : 'classes',
-        component : ClassesComponent,
+        component : ClasseListComponent,
 
     } ,
     { path : 'ecoles',
         component : EcoleComponent,
 
+    },
+
+    { path : 'etudiants',
+        component : PageEtudiantsComponent,
+    } ,
+
+    { path : 'nvEtudiant',
+        component : NouveauEtudiantComponent,
+    }  ,
+    { path : 'nvEtudiant/:idEtudiant',
+        component : NouveauEtudiantComponent,
+    }  ,
+
+    { path : 'classes',
+        component : ClasseListComponent,
+    } ,
+
+    { path : 'nvClasse',
+        component : NouveauClasseComponent,
+    },
+
+    { path : 'nvClasse/:idClasse',
+        component : NouveauClasseComponent,
     },
 
 

@@ -1,0 +1,26 @@
+<div class="col">
+    <div class="row m-3">
+      <div class="col-md-8 p-0">
+        <h1>Liste des etudiants</h1>
+
+        <input type="text"  class="form-control" placeholder="search here" name="search" [(ngModel)]="searchText" placeholder="search">
+
+      </div>
+      <div class="col-md-4 text-right">
+     <!--   <app-boutton-action  (clickEvent)="nvEtudiant()"></app-boutton-action> -->
+      </div>
+    </div>
+    <div class="col m-3">
+        <app-detail-etudiant *ngFor="let etud of listEtudiants | filter:searchText" [etudiantDto]="etud" (suppressionResult)="handleSuppression($event)"> </app-detail-etudiant>
+    
+
+    </div>
+
+
+    <div  class="row mb-3">
+      <div class=" col-md-12 text-center">
+          <!--  <app-pagination></app-pagination> -->
+         </div>
+       </div>
+
+     </div>
