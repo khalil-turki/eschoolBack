@@ -1,0 +1,117 @@
+<form class="form form-horizontal" (ngSubmit)="(newUserForm.form.valid)" #newUserForm="ngForm">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>Nom Ecole</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+
+                        <input
+                                type="text"
+                                class="form-control dt-full-name"
+                                id="basic-icon-default-fullname"
+                                placeholder="John Doe"
+                                name="user-fullname"
+                                [(ngModel)]="ecoleDto.nom"
+                                [class.error]="submitted && FNameRef.invalid"
+                                #FNameRef="ngModel"
+                                required
+                                aria-label="Esprit"
+                                aria-describedby="basic-icon-default-fullname2"
+                        />
+                        <span *ngIf="newUserForm.submitted && FNameRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FNameRef.errors.required">This field is required!</small>
+            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>Email</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><span [data-feather]="'mail'"></span></span>
+                        </div>
+                        <input
+                                type="email"
+                                id="email-icon"
+                                class="form-control"
+                                name="email-id-icon"
+                                placeholder="Email Ecole"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>Adresse Ecole</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><span [data-feather]="'smartphone'"></span></span>
+                        </div>
+                        <input
+                                type="number"
+                                id="contact-icon"
+                                class="form-control"
+                                name="contact-icon"
+                                placeholder="Adresse Ecole"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>Numero Telephone</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"><span [data-feather]="'lock'"></span></span>
+                        </div>
+                        <input
+                                type="number"
+                                id="pass-icon"
+                                class="form-control"
+                                name="contact-icon"
+                                placeholder="Numero"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-9 offset-sm-3">
+            <button type="submit"
+                    class="btn btn-primary mr-1"
+                    (click)="submit(newUserForm)"
+                    rippleEffect
+                    [swal]="{
+                     icon: 'question',
+                     text: 'This action will send the new ecole an email with their credentials',
+                      title: 'Add Ecole?',
+                      confirmButtonText: 'Add',
+                        showCancelButton: true
+
+
+
+                     }"
+            >Submit
+
+
+            </button>
+        </div>
+    </div>
+</form>
+  

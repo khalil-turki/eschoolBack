@@ -102,6 +102,12 @@ export class EcoleComponent implements OnInit, Resolve<any> {
         });
     }
 
+    newSchool(){
+        this.router.navigate(['ecoles/newecole']);
+
+
+    }
+
     joinAddressBlocks(address): string {
         if (!address || address.length < 1) return "N/A"
         return Object.values(address).join(" ");

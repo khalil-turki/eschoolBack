@@ -89,9 +89,21 @@ export const menu: CoreMenu[] = [
           title: 'List Ecoles',
           translate: 'MENU.PAGES.PRICING',
           type: 'item',
-          icon: 'list',
+          icon: 'plus-circle',
           url: 'ecoles/listecoles'
-        } ]
+        } ,
+          {
+
+            id: 'ecoless',
+            title: 'New Ecoles',
+            translate: 'MENU.PAGES.PRICING',
+            type: 'item',
+            icon: 'circle',
+            url: 'ecoles/newecole'
+          }
+
+
+        ]
       },
       {
 
