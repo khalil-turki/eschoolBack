@@ -28,6 +28,8 @@ import {CardSnippetModule} from "../../../@core/components/card-snippet/card-sni
 import {CsvModule} from "@ctrl/ngx-csv";
 import { InvoiceComponent } from './invoice/invoice.component';
 import { EcoleNewComponent } from './ecole/ecole-new/ecole-new.component';
+import { EcoleEditComponent } from './ecole/ecole-edit/ecole-edit.component';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
@@ -36,7 +38,8 @@ import { EcoleNewComponent } from './ecole/ecole-new/ecole-new.component';
     EtudiantsComponent,
     PaymentSessionComponent,
     InvoiceComponent,
-    EcoleNewComponent
+    EcoleNewComponent,
+    EcoleEditComponent
 
   ],
     imports: [
@@ -59,7 +62,8 @@ import { EcoleNewComponent } from './ecole/ecole-new/ecole-new.component';
         SweetAlert2Module,
         CoreSidebarModule,
         CardSnippetModule,
-        CsvModule
+        CsvModule,
+        RouterModule
     ],
 
   providers: []

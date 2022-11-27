@@ -19,6 +19,12 @@ export class EcoleNewComponent implements OnInit {
 
   public error = '';
   public submitted = false;
+  public selectStatus: any = [
+    { name: 'All', value: '' },
+    { name: 'Pending', value: 'Pending' },
+    { name: 'Active', value: 'Active' },
+    { name: 'Inactive', value: 'Inactive' }
+  ];
 
   /**
    * Submit
@@ -47,7 +53,7 @@ export class EcoleNewComponent implements OnInit {
               Swal.fire({
                 icon: 'success',
                 title: 'Created!',
-                text: 'A new user has been created.!',
+                text: 'A new school has been created.!',
               });
               resolve(response);
             }
@@ -55,7 +61,7 @@ export class EcoleNewComponent implements OnInit {
               Swal.fire({
                 icon: 'error',
                 title: 'Failed!',
-                text: 'Your new user has not been created. Reason: ' + rejectMessage,
+                text: 'Your new school has not been created. Reason: ' + rejectMessage,
                 customClass: {
                   confirmButton: 'btn btn-danger'
                 }

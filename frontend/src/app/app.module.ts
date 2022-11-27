@@ -39,6 +39,8 @@ import {InvoicePreviewService} from "./main/apps/invoice/invoice-preview/invoice
 import {InvoiceService} from "./main/pages/invoice/invoice.service";
 import {PaymentSessionComponent} from "./main/pages/payment-session/payment-session.component";
 import {EcoleNewComponent} from "./main/pages/ecole/ecole-new/ecole-new.component";
+import {NgSelectModule} from "@ng-select/ng-select";
+import {EcoleEditComponent} from "./main/pages/ecole/ecole-edit/ecole-edit.component";
 
 const appRoutes: Routes = [
   {
@@ -74,6 +76,11 @@ const appRoutes: Routes = [
     },
     { path : 'ecoles/newecole',
         component : EcoleNewComponent,
+
+
+    },
+    { path : 'ecoles/newecole/:id',
+        component : EcoleEditComponent,
 
 
     },
@@ -152,7 +159,9 @@ const appRoutes: Routes = [
         CardSnippetModule,
         LayoutModule,
         ContentHeaderModule,
-        NgxDatatableModule
+        NgxDatatableModule,
+        NgSelectModule
+
     ],
     providers: [
           [DatatablesService],

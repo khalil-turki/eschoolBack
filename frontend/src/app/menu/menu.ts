@@ -101,6 +101,16 @@ export const menu: CoreMenu[] = [
             icon: 'circle',
             url: 'ecoles/newecole'
           }
+          ,
+          {
+
+            id: 'ecoless',
+            title: 'Edit Ecoles',
+            translate: 'MENU.PAGES.PRICING',
+            type: 'item',
+            icon: 'circle',
+            url: 'ecoles/editecole/:id'
+          }
 
 
         ]

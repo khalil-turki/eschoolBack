@@ -35,16 +35,25 @@
                 </div>
                 <div class="col-sm-9">
                     <div class="input-group input-group-merge">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><span [data-feather]="'mail'"></span></span>
-                        </div>
                         <input
-                                type="email"
-                                id="email-icon"
-                                class="form-control"
-                                name="email-id-icon"
-                                placeholder="Email Ecole"
+                                type="text"
+                                id="basic-icon-default-email"
+                                class="form-control dt-email"
+                                placeholder="john.doe@example.com"
+                                aria-label="john.doe@example.com"
+                                aria-describedby="basic-icon-default-email2"
+                                name="user-email"
+                                [(ngModel)]="ecoleDto.email"
+                                [class.error]="newUserForm.submitted && FEmailRef.invalid"
+                                #FEmailRef="ngModel"
+                                required
+
                         />
+                        <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
+            </span>
+                        <small class="form-text text-muted"> vous pouvez utiliser des chiifres , lèttres et symboles  </small>
+
                     </div>
                 </div>
             </div>
@@ -52,20 +61,23 @@
         <div class="col-12">
             <div class="form-group row">
                 <div class="col-sm-3 col-form-label">
-                    <label>Adresse Ecole</label>
+                    <label>Status</label>
                 </div>
                 <div class="col-sm-9">
                     <div class="input-group input-group-merge">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><span [data-feather]="'smartphone'"></span></span>
-                        </div>
-                        <input
-                                type="number"
-                                id="contact-icon"
-                                class="form-control"
-                                name="contact-icon"
-                                placeholder="Adresse Ecole"
-                        />
+
+
+                            <label for="status"></label>
+                            <select class="form-control" [(ngModel)]="ecoleDto.codeFiscal"
+                                    name="status" id="status">
+                                <option>active</option>
+                                <option>inactive</option>
+                                <option>pending</option>
+                            </select>
+                        <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
+            </span>
+                        <small class="form-text text-muted">active|inactive|pending</small>
                     </div>
                 </div>
             </div>
@@ -77,20 +89,28 @@
                 </div>
                 <div class="col-sm-9">
                     <div class="input-group input-group-merge">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text"><span [data-feather]="'lock'"></span></span>
-                        </div>
                         <input
-                                type="number"
-                                id="pass-icon"
+                                type="text"
+                                id="basic-icon-default-num"
                                 class="form-control"
-                                name="contact-icon"
-                                placeholder="Numero"
+                                placeholder="98975800"
+                                aria-label="john.doe@example.com"
+                                aria-describedby="basic-icon-default-email2"
+                                name="user-email"
+                                [(ngModel)]="ecoleDto.numTel"
+                                [class.error]="newUserForm.submitted && FEmailRef.invalid"
+                                #FEmailRef="ngModel"
+                                required
+
                         />
+                        <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
+            </span>
                     </div>
                 </div>
             </div>
         </div>
+
 
         <div class="col-sm-9 offset-sm-3">
             <button type="submit"
