@@ -14,13 +14,15 @@ import { ParentControllerService } from './services/parent-controller.service';
 import { PayementControllerService } from './services/payement-controller.service';
 import { ProfesseurControllerService } from './services/professeur-controller.service';
 import { AuthenticationControllerService } from './services/authentication-controller.service';
+import {Ng2SearchPipeModule} from "ng2-search-filter";
 
 /**
  * Provider for all Api services, plus ApiConfiguration
  */
 @NgModule({
   imports: [
-    HttpClientModule
+    HttpClientModule,
+    Ng2SearchPipeModule
   ],
   exports: [
     HttpClientModule

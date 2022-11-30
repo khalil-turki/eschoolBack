@@ -18,7 +18,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [PaginationComponent],
-  imports: [RouterModule.forChild(routes), NgbModule, CoreCommonModule, ContentHeaderModule, CardSnippetModule]
+    declarations: [PaginationComponent],
+    exports: [
+        PaginationComponent
+    ],
+    imports: [RouterModule.forChild(routes), NgbModule, CoreCommonModule, ContentHeaderModule, CardSnippetModule]
 })
 export class PaginationModule {}

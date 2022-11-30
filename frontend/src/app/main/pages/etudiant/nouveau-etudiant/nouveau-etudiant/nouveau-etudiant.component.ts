@@ -11,6 +11,8 @@ import {EtudiantControllerService} from "../../../../../../gs-api/src/services/e
 import {ClasseControllerService} from "../../../../../../gs-api/src/services/classe-controller.service";
 import {ParentControllerService} from "../../../../../../gs-api/src/services/parent-controller.service";
 import {PhotoControllerService} from "../../../../../../gs-api/src/services/photo-controller.service";
+import Swal from "sweetalert2";
+
 @Component({
   selector: 'app-nouveau-etudiant',
   templateUrl: './nouveau-etudiant.component.html',
@@ -72,15 +74,36 @@ export class NouveauEtudiantComponent implements OnInit {
     this.etudiantDto.adresse=this.adresseDto;
     this.etudiantDto.parent=this.parentDto;
     this.etudiantService.createUsingPOST4(this.etudiantDto)
-    
-    .subscribe(etud => {
-      this.savePhoto(etud.id,etud.nom)
-    }, error => {
-      this.errorMsg = error.error.errors;
+
+    .subscribe(res => {
+      this.router.navigate(['etudiants']);
+    },
+
+          error => {
+            this.errorMsg = error.error.errors;
+          }
+
+    )
+
+
+    Swal.fire({
+      title: 'Patientez svp',
+      html: 'En cours  ...',// add html attribute if you want or remove
+      allowOutsideClick: false,
+      onBeforeOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
+
+    Swal.fire({
+      icon: 'success',
+      title: 'etudiant enregistrer!',
+      text: 'A new user has been created.!',
     });
   }
 
-  
+
   onFileInput(files: FileList | null): void {
     if (files) {
       this.file = files.item(0);

@@ -1,26 +1,68 @@
 <div class="col">
-    <div class="row m-3">
-      <div class="col-md-8 p-0">
+    <div class="row m-2">
+      <div class="col-md-0 p-4">
         <h1>Liste des etudiants</h1>
 
-        <input type="text"  class="form-control" placeholder="search here" name="search" [(ngModel)]="searchText" placeholder="search">
+
+          <div class="col-md-19 text-right">
+
+
+
+              <a type="button" class="btn btn-primary" (click)="nvEtudiant()">
+
+                  <i class="fas fa-plus"></i>&nbsp;
+                  Nouveau
+              </a>
+
+
+
+
+
+              <a csvLink [data]="exportCSVData" class="btn btn-outline-secondary float-right mr-1" rippleEffect
+              >Export CSV</a>
+
 
       </div>
-      <div class="col-md-4 text-right">
-     <!--   <app-boutton-action  (clickEvent)="nvEtudiant()"></app-boutton-action> -->
-      </div>
+
+
+
+
+
+
+
+
     </div>
+
+            <div  class="row mb-3">
+            <div class=" col-md-12 text-center">
+        <input type="text"  class="form-control" placeholder="search here" name="search" [(ngModel)]="searchText" placeholder="search">
+
+             </div>
+             </div>
+    </div>
+
+
+     <!--   <app-boutton-action  (clickEvent)="nvEtudiant()"></app-boutton-action> -->
+
+
     <div class="col m-3">
         <app-detail-etudiant *ngFor="let etud of listEtudiants | filter:searchText" [etudiantDto]="etud" (suppressionResult)="handleSuppression($event)"> </app-detail-etudiant>
-    
 
     </div>
 
 
     <div  class="row mb-3">
       <div class=" col-md-12 text-center">
-          <!--  <app-pagination></app-pagination> -->
+          <ngb-pagination [collectionSize]="50" [(page)]="pageBasicText" aria-label="Custom pagination">
+              <ng-template ngbPaginationPrevious
+              ><span [data-feather]="'chevron-left'" [class]="'font-weight-bolder'"></span>Prev
+              </ng-template>
+              <ng-template ngbPaginationNext
+              >Next<span [data-feather]="'chevron-right'" [class]="'font-weight-bolder'"></span>
+              </ng-template>
+          </ngb-pagination>
+
          </div>
        </div>
 
-     </div>
+

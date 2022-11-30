@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import {ClasseDto} from "../../../../../gs-api/src/models/classe-dto";
 import {ClasseControllerService} from "../../../../../gs-api/src/services/classe-controller.service";
+import Swal from "sweetalert2";
+
 
 
 @Component({
@@ -43,6 +45,22 @@ enregistrerClasse(): void {
   }, error => {
     this.errorMsg = error.error.errors;
   });
+
+  Swal.fire({
+              title: 'Patientez svp',
+              html: 'En cours  ...',// add html attribute if you want or remove
+              allowOutsideClick: false,
+              onBeforeOpen: () => {
+  Swal.showLoading();
+},
+});
+
+
+Swal.fire({
+  icon: 'success',
+  title: 'Classe enregistrer!',
+  text: 'A new Classe has been created.!',
+});
 }
 }
 

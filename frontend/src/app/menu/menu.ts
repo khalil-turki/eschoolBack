@@ -94,6 +94,59 @@ export const menu: CoreMenu[] = [
         } ]
       },
       {
+        id: 'classes',
+        title: 'Classes',
+        translate: 'MENU.PAGES.SECTION',
+        type: 'collapsible',
+        icon: 'home',
+        children: [
+{
+
+           id: 'classes',
+           title: 'List Classes',
+           translate: 'MENU.PAGES.PRICING',
+           type: 'item',
+           icon: 'list',
+           url: 'classes'
+},
+          {
+           id: 'classes',
+           title: '✚   New Classe',
+           translate: 'MENU.PAGES.PRICING',
+           type: 'item',
+           icon: 'add',
+           url: 'nvClasse'
+}
+        ]
+      },
+
+      {
+        id: 'Students',
+        title: 'Students',
+        translate: 'MENU.PAGES.SECTION',
+        type: 'collapsible',
+        icon: 'home',
+        children: [
+          {
+
+            id: 'Students',
+            title: 'List Students',
+            translate: 'MENU.PAGES.PRICING',
+            type: 'item',
+            icon: 'list',
+            url: 'etudiants'
+          },
+          {
+            id: 'Students',
+            title: '✚   New Student',
+            translate: 'MENU.PAGES.PRICING',
+            type: 'item',
+            icon: 'add',
+            url: 'nvEtudiant'
+          }
+        ]
+      },
+      {
         id: 'pages',
         title: 'Pages',
         translate: 'MENU.PAGES.SECTION',

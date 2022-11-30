@@ -7,10 +7,19 @@
                 <h4 class="card-title">List of Classes</h4>
 
 
-                <div class="col-12 mb-50">
                     <a csvLink [data]="exportCSVData" class="btn btn-outline-secondary float-right mr-1" rippleEffect
                     >Export CSV</a
                     >
+
+                    <a type="button" class="btn btn-primary" (click)="nouveauClasse()">
+
+                        <i class="fas fa-plus"></i>&nbsp;
+                        Nouveau
+                    </a>
+
+                </div>
+
+
 
 
                     <div class="card-body">
@@ -49,16 +58,17 @@
                                                 [class.datatable-icon-down]="expanded"
                                                 title="Expand/Collapse Row"
                                                 (click)="rowDetailsToggleExpand(row)"
-                                        >🍆
+                                        >⬍
                                         </a>
                                     </ng-template>
                                 </ngx-datatable-column>
-                                <ngx-datatable-column name="Nom de classe   🍆" prop="nomClasse" [width]="250"></ngx-datatable-column>
-                                <ngx-datatable-column name="Specialité    🍆" prop="specialite" [width]="250"></ngx-datatable-column>
+
+                                <ngx-datatable-column name="Nom de classe ⬍  " prop="nomClasse" [width]="250"></ngx-datatable-column>
+                                <ngx-datatable-column name="Specialité    ⬍" prop="specialite" [width]="250"></ngx-datatable-column>
 
                                 <ngx-datatable-column name="Actions" [width]="120" [sortable]="false">
 
-                                    <ng-template ngx-datatable-cell-template>
+                                    <ng-template let-row="row"  ngx-datatable-cell-template>
                                         <div class="d-flex align-items-center">
                                             <div ngbDropdown container="body">
                                                 <a ngbDropdownToggle
@@ -75,25 +85,43 @@
                                                 </a>
                                                 <div ngbDropdownMenu class="dropdown-menu-right"
                                                      aria-labelledby="dropdownBrowserState">
-                                                    <button type="button" class="btn btn-link"  data-toggle="modal" data-target="#exampleModal" >
-                                                        <i class="fas fa-pencil-alt"></i>&nbsp;Modifier
-                                                    </button>
 
-                                                    <a href="javascript:void(0)" ngbDropdownItem
-                                                       class="d-flex align-items-center"
-                                                    ><i data-feather="archive" class="mr-50"></i> Archive</a
+
+                                                    <a
+                                                       class="d-flex align-items-center" (click)="findEtudiantsByIdClass(row.id)"
+                                                    ><i data-feather="archive" class="mr-50"></i> Show Students</a
                                                     >
 
-                                                    <button type="button" class="btn btn-link text-danger" data-toggle="modal" [attr.data-target]="'#modalDelete'"  >
-                                                        <i data-feather="trash-2" class="mr-50"></i> Delete
-                                                    </button>
+
+
+
+
                                                 </div>
                                             </div>
-                                            <button type="button" class="btn btn-link"  data-toggle="modal" data-target="#exampleModal" (click)="modifierClasse(4)" >
+
+                                            <!-- MODIFIER BOUTON -->
+                                            <button type="button" class="btn btn-link"  data-toggle="modal" data-target="#exampleModal" (click)="modifierClasse(row.id)" >
                                                 <i data-feather="edit" class="text-primary cursor-pointer"></i>
                                             </button>
-                                        </div>
 
+
+                                        <!-- Delete BOUTON -->
+                                        <button ngbDropdownItem
+                                                [swal]="{
+                                                                                        icon: 'info',
+                                                text: 'cette action va supprimer ce client ',
+                                                title: 'confirmer ?',
+                                                showCancelButton: true                                              ,
+                                                confirmButtonText: 'oui',
+                                                customClass: {
+                                                confirmButton: 'btn btn-primary ',
+                                                cancelButton: 'btn btn-primary ml-1'
+                                                  }
+                                                }"
+                                                (click)="delete(row.id)"
+                                        ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Supprimer</button>
+
+                                        </div>
 
                                     </ng-template>
 
@@ -103,11 +131,14 @@
 
                             </ngx-datatable>
 
+
+
+
+
+
+
                         </div>
-                    </div>
-                </div>
-
-            </div>
+              </div>
         </div>
     </div>
 </div>
@@ -115,80 +146,3 @@
 
 
 
-
-
-
-
-
-
-
-
-<!-- Modal -->
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" autofocus>
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Correction</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="nombre">
-                    </div>
-                    <div class="form-group">
-                        <select class="form-control">
-                            <option>Positive Correction</option>
-                            <option>Negative Correction </option>
-                        </select>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fas fa-ban"></i>&nbsp;Cancel</button>
-                <button type="button" class="btn btn-primary"> <i class="fas fa-save"></i>&nbsp;Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal -->
-
-<!-- <div class="modal fade" id="modalDeleteArticle{{ articleDto.id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-     aria-hidden="true"> -->
-
-<div class="modal fade" id="modalDelete{{ classeDto.id }}" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Confirmation</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Etes vous-sur de vouloir supprimer cette classe?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                    <i class="fas fa-ban"></i>&nbsp;Annuler</button>
-
-                <!-- <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="confirmerEtSupprimerArticle()">
-                   <i class="fas fa-trash-alt"></i>&nbsp;Supprimer</button> -->
-
-                <button type="button" class="btn btn-danger" data-dismiss="modal"  (click)="confirmerEtSupprimer()">
-                    <i class="fas fa-trash-alt"></i>&nbsp;Supprimer</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- </div> -->
-<!-- </div> -->
-
-
-
-<!-- ngx-datatable-row-details -->

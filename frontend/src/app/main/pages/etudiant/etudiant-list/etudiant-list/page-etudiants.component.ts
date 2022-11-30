@@ -13,6 +13,11 @@ export class PageEtudiantsComponent implements OnInit {
   listEtudiants : Array<EtudiantDto> = [];
   errorMsgs:Array<string> =[];
   searchText:any;
+  public pageBasicText = 1;
+  public exportCSVData;
+
+
+
 
 
   constructor(
@@ -21,12 +26,15 @@ export class PageEtudiantsComponent implements OnInit {
 
   ngOnInit(): void {
     this.findAllEtudiants();
+
   }
 
   findAllEtudiants(): void {
     this.etudiantService.findAllUsingGET4().subscribe(res => {
       this.listEtudiants = res;
       console.log(this.listEtudiants);
+      this.exportCSVData = this.listEtudiants;
+
     });
   }
 

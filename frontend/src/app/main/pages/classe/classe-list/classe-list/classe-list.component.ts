@@ -7,6 +7,10 @@ import {EcoleControllerService} from "../../../../../../gs-api/src/services/ecol
 import {ClasseControllerService} from "../../../../../../gs-api/src/services/classe-controller.service";
 import {takeUntil} from "rxjs/operators";
 import {DatatableComponent, ColumnMode} from "@swimlane/ngx-datatable";
+import {EtudiantControllerService} from "../../../../../../gs-api/src/services/etudiant-controller.service";
+import {EtudiantDto} from "../../../../../../gs-api/src/models/etudiant-dto";
+import Swal from "sweetalert2";
+import {msg} from "ng-packagr/lib/utils/log";
 
 
 @Component({
@@ -16,9 +20,12 @@ import {DatatableComponent, ColumnMode} from "@swimlane/ngx-datatable";
 })
 export class ClasseListComponent implements OnInit, Resolve<any>{
   @ViewChild('tableRowDetails') tableRowDetails: any;
+
   public ColumnMode = ColumnMode;
   @Input() classeDto: ClasseDto = {};
+
   public rows: Array<ClasseDto> = [];
+  listEtudiantsByClass : Array<EtudiantDto> =[];
   public onDatatablessChanged: BehaviorSubject<any>;
 
   private _unsubscribeAll: Subject<any>;
@@ -30,6 +37,7 @@ export class ClasseListComponent implements OnInit, Resolve<any>{
 
   constructor(private router: Router,
               private classeService: ClasseControllerService,
+              private  etudiantService:EtudiantControllerService
   ) {
     this._unsubscribeAll = new Subject();
     this.onDatatablessChanged = new BehaviorSubject({});
@@ -99,11 +107,11 @@ export class ClasseListComponent implements OnInit, Resolve<any>{
 
 
   joinAddressBlocks(address): string {
-    if (!address || address.length < 1) return "N/A"
-    return Object.values(address).join(" ");
+    if (!address || address.length < 1) return "28"
+    return Object.values(this.rows).join(" ");
   }
 
-  modifierClasse(idClasse: number): void {
+  modifierClasse(idClasse: any): void {
     this.router.navigate(['nvClasse', idClasse]);
     console.log(idClasse);
   }
@@ -119,11 +127,51 @@ export class ClasseListComponent implements OnInit, Resolve<any>{
 
     nouveauClasse()
     {
-        this.router.navigate(['nouveau-classe']);
+        this.router.navigate(['nvClasse']);
     }
-  confirmerEtSupprimer()
-    {
 
-    }
+
+  delete(id) : void
+  {
+    Swal.fire({
+      title: 'Do you want to delete this class ?',
+      showCancelButton: true,
+      confirmButtonText: 'Save',
+    }).then((result) => {
+      /* Read more about isConfirmed, isDenied below */
+      if (result.isConfirmed) {
+
+
+          this.classeService.deleteUsingDELETE1(id).subscribe(response => {
+            window.location.reload();
+            Swal.fire('Class deleted succefully!', '', 'success')
+
+
+          });
+
+        if (this.classeService.findByIdUsingGET1(id)) {
+          Swal.fire('cannot delete this class !', '', 'error')
+
+        }
+
+      }
+
+     })
+
+  }
+
+  findEtudiantsByIdClass(idClasse:number): void {
+    this.etudiantService.findEtudiantsByClasseIdUsingGET(idClasse).subscribe(res => {
+      this.listEtudiantsByClass = res;
+    });
+    this.router.navigate(['etudiants']);
+  }
+
+  findAllEtudiants(): void {
+    this.etudiantService.findAllUsingGET4().subscribe(res => {
+      this.listEtudiantsByClass = res;
+    });
+  }
+
 
 }

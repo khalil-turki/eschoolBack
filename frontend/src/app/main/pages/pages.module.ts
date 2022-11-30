@@ -29,6 +29,9 @@ import {CsvModule} from "@ctrl/ngx-csv";
 import {NouveauEtudiantComponent} from "./etudiant/nouveau-etudiant/nouveau-etudiant/nouveau-etudiant.component";
 import {NouveauClasseComponent} from "./classe/nouveau-classe/nouveau-classe.component";
 import {DetailEtudiantComponent} from "./detail-etudiant/detail-etudiant.component";
+import {PaginationModule} from "../components/pagination/pagination.module";
+import {Ng2SearchPipeModule} from "ng2-search-filter";
+import {DetailClassesComponent} from "./detail-classes/detail-classes.component";
 
 @NgModule({
   declarations: [
@@ -38,7 +41,8 @@ import {DetailEtudiantComponent} from "./detail-etudiant/detail-etudiant.compone
        PaymentSessionComponent,
       NouveauEtudiantComponent,
       NouveauClasseComponent,
-      DetailEtudiantComponent
+      DetailEtudiantComponent,
+      DetailClassesComponent
 
 
   ],
@@ -62,7 +66,9 @@ import {DetailEtudiantComponent} from "./detail-etudiant/detail-etudiant.compone
         SweetAlert2Module,
         CoreSidebarModule,
         CardSnippetModule,
-        CsvModule
+        CsvModule,
+        PaginationModule,
+        Ng2SearchPipeModule
     ],
 
   providers: []

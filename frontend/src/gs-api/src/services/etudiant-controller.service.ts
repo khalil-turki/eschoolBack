@@ -38,6 +38,49 @@ class EtudiantControllerService extends __BaseService {
   }
 
   /**
+   * Rechercher les etudiant par Classe ID
+   *
+   * Cette methode permet de chercher les etudiants par leurs classe ID
+   * @param idClasse idClasse
+   * @return Les etudiants on ete trouve dans la BDD
+   */
+  findEtudiantsByClasseIdUsingGETResponse(idClasse?: number): __Observable<__StrictHttpResponse<Array<EtudiantDto>>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+        'GET',
+        this.rootUrl + `/etudiants/listByClass/${encodeURIComponent(String(idClasse))}`,
+        __body,
+        {
+          headers: __headers,
+          params: __params,
+          responseType: 'json'
+        });
+
+    return this.http.request<any>(req).pipe(
+        __filter(_r => _r instanceof HttpResponse),
+        __map((_r) => {
+          return _r as __StrictHttpResponse<Array<EtudiantDto>>;
+        })
+    );
+  }
+  /**
+   * Rechercher les etudiant par Classe ID
+   *
+   * Cette methode permet de chercher les etudiants par leurs classe ID
+   * @param idClasse idClasse
+   * @return Les etudiants on ete trouve dans la BDD
+   */
+  findEtudiantsByClasseIdUsingGET(idClasse?: number): __Observable<Array<EtudiantDto>> {
+    return this.findEtudiantsByClasseIdUsingGETResponse(idClasse).pipe(
+        __map(_r => _r.body as Array<EtudiantDto>)
+    );
+  }
+
+
+  /**
    * findAll
    * @return OK
    */

@@ -14,7 +14,9 @@ import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin(origins = "http://localhost:4200")
+import java.util.List;
+
+@CrossOrigin(origins ="http://localhost:4200")
 @Api
 @RestController
 @RequestMapping(value = "/etudiants", produces = "application/json")
@@ -55,6 +57,12 @@ public class EtudiantController extends AbstractCrudController<Etudiant, Etudian
         Ecole c = ecoleService.findById(ecoleid);
         e.setEcole(c);
         etudiantService.create(e);
+    }
+
+    @PostMapping("/listByClass/{classeId}")
+    public List<Etudiant> findEtudiantsByClasseId(@PathVariable("classeId")Integer classeId){
+        return etudiantService.findAllEtudiantsByIdClasse(classeId) ;
+
     }
 
 }
