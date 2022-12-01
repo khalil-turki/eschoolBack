@@ -50,15 +50,23 @@ class PayementControllerService extends __BaseService {
       })
     );
   }
-  /**
+
+
+/* /**
    * pay
    * @return OK
-   */
+
   payUsingGET(): __Observable<string> {
     return this.payUsingGETResponse().pipe(
       __map(_r => _r.body as string)
     );
+  }   */
+
+
+  payUsingGET(){
+    return this.http.get("http://localhost:8081/payment/pay")
   }
+
 
   /**
    * webhook
