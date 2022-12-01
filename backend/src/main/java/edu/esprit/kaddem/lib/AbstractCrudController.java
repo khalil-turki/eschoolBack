@@ -13,14 +13,14 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
     @Autowired
     private AbstractCrudService<T> service;
 
-    private final ModelMapper mapper = new ModelMapper();
+    protected final ModelMapper mapper = new ModelMapper();
 
-    private U toDto(T entity) {
+    protected U toDto(T entity) {
         Class<U> clazz = (Class<U>) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
         return mapper.map(entity, clazz);
     }
 
-    private T toEntity(U dto) {
+    protected T toEntity(U dto) {
         Class<T> clazz = (Class<T>) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         return mapper.map(dto, clazz);
     }

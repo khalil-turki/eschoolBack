@@ -90,7 +90,6 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         },
       });
       this.payementService.payUsingGET().subscribe((response: any) => {
-        console.log((response));
         Swal.close();
         resolve(this.apiData);
         window.location = response.checkoutURI;

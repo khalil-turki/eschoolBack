@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@CrossOrigin(origins ="http://localhost:4200")
+@CrossOrigin(origins = "*")
 @Api
 @RestController
 @RequestMapping(value = "/etudiants", produces = "application/json")
@@ -31,38 +31,39 @@ public class EtudiantController extends AbstractCrudController<Etudiant, Etudian
     private ClasseService classeService;
 
     @PostMapping("/affecttoclasse/{etudiantid}/{classeid}")
-    public void assignEtudiantToClasse(@PathVariable("etudiantid")Integer etudiantid, @PathVariable("classeid") Integer classeid){
-        Etudiant e=etudiantService.findById(etudiantid);
+    public void assignEtudiantToClasse(@PathVariable("etudiantid") Integer etudiantid, @PathVariable("classeid") Integer classeid) {
+        Etudiant e = etudiantService.findById(etudiantid);
         Classe c = classeService.findById(classeid);
         e.setClasse(c);
         etudiantService.create(e);
     }
+
     @PostMapping("/desafectfromclasse/{etudiantid}/{classeid}")
-    public void removeEtudiantFromClasse(@PathVariable("etudiantid")Integer etudiantid, @PathVariable("classeid") Integer classeid){
-        Etudiant e=etudiantService.findById(etudiantid);
+    public void removeEtudiantFromClasse(@PathVariable("etudiantid") Integer etudiantid, @PathVariable("classeid") Integer classeid) {
+        Etudiant e = etudiantService.findById(etudiantid);
         e.setClasse(null);
         etudiantService.create(e);
     }
 
     @PostMapping("/desafectfromecole/{etudiantid}/{ecoleid}")
-    public void removeEtudiantFromEcole(@PathVariable("etudiantid")Integer etudiantid, @PathVariable("ecoleid") Integer ecoleid){
-        Etudiant e=etudiantService.findById(etudiantid);
+    public void removeEtudiantFromEcole(@PathVariable("etudiantid") Integer etudiantid, @PathVariable("ecoleid") Integer ecoleid) {
+        Etudiant e = etudiantService.findById(etudiantid);
         e.setEcole(null);
         etudiantService.create(e);
     }
 
     @PostMapping("/affecttoecole/{etudiantid}/{ecoleid}")
-    public void assignEtudiantToEcole(@PathVariable("etudiantid")Integer etudiantid, @PathVariable("ecoleid") Integer ecoleid){
-        Etudiant e=etudiantService.findById(etudiantid);
+    public void assignEtudiantToEcole(@PathVariable("etudiantid") Integer etudiantid, @PathVariable("ecoleid") Integer ecoleid) {
+        Etudiant e = etudiantService.findById(etudiantid);
         Ecole c = ecoleService.findById(ecoleid);
         e.setEcole(c);
         etudiantService.create(e);
     }
 
-    @PostMapping("/listByClass/{classeId}")
-    public List<Etudiant> findEtudiantsByClasseId(@PathVariable("classeId")Integer classeId){
-        return etudiantService.findAllEtudiantsByIdClasse(classeId) ;
-
+    @GetMapping("/listByClass/{classeId}")
+    public List<EtudiantDto> findEtudiantsByClasseId(@PathVariable("classeId") Integer classeId) {
+        var etudiants = etudiantService.findAllEtudiantsByIdClasse(classeId);
+        return etudiants.stream().map(this::toDto).toList();
     }
 
 }
