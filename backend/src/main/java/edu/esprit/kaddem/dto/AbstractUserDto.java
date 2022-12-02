@@ -20,4 +20,5 @@ public abstract class AbstractUserDto<T extends Utilisateur> extends AbstractDto
     private String email;
     private String numTel;
     private Instant dateDeNaissance;
+    private String plainPassword;
 }

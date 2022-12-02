@@ -1,6 +1,7 @@
 package edu.esprit.kaddem.model.user;
 
 import edu.esprit.kaddem.lib.AbstractEntity;
+import edu.esprit.kaddem.listeners.UtilisateurListener;
 import edu.esprit.kaddem.model.Adresse;
 import edu.esprit.kaddem.model.Ecole;
 import edu.esprit.kaddem.model.PaymentSession;
@@ -26,6 +27,7 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "role", discriminatorType = DiscriminatorType.STRING)
 @Component
+@EntityListeners(UtilisateurListener.class)
 public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDetails {
     @Column(name = "nom")
     private String nom;
@@ -45,6 +47,9 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     @Column(name = "password")
     private String password;
 
+    @Transient
+    private String plainPassword;
+
     @OneToOne
     private Adresse adresse;
 
@@ -58,7 +63,7 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     private String confirmationToken;
 
     @ManyToOne
-    @JoinColumn(name = "idecole")
+    @JoinColumn(name = "id_ecole")
     private Ecole ecole;
 
     @OneToMany(mappedBy = "initiator")
@@ -68,14 +73,12 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     @Column(name = "role", nullable = false, insertable = false, updatable = false)
     private Role role;
 
-    private String plainPassword;
-
     @Column(name = "enabled")
     private boolean enabled;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singleton(new SimpleGrantedAuthority("ROLE_" + this.getRole().toString()));
+        return Collections.singleton(new SimpleGrantedAuthority(this.getRole().toString()));
     }
 
     @Override

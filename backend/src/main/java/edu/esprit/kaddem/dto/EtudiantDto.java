@@ -20,5 +20,5 @@ import java.util.List;
 @Accessors(chain = true)
 public class EtudiantDto extends AbstractUserDto<Etudiant> implements Serializable {
     private List<Integer> parentIds;
-    private int classeId;
+    private Integer classeId;
 }

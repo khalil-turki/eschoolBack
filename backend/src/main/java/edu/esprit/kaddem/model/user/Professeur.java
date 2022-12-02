@@ -17,9 +17,6 @@ import java.util.Objects;
 @Entity
 @DiscriminatorValue(Role.Values.ROLE_PROFESSEUR)
 public class Professeur extends Utilisateur {
-    @Column(name = "cin")
-    private String cin;
-
     @ManyToMany(mappedBy = "professeurs")
     @ToString.Exclude
     private List<Classe> classes;

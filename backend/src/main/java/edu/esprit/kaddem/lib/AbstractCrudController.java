@@ -1,11 +1,13 @@
 package edu.esprit.kaddem.lib;
 
 import edu.esprit.kaddem.model.user.Utilisateur;
+import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.json.JsonMergePatch;
+import java.lang.reflect.ParameterizedType;
 import java.time.LocalDateTime;
 
 
@@ -14,15 +16,22 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
     private AbstractCrudService<T> service;
 
     private final ModelMapper mapper = new ModelMapper();
+    private final Class<U> dtoClass;
+    private final Class<T> entityClass;
+    public AbstractCrudController() {
+        mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
+        entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        dtoClass = (Class<U>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
+        mapper.createTypeMap(entityClass, dtoClass);
+        mapper.createTypeMap(dtoClass, entityClass);
+    }
 
     private U toDto(T entity) {
-        Class<U> clazz = (Class<U>) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-        return mapper.map(entity, clazz);
+        return mapper.map(entity, this.dtoClass);
     }
 
     private T toEntity(U dto) {
-        Class<T> clazz = (Class<T>) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
-        return mapper.map(dto, clazz);
+        return mapper.map(dto, entityClass);
     }
 
 
