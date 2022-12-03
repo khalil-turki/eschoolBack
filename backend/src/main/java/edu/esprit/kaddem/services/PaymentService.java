@@ -1,10 +1,11 @@
 package edu.esprit.kaddem.services;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.stripe.Stripe;
-import com.stripe.exception.StripeException;
 import com.stripe.model.*;
 import com.stripe.model.checkout.Session;
-import com.stripe.param.PaymentLinkCreateParams;
+import edu.esprit.kaddem.dto.PaymentSessionResponseDTO;
 import edu.esprit.kaddem.model.PaymentSession;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +33,7 @@ public class PaymentService {
     }
 
     @SneakyThrows
-    public String createCheckoutSession() {
+    public PaymentSessionResponseDTO createCheckoutSession() {
         var product = this.createProduct();
         var price = this.createPrice(product);
 
@@ -58,6 +58,14 @@ public class PaymentService {
         System.out.println("session = " + session);
         session.getId();
 
+
+        String url = stringToJSONObject(session.getLastResponse().body()).get("url").asText();
+        PaymentSessionResponseDTO paymentResponseRequestDTO = new PaymentSessionResponseDTO();
+        paymentResponseRequestDTO.setCheckoutURI(url);
+
+
+
+
         var affec = new PaymentSession();
         affec.setPaid(true);
         affec.setInitiator(null); //get user id !
@@ -68,7 +76,7 @@ public class PaymentService {
 
 
 
-        return session.getUrl();
+        return paymentResponseRequestDTO;
     }
 
     @SneakyThrows
@@ -88,6 +96,10 @@ public class PaymentService {
         return Product.create(params);
     }
 
+    private static JsonNode stringToJSONObject(String jsonString) throws Exception {
+        ObjectMapper jacksonObjMapper = new ObjectMapper();
+        return jacksonObjMapper.readTree(jsonString);
+    }
     @SneakyThrows
     private Object processWebhookMessage(Charge event) {
         System.out.println("event = " + event);

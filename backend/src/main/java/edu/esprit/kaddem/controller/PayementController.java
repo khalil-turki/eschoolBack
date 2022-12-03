@@ -6,6 +6,7 @@ import com.stripe.model.Charge;
 import com.stripe.model.StripeObject;
 import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
+import edu.esprit.kaddem.dto.PaymentSessionResponseDTO;
 import edu.esprit.kaddem.model.PaymentSession;
 import edu.esprit.kaddem.services.PayementSessionService;
 import edu.esprit.kaddem.services.PaymentService;
@@ -17,7 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = "http://127.0.0.1:4200")
 
 @RestController
 @RequestMapping("/payment")
@@ -43,7 +44,7 @@ public class PayementController {
     private String webhookSecret;
 
     @GetMapping("/pay")
-    public String pay() {
+    public PaymentSessionResponseDTO pay() {
         String body = "Salam alaykoum, votre payement a été effectué avec succés, merci de votre confiance";
         twillioService.sendSms(to, from, body);
         return paymentService.createCheckoutSession();
