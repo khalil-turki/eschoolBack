@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { PaymentSessionComponent } from './payment-session.component';
 
 describe('PaymentSessionComponent', () => {

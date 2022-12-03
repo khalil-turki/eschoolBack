@@ -10,4 +10,7 @@ export interface EcoleDto {
   numTel?: string;
   photo?: string;
   steWeb?: string;
+
+
+
 }

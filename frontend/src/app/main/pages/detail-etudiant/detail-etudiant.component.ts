@@ -28,10 +28,12 @@ export class DetailEtudiantComponent implements OnInit {
   constructor(
       private router: Router,
       private etudiantService: EtudiantControllerService
-  ) {
+  )
+  {
   }
 
   ngOnInit(): void {
+    console.log(this.etudiantDto.photo);
 
   }
 

@@ -4,7 +4,7 @@ import { HttpClient, HttpRequest, HttpResponse, HttpHeaders } from '@angular/com
 import { BaseService as __BaseService } from '../base-service';
 import { ApiConfiguration as __Configuration } from '../api-configuration';
 import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-response';
-import { Observable as __Observable } from 'rxjs';
+import {BehaviorSubject, Observable as __Observable} from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { IterableEcoleDto } from '../models/iterable-ecole-dto';
@@ -26,11 +26,17 @@ class EcoleControllerService extends __BaseService {
   static readonly deleteUsingDELETE2Path = '/ecoles/{id}';
   static readonly patchUsingPATCH2Path = '/ecoles/{id}';
 
+  public onUserEditChanged: BehaviorSubject<any>;
+
+
   constructor(
     config: __Configuration,
     http: HttpClient
+
   ) {
     super(config, http);
+    this.onUserEditChanged = new BehaviorSubject({});
+
   }
 
   /**

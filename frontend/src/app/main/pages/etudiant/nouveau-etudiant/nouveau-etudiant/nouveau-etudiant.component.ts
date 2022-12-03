@@ -39,7 +39,7 @@ export class NouveauEtudiantComponent implements OnInit {
     private etudiantService:EtudiantControllerService,
     private classeService:ClasseControllerService,
     private parentService:ParentControllerService,
-   private photoService:PhotoControllerService
+    private photoService:PhotoControllerService
     ) { }
 
     ngOnInit(): void {
@@ -75,8 +75,10 @@ export class NouveauEtudiantComponent implements OnInit {
     this.etudiantDto.parent=this.parentDto;
     this.etudiantService.createUsingPOST4(this.etudiantDto)
 
-    .subscribe(res => {
-      this.router.navigate(['etudiants']);
+    .subscribe(etud => {
+          this.savePhoto(etud.id, etud.nom);
+
+
     },
 
           error => {

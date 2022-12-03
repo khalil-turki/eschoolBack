@@ -15,7 +15,7 @@ import { map as __map, filter as __filter } from 'rxjs/operators';
   providedIn: 'root',
 })
 class PhotoControllerService extends __BaseService {
-  static readonly savePhotoUsingPOSTPath = '/eschoolBack/save/{id}/{title}/{context}';
+  static readonly savePhotoUsingPOSTPath = '/photo/save/{id}/{title}/{context}';
 
   constructor(
     config: __Configuration,
@@ -50,7 +50,7 @@ class PhotoControllerService extends __BaseService {
     if (params.file != null) { __formData.append('file', params.file as string | Blob);}
     let req = new HttpRequest<any>(
       'POST',
-      this.rootUrl + `/eschoolBack/save/${encodeURIComponent(String(params.id))}/${encodeURIComponent(String(params.title))}/${encodeURIComponent(String(params.context))}`,
+      this.rootUrl + `/photo/save/${encodeURIComponent(String(params.id))}/${encodeURIComponent(String(params.title))}/${encodeURIComponent(String(params.context))}`,
       __body,
       {
         headers: __headers,

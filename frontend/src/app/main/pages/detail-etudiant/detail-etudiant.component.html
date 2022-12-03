@@ -1,13 +1,14 @@
 
 <div class="row mb-5 mr-0 custom-border">
-    <<div class="col mb-3">
+    <div class="col mb-3">
 
 
     <button (click)="fileInput.click()" style="background-color: transparent; border: none;">
 
-      <img src="assets/images/contact.png" class="rounded-circle" width="100px" height="100px" />
+        <img [src]="etudiantDto.photo ? etudiantDto.photo : 'assets/images/etudiant.png'"  width="100px" height="100px">
 
-      <input hidden type="file" #fileInput (change)="(fileInput.files)">
+
+        <input hidden type="file" #fileInput (change)="(fileInput.files)">
     </button>
     </div>
 

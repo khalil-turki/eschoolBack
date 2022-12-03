@@ -30,9 +30,17 @@ import { ContextMenuComponent } from 'app/main/extensions/context-menu/context-m
 import { AnimatedCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/animated-custom-context-menu/animated-custom-context-menu.component';
 import { BasicCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/basic-custom-context-menu/basic-custom-context-menu.component';
 import { SubMenuCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/sub-menu-custom-context-menu/sub-menu-custom-context-menu.component';
+import {ClassesComponent} from "./main/pages/classes/classes.component";
 import {EcoleComponent} from "./main/pages/ecole/ecole-list/ecole.component";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {DatatablesService} from "./main/tables/datatables/datatables.service";
+import {InvoiceComponent} from "./main/pages/invoice/invoice.component";
+import {InvoicePreviewService} from "./main/apps/invoice/invoice-preview/invoice-preview.service";
+import {InvoiceService} from "./main/pages/invoice/invoice.service";
+import {PaymentSessionComponent} from "./main/pages/payment-session/payment-session.component";
+import {EcoleNewComponent} from "./main/pages/ecole/ecole-new/ecole-new.component";
+import {NgSelectModule} from "@ng-select/ng-select";
+import {EcoleEditComponent} from "./main/pages/ecole/ecole-edit/ecole-edit.component";
 import {ClasseListComponent} from "./main/pages/classe/classe-list/classe-list/classe-list.component";
 import {NouveauClasseComponent} from "./main/pages/classe/nouveau-classe/nouveau-classe.component";
 import {
@@ -62,6 +70,27 @@ const appRoutes: Routes = [
         component : EcoleComponent,
 
     },
+    { path : 'invoices',
+        component : InvoiceComponent,
+        data: {  animation: 'InvoiceComponent' }
+
+    },
+    { path : 'payement',
+        component : PaymentSessionComponent,
+
+
+    },
+    { path : 'ecoles/newecole',
+        component : EcoleNewComponent,
+
+
+    },
+    { path : 'ecoles/newecole/:id',
+        component : EcoleEditComponent,
+
+
+    },
+
 
     { path : 'etudiants',
         component : PageEtudiantsComponent,
@@ -159,7 +188,9 @@ const appRoutes: Routes = [
         CardSnippetModule,
         LayoutModule,
         ContentHeaderModule,
-        NgxDatatableModule
+        NgxDatatableModule,
+        NgSelectModule
+
     ],
     providers: [
           [DatatablesService],

@@ -17,7 +17,9 @@ import { FaqModule } from 'app/main/pages/faq/faq.module';
 import { AccountSettingsModule } from './account-settings/account-settings.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
+import { ClassesComponent } from './classes/classes.component';
 import { EcoleComponent } from './ecole/ecole-list/ecole.component';
+import { EtudiantsComponent } from './etudiants/etudiants.component';
 import { PaymentSessionComponent } from './payment-session/payment-session.component';
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
@@ -32,9 +34,20 @@ import {DetailEtudiantComponent} from "./detail-etudiant/detail-etudiant.compone
 import {PaginationModule} from "../components/pagination/pagination.module";
 import {Ng2SearchPipeModule} from "ng2-search-filter";
 import {DetailClassesComponent} from "./detail-classes/detail-classes.component";
+import { InvoiceComponent } from './invoice/invoice.component';
+import { EcoleNewComponent } from './ecole/ecole-new/ecole-new.component';
+import { EcoleEditComponent } from './ecole/ecole-edit/ecole-edit.component';
+import {RouterModule} from "@angular/router";
 
 @NgModule({
   declarations: [
+    ClassesComponent,
+    EcoleComponent,
+    EtudiantsComponent,
+    PaymentSessionComponent,
+    InvoiceComponent,
+    EcoleNewComponent,
+    EcoleEditComponent,
        ClasseListComponent,
        EcoleComponent,
        PageEtudiantsComponent,
@@ -68,7 +81,9 @@ import {DetailClassesComponent} from "./detail-classes/detail-classes.component"
         CardSnippetModule,
         CsvModule,
         PaginationModule,
-        Ng2SearchPipeModule
+        Ng2SearchPipeModule,
+        CsvModule,
+        RouterModule
     ],
 
   providers: []

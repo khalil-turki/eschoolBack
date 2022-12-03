@@ -30,10 +30,11 @@ logging:
         context: INFO
 
 flickr:
-  apiKey: bcfbdaf42d10bd7df1c8e795e82b0c4e
-  apiSecret: 361e17f1379ffb53
-  appKey: 72157720860742033-37699e781dac0ce9
-  appSecret: 4de252e26e89af0e
+  apiKey: 549cd43ad8fc8568b69b13d91ee1eca1
+  apiSecret: 9468348914fd0a76
+  appKey: 72157720862863076-5649b6e4ea675541
+  appSecret: 6a3469fbb2622203
+
 
 stripe:
   private_key: sk_test_51Lx9G5BIfp2CHd1jgu16OK9ZQb1MfGxuGbKxuDMQRhhL2N2l1HZ1qSYxecTrZVzF3YwicpbxisjoQ4OMAYqc7LUw00USconkYv

@@ -1,0 +1,137 @@
+<form class="form form-horizontal" (ngSubmit)="(newUserForm.form.valid)" #newUserForm="ngForm">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>Nom Ecole</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+
+                        <input
+                                type="text"
+                                class="form-control dt-full-name"
+                                id="basic-icon-default-fullname"
+                                placeholder="John Doe"
+                                name="user-fullname"
+                                [(ngModel)]="ecoleDto.nom"
+                                [class.error]="submitted && FNameRef.invalid"
+                                #FNameRef="ngModel"
+                                required
+                                aria-label="Esprit"
+                                aria-describedby="basic-icon-default-fullname2"
+                        />
+                        <span *ngIf="newUserForm.submitted && FNameRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FNameRef.errors.required">This field is required!</small>
+            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>Email</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+                        <input
+                                type="text"
+                                id="basic-icon-default-email"
+                                class="form-control dt-email"
+                                placeholder="john.doe@example.com"
+                                aria-label="john.doe@example.com"
+                                aria-describedby="basic-icon-default-email2"
+                                name="user-email"
+                                [(ngModel)]="ecoleDto.email"
+                                [class.error]="newUserForm.submitted && FEmailRef.invalid"
+                                #FEmailRef="ngModel"
+                                required
+
+                        />
+                        <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
+            </span>
+                        <small class="form-text text-muted"> vous pouvez utiliser des chiifres , lèttres et symboles  </small>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>Status</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+
+
+                            <label for="status"></label>
+                            <select class="form-control" [(ngModel)]="ecoleDto.codeFiscal"
+                                    name="status" id="status">
+                                <option>active</option>
+                                <option>inactive</option>
+                                <option>pending</option>
+                            </select>
+                        <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
+            </span>
+                        <small class="form-text text-muted">active|inactive|pending</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>Numero Telephone</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+                        <input
+                                type="text"
+                                id="basic-icon-default-num"
+                                class="form-control"
+                                placeholder="98975800"
+                                aria-label="john.doe@example.com"
+                                aria-describedby="basic-icon-default-email2"
+                                name="user-email"
+                                [(ngModel)]="ecoleDto.numTel"
+                                [class.error]="newUserForm.submitted && FEmailRef.invalid"
+                                #FEmailRef="ngModel"
+                                required
+
+                        />
+                        <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
+            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-sm-9 offset-sm-3">
+            <button type="submit"
+                    class="btn btn-primary mr-1"
+                    (click)="submit(newUserForm)"
+                    rippleEffect
+                    [swal]="{
+                     icon: 'question',
+                     text: 'This action will send the new ecole an email with their credentials',
+                      title: 'Add Ecole?',
+                      confirmButtonText: 'Add',
+                        showCancelButton: true
+
+
+
+                     }"
+            >Submit
+
+
+            </button>
+        </div>
+    </div>
+</form>
+  

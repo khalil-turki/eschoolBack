@@ -85,14 +85,46 @@ export const menu: CoreMenu[] = [
         icon: 'home',
         children: [{
 
-          id: 'ecoles',
+          id: 'ecoless',
           title: 'List Ecoles',
           translate: 'MENU.PAGES.PRICING',
           type: 'item',
-          icon: 'list',
+          icon: 'plus-circle',
           url: 'ecoles/listecoles'
-        } ]
+        } ,
+          {
+
+            id: 'ecoless',
+            title: 'New Ecoles',
+            translate: 'MENU.PAGES.PRICING',
+            type: 'item',
+            icon: 'circle',
+            url: 'ecoles/newecole'
+          }
+          ,
+          {
+
+            id: 'ecoless',
+            title: 'Edit Ecoles',
+            translate: 'MENU.PAGES.PRICING',
+            type: 'item',
+            icon: 'circle',
+            url: 'ecoles/editecole/:id'
+          }
+
+
+        ]
       },
+      {
+
+        id: 'invoices',
+        title: 'Invoices',
+        translate: 'MENU.PAGES.PRICING',
+        type: 'item',
+        icon: 'list',
+        url: 'invoices'
+      },
+
       {
         id: 'classes',
         title: 'Classes',
