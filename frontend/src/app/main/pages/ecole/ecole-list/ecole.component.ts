@@ -9,6 +9,7 @@ import {ClasseDto} from "../../../../../gs-api/src/models/classe-dto";
 import {ClasseControllerService} from "../../../../../gs-api/src/services/classe-controller.service";
 import {EcoleDto} from "../../../../../gs-api/src/models/ecole-dto";
 import {DatatablesService} from "../../../tables/datatables/datatables.service";
+import {ChartOptions} from "../../../ui/card/card-analytics/card-analytics.component";
 
 @Injectable({
     providedIn: 'root'
@@ -27,6 +28,10 @@ export class EcoleComponent implements OnInit, Resolve<any> {
     @Input() ecoleDto: EcoleDto = {};
     public rows: Array<EcoleDto> = [];
     public onDatatablessChanged: BehaviorSubject<any>;
+    public isMenuToggled = false;
+    public orderChartoptions: Partial<ChartOptions>;
+    public data: any;
+    public earningChartoptions;
 
     private _unsubscribeAll: Subject<any>;
     private tempData = [];

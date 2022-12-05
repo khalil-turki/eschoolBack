@@ -1,0 +1,36 @@
+<div class="col-lg-6 col-12">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title">Nombre de departement par ecole </h4>
+            <div ngbDropdown>
+                <button
+                        class="btn p-0"
+                        ngbDropdownToggle
+                        type="button"
+                        id="dropdownItem4"
+                        data-toggle="dropdown"
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                >
+                    <i data-feather="more-vertical" class="font-medium-3 cursor-pointer"></i>
+                </button>
+                <div ngbDropdownMenu aria-labelledby="heat-chart-dd">
+                    <a ngbDropdownItem href="javascript:void(0);">Last 28 Days</a>
+                    <a ngbDropdownItem href="javascript:void(0);">Last Month</a>
+                    <a ngbDropdownItem href="javascript:void(0);">Last Year</a>
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <canvas
+                    baseChart
+                    class="polar-area-chart-ex chartjs"
+                    height="350"
+                    [datasets]="polarAreaChart.datasets"
+                    [labels]="polarAreaChart.labels"
+                    [options]="polarAreaChart.options"
+                    [chartType]="polarAreaChart.chartType"
+            ></canvas>
+        </div>
+    </div>
+</div>

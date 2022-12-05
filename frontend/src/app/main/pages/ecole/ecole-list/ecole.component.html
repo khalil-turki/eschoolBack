@@ -9,15 +9,7 @@
                 <div class="users-list-filter">
                     <form>
                         <div class="row">
-                            <div class="col-12 col-md-4">
-                                <fieldset class="form-group">
-                                    <select class="form-control" id="users-list-role">
-                                        <option value="">Tous</option>
-                                        <option value="user">User</option>
-                                        <option value="staff">Staff</option>
-                                    </select>
-                                </fieldset>
-                            </div>
+
                             <div class="col-12 col-md-4">
                                 <fieldset class="form-group">
                                     <select class="form-control" id="users-list-status">
@@ -25,15 +17,6 @@
                                         <option value="Active">Active</option>
                                         <option value="Blocked">Bloqué</option>
                                         <option value="deactivated">Désactivé</option>
-                                    </select>
-                                </fieldset>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <fieldset class="form-group">
-                                    <select class="form-control" id="users-list-verified">
-                                        <option value="">Tous</option>
-                                        <option value="true">Oui</option>
-                                        <option value="false">Non</option>
                                     </select>
                                 </fieldset>
                             </div>
@@ -101,12 +84,13 @@
                                         alt="datatable-avatar"
                                 />
 
-                                <ngx-datatable-column name="Name    ⬍" prop="nom" [width]="250"></ngx-datatable-column>
-                                <ngx-datatable-column  name="Email    ⬍" prop="email"
-                                                      [width]="250"></ngx-datatable-column>
-                                <ngx-datatable-column name="Num Tel   ⬍" prop="numTel"
+                                <ngx-datatable-column name="Name⬍" prop="nom" [width]="250"></ngx-datatable-column>
+                                <ngx-datatable-column  name="Email⬍" prop="email" [width]="250"></ngx-datatable-column>
+                                <ngx-datatable-column name="N°Depart⬍" prop="photo" [width]="250"></ngx-datatable-column>
+
+                                <ngx-datatable-column name="Num Tel⬍" prop="numTel"
                                                       [width]="120"></ngx-datatable-column>
-                                <ngx-datatable-column name="Status   ⬍" prop="codeFiscal"
+                                <ngx-datatable-column name="Status⬍" prop="codeFiscal"
                                                       [width]="120">
                                     <ng-template let-status="value" ngx-datatable-cell-template>
                                         <div
@@ -175,5 +159,9 @@
                 </div>
             </div>
         </div>
+
+
+
+
 
         <!-- ngx-datatable-row-details -->

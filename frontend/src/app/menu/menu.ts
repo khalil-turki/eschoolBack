@@ -91,6 +91,14 @@ export const menu: CoreMenu[] = [
           type: 'item',
           icon: 'list',
           url: 'ecoles/listecoles'
+        },{
+
+          id: 'ecoless',
+          title: 'Nouveau Ecoles',
+          translate: 'MENU.PAGES.PRICING',
+          type: 'item',
+          icon: 'list',
+          url: 'ecoles/newecole'
         } ]
       },
       {
