@@ -65,6 +65,10 @@ const appRoutes: Routes = [
 
     } ,
 
+    { path : 'invoices',
+        component : InvoiceComponent,
+
+    },
     { path : 'stat',
         component : StattComponent,
 
