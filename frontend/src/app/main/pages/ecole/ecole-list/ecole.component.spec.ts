@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EcoleComponent } from './ecole.component';
+import {beforeEach, describe, expect, it} from "jasmine";
 
 describe('EcoleComponent', () => {
   let component: EcoleComponent;

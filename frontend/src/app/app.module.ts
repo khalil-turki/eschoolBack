@@ -30,17 +30,21 @@ import { ContextMenuComponent } from 'app/main/extensions/context-menu/context-m
 import { AnimatedCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/animated-custom-context-menu/animated-custom-context-menu.component';
 import { BasicCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/basic-custom-context-menu/basic-custom-context-menu.component';
 import { SubMenuCustomContextMenuComponent } from './main/extensions/context-menu/custom-context-menu/sub-menu-custom-context-menu/sub-menu-custom-context-menu.component';
-import {ClassesComponent} from "./main/pages/classes/classes.component";
 import {EcoleComponent} from "./main/pages/ecole/ecole-list/ecole.component";
 import {NgxDatatableModule} from "@swimlane/ngx-datatable";
 import {DatatablesService} from "./main/tables/datatables/datatables.service";
 import {InvoiceComponent} from "./main/pages/invoice/invoice.component";
-import {InvoicePreviewService} from "./main/apps/invoice/invoice-preview/invoice-preview.service";
-import {InvoiceService} from "./main/pages/invoice/invoice.service";
 import {PaymentSessionComponent} from "./main/pages/payment-session/payment-session.component";
 import {EcoleNewComponent} from "./main/pages/ecole/ecole-new/ecole-new.component";
 import {NgSelectModule} from "@ng-select/ng-select";
 import {EcoleEditComponent} from "./main/pages/ecole/ecole-edit/ecole-edit.component";
+import {ClasseListComponent} from "./main/pages/classe/classe-list/classe-list/classe-list.component";
+import {NouveauClasseComponent} from "./main/pages/classe/nouveau-classe/nouveau-classe.component";
+import {
+    NouveauEtudiantComponent
+} from "./main/pages/etudiant/nouveau-etudiant/nouveau-etudiant/nouveau-etudiant.component";
+import {PageEtudiantsComponent} from "./main/pages/etudiant/etudiant-list/etudiant-list/page-etudiants.component";
+import {StattComponent} from "./main/pages/statt/statt.component";
 
 const appRoutes: Routes = [
   {
@@ -57,12 +61,20 @@ const appRoutes: Routes = [
     loadChildren: () => import('./main/pages/pages.module').then(m => m.PagesModule)
   },
     { path : 'classes',
-        component : ClassesComponent,
+        component : ClasseListComponent,
+
+    } ,
+
+    { path : 'invoices',
+        component : InvoiceComponent,
+
+    },
+    { path : 'stat',
+        component : StattComponent,
 
     } ,
     { path : 'ecoles/listecoles',
         component : EcoleComponent,
-
     },
     { path : 'invoices',
         component : InvoiceComponent,
@@ -71,7 +83,6 @@ const appRoutes: Routes = [
     },
     { path : 'payement',
         component : PaymentSessionComponent,
-
 
     },
     { path : 'ecoles/newecole',
@@ -85,6 +96,32 @@ const appRoutes: Routes = [
 
     },
 
+    { path : 'etudiants',
+        component : PageEtudiantsComponent,
+    } ,
+
+    { path : 'etudiants/:idClasse',
+        component : PageEtudiantsComponent,
+    } ,
+
+    { path : 'nvEtudiant',
+        component : NouveauEtudiantComponent,
+    }  ,
+    { path : 'nvEtudiant/:idEtudiant',
+        component : NouveauEtudiantComponent,
+    }  ,
+
+    { path : 'classes',
+        component : ClasseListComponent,
+    } ,
+
+    { path : 'nvClasse',
+        component : NouveauClasseComponent,
+    },
+
+    { path : 'nvClasse/:idClasse',
+        component : NouveauClasseComponent,
+    },
 
 
   {

@@ -1,10 +1,5 @@
 package edu.esprit.kaddem.lib;
 
-import edu.esprit.kaddem.dto.AbstractUserDto;
-import edu.esprit.kaddem.dto.EtudiantDto;
-import edu.esprit.kaddem.dto.ParentDto;
-import edu.esprit.kaddem.dto.ProfesseurDto;
-import edu.esprit.kaddem.model.user.Role;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
