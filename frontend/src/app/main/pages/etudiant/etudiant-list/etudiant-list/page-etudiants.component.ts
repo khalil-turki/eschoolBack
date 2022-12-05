@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {EtudiantDto} from "../../../../../../gs-api/src/models/etudiant-dto";
 import {EtudiantControllerService} from "../../../../../../gs-api/src/services/etudiant-controller.service";
 
@@ -20,22 +20,42 @@ export class PageEtudiantsComponent implements OnInit {
 
 
 
+
   constructor(
     private router: Router,
-    private etudiantService:EtudiantControllerService) { }
+    private etudiantService:EtudiantControllerService,
+    private activatedRoute: ActivatedRoute
+
+  ) { }
+
 
   ngOnInit(): void {
-    this.findAllEtudiants();
+    const idClasse = this.activatedRoute.snapshot.params['idClasse'];
+    if (idClasse)
+    {
+      this.findEtudiantsByIdClass(idClasse);
+    }
+    else {
+      this.findAllEtudiants();
+    }
 
   }
 
   findAllEtudiants(): void {
     this.etudiantService.findAllUsingGET4().subscribe(res => {
       this.listEtudiants = res;
-      console.log(this.listEtudiants);
       this.exportCSVData = this.listEtudiants;
 
     });
+  }
+
+  findEtudiantsByIdClass(idClasse){
+    this.etudiantService.findEtudiantsByClasseIdUsingGET(idClasse).subscribe(res => {
+      this.listEtudiants = res;
+      this.exportCSVData = this.listEtudiants;
+
+    });
+
   }
 
   nvEtudiant(): void {

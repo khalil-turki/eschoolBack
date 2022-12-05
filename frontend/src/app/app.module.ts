@@ -90,6 +90,10 @@ const appRoutes: Routes = [
         component : PageEtudiantsComponent,
     } ,
 
+    { path : 'etudiants/:idClasse',
+        component : PageEtudiantsComponent,
+    } ,
+
     { path : 'nvEtudiant',
         component : NouveauEtudiantComponent,
     }  ,

@@ -66,4 +66,9 @@ public class EtudiantController extends AbstractCrudController<Etudiant, Etudian
         return etudiants.stream().map(this::toDto).toList();
     }
 
+    @GetMapping("/countByClass/{classeId}")
+    public int countEtudiantsByClasseId(@PathVariable("classeId") Integer classeId) {
+        return etudiantService.countEtudiantsByIdClasse(classeId);
+    }
+
 }

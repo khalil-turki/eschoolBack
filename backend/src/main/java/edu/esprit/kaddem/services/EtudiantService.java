@@ -32,4 +32,14 @@ public class EtudiantService extends AbstractCrudService<Etudiant> {
         return etudiantRepository.findEtudiantsByClasseId(idClasse) ;
 
     }
+    public int countEtudiantsByIdClasse(Integer idClasse) {
+
+        if (idClasse == null) {
+            log.error("classe ID is null");
+
+        }
+
+        return etudiantRepository.countEtudiantsByClasseId(idClasse) ;
+
+    }
 }

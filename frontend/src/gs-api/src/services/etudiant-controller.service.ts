@@ -80,6 +80,72 @@ class EtudiantControllerService extends __BaseService {
   }
 
 
+
+
+
+
+
+
+
+
+
+
+
+  /**
+   * compter les etudiant par Classe ID
+   *
+   * Cette methode permet de compter les etudiants par leurs classe ID
+   * @param idClasse idClasse
+   * @return Les etudiants on ete trouve dans la BDD
+   */
+  countEtudiantsByClasseIdUsingGETResponse(idClasse?: number): __Observable<__StrictHttpResponse<number>> {
+    let __params = this.newParams();
+    let __headers = new HttpHeaders();
+    let __body: any = null;
+
+    let req = new HttpRequest<any>(
+        'GET',
+        this.rootUrl + `/etudiants/countByClass/${encodeURIComponent(String(idClasse))}`,
+        __body,
+        {
+          headers: __headers,
+          params: __params,
+          responseType: 'json'
+        });
+
+    return this.http.request<any>(req).pipe(
+        __filter(_r => _r instanceof HttpResponse),
+        __map((_r) => {
+          return _r as __StrictHttpResponse<number>;
+        })
+    );
+  }
+  /**
+   * compter les etudiant par Classe ID
+   *
+   * Cette methode permet de compter les etudiants par leurs classe ID
+   * @param idClasse idClasse
+   * @return Les etudiants on ete trouve dans la BDD
+   */
+  countEtudiantsByClasseIdUsingGET(idClasse?: number): __Observable<number> {
+    return this.countEtudiantsByClasseIdUsingGETResponse(idClasse).pipe(
+        __map(_r => _r.body as number)
+    );
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   /**
    * findAll
    * @return OK

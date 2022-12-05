@@ -26,6 +26,7 @@ export class ClasseListComponent implements OnInit, Resolve<any>{
 
   public rows: Array<ClasseDto> = [];
   listEtudiantsByClass : Array<EtudiantDto> =[];
+  countEtudiantsByClass : any;
   public onDatatablessChanged: BehaviorSubject<any>;
 
   private _unsubscribeAll: Subject<any>;
@@ -106,9 +107,11 @@ export class ClasseListComponent implements OnInit, Resolve<any>{
 
 
 
-  joinAddressBlocks(address): string {
-    if (!address || address.length < 1) return "28"
-    return Object.values(this.rows).join(" ");
+
+
+  countStudents(classeId): string {
+    return "28"
+
   }
 
   modifierClasse(idClasse: any): void {
@@ -160,12 +163,30 @@ export class ClasseListComponent implements OnInit, Resolve<any>{
 
   }
 
+
   findEtudiantsByIdClass(idClasse:number): void {
+
     this.etudiantService.findEtudiantsByClasseIdUsingGET(idClasse).subscribe(res => {
+
+
+
       this.listEtudiantsByClass = res;
+
+      this.router.navigate(['etudiants', idClasse]);
+
+
+
     });
-    this.router.navigate(['etudiants']);
   }
+
+  countStudentsByClass(idClasse:number): number {
+
+      this.etudiantService.countEtudiantsByClasseIdUsingGET(idClasse).subscribe(res => {
+      this.countEtudiantsByClass = res;
+                                                  });
+    return this.countEtudiantsByClass;
+  }
+
 
   findAllEtudiants(): void {
     this.etudiantService.findAllUsingGET4().subscribe(res => {

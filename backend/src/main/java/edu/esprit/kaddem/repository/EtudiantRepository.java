@@ -9,5 +9,7 @@ import java.util.List;
 
 public interface EtudiantRepository extends AbstractRepository<Etudiant>, JpaSpecificationExecutor<Etudiant> {
     List<Etudiant> findEtudiantsByClasseId(Integer id);
+    int countEtudiantsByClasseId(Integer id);
+
 
 }
