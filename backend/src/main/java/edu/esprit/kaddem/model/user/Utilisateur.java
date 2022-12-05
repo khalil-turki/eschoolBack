@@ -56,6 +56,8 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     @Column(name = "photo")
     private String photo;
 
+
+
     @Column(name = "avatar")
     private String avatar;
 
@@ -74,7 +76,7 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     private Role role;
 
     @Column(name = "enabled")
-    private boolean enabled;
+    private boolean enabled = true;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

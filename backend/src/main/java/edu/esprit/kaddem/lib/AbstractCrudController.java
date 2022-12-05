@@ -1,9 +1,16 @@
 package edu.esprit.kaddem.lib;
 
+import edu.esprit.kaddem.dto.AbstractUserDto;
+import edu.esprit.kaddem.dto.EtudiantDto;
+import edu.esprit.kaddem.dto.ParentDto;
+import edu.esprit.kaddem.dto.ProfesseurDto;
+import edu.esprit.kaddem.model.user.Role;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.json.JsonMergePatch;
@@ -18,6 +25,7 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
     private final ModelMapper mapper = new ModelMapper();
     private final Class<U> dtoClass;
     private final Class<T> entityClass;
+
     public AbstractCrudController() {
         mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
         entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
@@ -71,6 +79,6 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
     }
 
     private Utilisateur getAuthenticatedUser(){
-        return new Utilisateur();
+        return (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

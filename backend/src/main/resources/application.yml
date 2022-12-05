@@ -43,10 +43,9 @@ stripe:
   public_key: pk_test_51Lx9G5BIfp2CHd1jNkaZ14NyJGwdlOtXPOk9uhKG5lraLhRoW7NqNn5ruKGDFyg7Hy9YAG2pq9BfFypiptaeAbwl00sVziuw7a
   webhook_secret: whsec_ed2832d4a2b3cc01b86486f3560ba0243e8c343ab0ea32799daef378290e1a27
 
-jwt:
-  secret: 1234567890
-  expirationDateInMs: 86400000 # 24 hours
-  refreshExpirationDateInMs: 604800000 # 7 days
+rsa:
+  private-key: classpath:certs/private:pem
+  public-key: classpath:certs/public.pem
 
 app:
   twillio:
