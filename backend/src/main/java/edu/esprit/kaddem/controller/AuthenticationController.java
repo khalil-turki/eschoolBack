@@ -33,16 +33,15 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthReqDto authReqDto) {
-        return ResponseEntity.ok(new AuthResDto(authenticationService.getToken(authReqDto.getUsername(), authReqDto.getPassword())));
+        var token = authenticationService.getToken(authReqDto.getUsername(), authReqDto.getPassword());
+        return ResponseEntity.ok(new AuthResDto(token));
     }
 
     @GetMapping(value = "/refresh")
     public AuthResDto refreshtoken(HttpServletRequest request) {
-        // From the HttpRequest get the claims
-        DefaultClaims claims = (io.jsonwebtoken.impl.DefaultClaims) request.getAttribute("claims");
-        Map<String, Object> expectedMap = JwtTokenUtil.getMapFromIoJsonwebtokenClaims(claims);
-        String token = authenticationService.refreshToken(expectedMap, expectedMap.get("sub").toString());
-        return new AuthResDto(token);
+        String token = request.getHeader("Authorization").substring(7);
+        var newToken = authenticationService.refreshToken(token);
+        return new AuthResDto(newToken);
     }
 
     @GetMapping("/me")

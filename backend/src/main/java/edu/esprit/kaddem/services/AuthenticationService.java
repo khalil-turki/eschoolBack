@@ -4,6 +4,7 @@ import edu.esprit.kaddem.exception.EntityNotFoundException;
 import edu.esprit.kaddem.model.user.Etudiant;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import edu.esprit.kaddem.utils.JwtTokenUtil;
+import io.jsonwebtoken.impl.DefaultClaims;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import edu.esprit.kaddem.repository.UtilisateurRepository;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Map;
 import java.util.Optional;
 
@@ -31,8 +33,6 @@ public class AuthenticationService implements UserDetailsService {
     private AuthenticationManager authenticationManager;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-    @Autowired
-    private EmailService emailService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -47,6 +47,7 @@ public class AuthenticationService implements UserDetailsService {
         return userAuth.get();
     }
 
+    @SneakyThrows
     public String getToken(String email, String password) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, password);
         Authentication auth = authenticationManager.authenticate(token); // throws exceptions if anything goes wrong.
@@ -70,8 +71,8 @@ public class AuthenticationService implements UserDetailsService {
                 "Complete password reset");
     }
 
-    public String refreshToken(Map<String, Object> expectedMap, String sub) {
-        return jwtTokenUtil.doGenerateRefreshToken(expectedMap, sub);
+    public String refreshToken(String token) {
+        return jwtTokenUtil.issueRefreshToken(token);
     }
 
     @SneakyThrows

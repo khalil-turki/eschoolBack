@@ -78,11 +78,12 @@ public class JwtTokenUtil implements Serializable {
         return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
     }
 
-    public static Map<String, Object> getMapFromIoJsonwebtokenClaims(DefaultClaims claims) {
-        Map<String, Object> expectedMap = new HashMap<>();
-        for (Map.Entry<String, Object> entry : claims.entrySet()) {
-            expectedMap.put(entry.getKey(), entry.getValue());
-        }
-        return expectedMap;
+    public String issueRefreshToken(String token) {
+        final String username = getUsernameFromToken(token);
+        final Date expiration = getExpirationDateFromToken(token);
+        final DefaultClaims claims = new DefaultClaims();
+        claims.setSubject(username);
+        claims.setExpiration(expiration);
+        return doGenerateRefreshToken(claims, username);
     }
 }

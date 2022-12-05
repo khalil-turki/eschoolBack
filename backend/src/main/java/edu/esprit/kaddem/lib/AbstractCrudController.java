@@ -29,7 +29,7 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
         mapper.createTypeMap(dtoClass, entityClass);
     }
 
-    private U toDto(T entity) {
+    protected U toDto(T entity) {
         return mapper.map(entity, this.dtoClass);
     }
 

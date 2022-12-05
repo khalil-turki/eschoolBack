@@ -33,7 +33,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(InvalidOperationException.class)
     public ResponseEntity<ErrorDto> handleException(InvalidOperationException exception, WebRequest webRequest) {
 
-        final HttpStatus notFound = HttpStatus.BAD_REQUEST;
+        final HttpStatus notFound = HttpStatus.INTERNAL_SERVER_ERROR;
         final ErrorDto errorDto = ErrorDto.builder()
                 .code(exception.getErrorCode())
                 .httpCode(notFound.value())
@@ -59,13 +59,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<ErrorDto> handleException(BadCredentialsException exception, WebRequest webRequest) {
-        final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
+        final HttpStatus badRequest = HttpStatus.UNAUTHORIZED;
 
         final ErrorDto errorDto = ErrorDto.builder()
                 .code(ErrorCodes.BAD_CREDENTIALS)
                 .httpCode(badRequest.value())
                 .message(exception.getMessage())
-                .errors(Collections.singletonList("Login et / ou mot de passe incorrecte"))
+                .errors(Collections.singletonList("Login et / ou mot de passe incorrect"))
                 .build();
 
         return new ResponseEntity<>(errorDto, badRequest);
