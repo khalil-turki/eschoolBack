@@ -104,6 +104,29 @@
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
+                                                    <label for="email">Nombre de departement</label>
+                                                    <input
+                                                            type="email"
+                                                            id="tees"
+                                                            class="form-control"
+                                                            placeholder="Nombre de departement"
+                                                            name="email"
+                                                            [(ngModel)]="ecoleDto.photo"
+                                                            [class.error]="accountForm.submitted && EmailRef.invalid"
+                                                            #EmailRef="ngModel"
+                                                            required
+                                                    />
+                                                    <span *ngIf="accountForm.submitted && EmailRef.invalid"
+                                                          class="invalid-form">
+                            <small class="form-text text-danger" *ngIf="EmailRef.errors.required"
+                            >This field is required!</small
+                            >
+                          </span>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-4">
+                                                <div class="form-group">
                                                     <label for="status">Status</label>
                                                     <select class="form-control" [(ngModel)]="ecoleDto.codeFiscal"
                                                             name="status" id="status">

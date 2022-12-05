@@ -44,6 +44,7 @@ import {
     NouveauEtudiantComponent
 } from "./main/pages/etudiant/nouveau-etudiant/nouveau-etudiant/nouveau-etudiant.component";
 import {PageEtudiantsComponent} from "./main/pages/etudiant/etudiant-list/etudiant-list/page-etudiants.component";
+import {StattComponent} from "./main/pages/statt/statt.component";
 
 const appRoutes: Routes = [
   {
@@ -61,6 +62,11 @@ const appRoutes: Routes = [
   },
     { path : 'classes',
         component : ClasseListComponent,
+
+    } ,
+
+    { path : 'stat',
+        component : StattComponent,
 
     } ,
     { path : 'ecoles/listecoles',
