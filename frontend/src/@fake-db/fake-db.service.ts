@@ -19,7 +19,6 @@ import { PricingFakeData } from '@fake-db/pricing.data';
 import { ProfileFakeData } from '@fake-db/profile.data';
 import { SearchFakeData } from '@fake-db/search.data';
 import { TodoFakeData } from '@fake-db/todo.data';
-import { UsersFakeData } from '@fake-db/users.data';
 
 export class FakeDbService implements InMemoryDbService {
   createDb(): any {
@@ -50,9 +49,6 @@ export class FakeDbService implements InMemoryDbService {
 
       // Card Analytics
       'card-analytics-data': CardAnalyticsData.data,
-
-      // Users
-      'users-data': UsersFakeData.users,
 
       // Invoice
       'invoice-data': InvoiceFakeData.invoices,

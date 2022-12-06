@@ -7,15 +7,9 @@ import {User, Role} from "../../../auth/models";
     styleUrls: ['./avatar.component.scss']
 })
 export class AvatarComponent implements OnInit {
-    public user: User;
+    @Input() public user: User;
     @Input() size;
     public Role = Role;
-
-    constructor() {
-        debugger;
-        this.user = JSON.parse(localStorage.getItem('currentUser'));
-        console.log("etudiant!" + this.user.role === Role.Admin);
-    }
 
     ngOnInit(): void {
     }

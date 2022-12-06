@@ -28,11 +28,10 @@ export class UserListComponent implements OnInit {
 
   public selectRole: any = [
     { name: 'All', value: '' },
-    { name: 'Admin', value: 'Admin' },
-    { name: 'Author', value: 'Author' },
-    { name: 'Editor', value: 'Editor' },
-    { name: 'Maintainer', value: 'Maintainer' },
-    { name: 'Subscriber', value: 'Subscriber' }
+    { name: 'Admin', value: 'ROLE_ADMIN' },
+    { name: 'Etudiant', value: 'ROLE_ETUDIANT' },
+    { name: 'Professeur', value: 'ROLE_PROFESSEUR' },
+    { name: 'Parent', value: 'ROLE_PARENT' }
   ];
 
   public selectPlan: any = [
