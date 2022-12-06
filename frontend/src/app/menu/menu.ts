@@ -86,19 +86,42 @@ export const menu: CoreMenu[] = [
         children: [{
 
           id: 'ecoles',
-          title: 'List Ecoles',
+          title: 'Liste',
           translate: 'MENU.PAGES.PRICING',
           type: 'item',
           icon: 'list',
-          url: 'ecoles/listecoles'
+          url: 'ecoles/listecoles',
+          badge: {
+            title: 'LIST',
+            translate: 'MENU.UI.CARDS.BADGE',
+            classes: 'badge badge-glow badge-info'
+          },
         },{
 
           id: 'ecoless',
-          title: 'Nouveau Ecoles',
+          title: 'Nouveau',
           translate: 'MENU.PAGES.PRICING',
           type: 'item',
-          icon: 'list',
+          icon: 'plus-circle',
+          badge: {
+            title: 'NEW',
+            translate: 'MENU.UI.CARDS.BADGE',
+            classes: 'badge badge-glow badge-success'
+          },
           url: 'ecoles/newecole'
+        },{
+
+          id: 'ecolesss',
+          title: 'Invoice',
+          translate: 'MENU.PAGES.PRICING',
+          type: 'item',
+          icon: 'file-text',
+          url: 'invoices',
+          badge: {
+            title: 'PAY',
+            translate: 'MENU.UI.CARDS.BADGE',
+            classes: 'badge badge-glow badge-warning'
+          },
         } ]
       },
       {

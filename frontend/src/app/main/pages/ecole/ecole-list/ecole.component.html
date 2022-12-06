@@ -39,12 +39,13 @@
                         <div class="w-100">
                             <ngx-datatable
                                 #tableRowDetails
-                                class="bootstrap core-bootstrap"
+                                class="font-weight-bolder"
                                 columnMode="force"
                                 [headerHeight]="40"
                                 [footerHeight]="50"
                                 [rowHeight]="58"
-                                [limit]="10"
+                                [limit]="5"
+
                                 [rows]="rows"
                                 [scrollbarH]="true"
                             >
@@ -133,7 +134,11 @@
                                         </div>
 
 
+
                                     </ng-template>
+
+
+
 
 
                                 </ngx-datatable-column>
@@ -146,11 +151,11 @@
 
                     <div class="card-footer">
                         <div class="d-flex justify-content-end">
-                            <a csvLink [data]="exportCSVData" class="btn btn-outline-secondary float-right mr-1" rippleEffect
+                            <a csvLink [data]="exportCSVData" class="btn btn-outline-info round" rippleEffect
                             >Export CSV</a
                             >
                             <button type="submit"
-                                    class="btn btn-primary float-right mr-1" (click)="newSchool()">
+                                    class="btn btn-outline-primary round" (click)="newSchool()">
 
                                 Ajouter
                             </button>

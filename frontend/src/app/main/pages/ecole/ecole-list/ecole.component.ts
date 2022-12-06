@@ -23,6 +23,7 @@ export class EcoleComponent implements OnInit, Resolve<any> {
     @ViewChild('tableRowDetails') tableRowDetails: any;
 
     @ViewChild(DatatableComponent) table: DatatableComponent;
+    public pageBasic = 4;
 
     public ColumnMode = ColumnMode;
     @Input() ecoleDto: EcoleDto = {};

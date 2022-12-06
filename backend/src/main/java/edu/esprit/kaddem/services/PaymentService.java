@@ -45,7 +45,7 @@ public class PaymentService {
         Map<String, Object> params = new HashMap<>();
         params.put(
                 "success_url",
-                "https://example.com/success"
+                "http://127.0.0.1:4200/invoices"
         );
         params.put(
                 "cancel_url",
