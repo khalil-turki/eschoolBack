@@ -1,10 +1,12 @@
+
+
 spring:
   main:
     allow-circular-references: true
   datasource:
     url: jdbc:mysql://localhost:3306/university?createDatabaseIfNotExist=true&userSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
-    password: root
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
   ## Specify DBMS
   jpa:
@@ -22,6 +24,9 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+
+
+
 
 server:
   port: 8081
@@ -54,5 +59,10 @@ app:
     accountSID: AC2ebedfd3ee1e0b41e0065f6166bbd642
     authToken: 80de8f7aedda794f21c3825da35d58f2
     toPhoneNo: +21698975800
-
-  name: Kaddem
+    
+     spring.mail.host=smtp.gmail.com
+     spring.mail.port=587
+     spring.mail.username=khalil.turki1999@gmail.com
+     spring.mail.password=ukuclawwmkxksqcc
+     spring.mail.properties.mail.smtp.auth=true
+     spring.mail.properties.mail.smtp.starttls.enable=true
