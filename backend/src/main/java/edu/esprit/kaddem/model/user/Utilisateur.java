@@ -57,7 +57,11 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     @Column(name = "photo")
     private String photo;
 
+    @Column(name = "is_using_2fa")
+    private Boolean isUsing2FA;
 
+    @Column(name = "secret_2fa")
+    private String secret;
 
     @Column(name = "avatar")
     private String avatar;

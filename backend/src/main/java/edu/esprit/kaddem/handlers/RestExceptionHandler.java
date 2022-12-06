@@ -7,6 +7,7 @@ import edu.esprit.kaddem.exception.InvalidOperationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -66,6 +67,20 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 .httpCode(badRequest.value())
                 .message(exception.getMessage())
                 .errors(Collections.singletonList("Login et / ou mot de passe incorrect"))
+                .build();
+
+        return new ResponseEntity<>(errorDto, badRequest);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorDto> handleException(AccessDeniedException exception, WebRequest webRequest) {
+        final HttpStatus badRequest = HttpStatus.FORBIDDEN;
+
+        final ErrorDto errorDto = ErrorDto.builder()
+                .code(ErrorCodes.FORBIDDEN)
+                .httpCode(badRequest.value())
+                .message(exception.getMessage())
+                .errors(Collections.singletonList(exception.getMessage()))
                 .build();
 
         return new ResponseEntity<>(errorDto, badRequest);

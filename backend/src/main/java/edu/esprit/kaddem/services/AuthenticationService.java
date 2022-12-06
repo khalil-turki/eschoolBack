@@ -48,12 +48,12 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     @SneakyThrows
-    public String getToken(String email, String password) {
+    public String getToken(String email, String password, Boolean rememberMe) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, password);
         Authentication auth = authenticationManager.authenticate(token); // throws exceptions if anything goes wrong.
         Utilisateur userDetails = loadUserByUsername(email);
         SecurityContextHolder.getContext().setAuthentication(auth);
-        return jwtTokenUtil.generateToken(userDetails);
+        return jwtTokenUtil.generateToken(userDetails, rememberMe);
     }
 
     @SneakyThrows

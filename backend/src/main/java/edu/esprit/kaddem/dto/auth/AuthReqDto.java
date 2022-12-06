@@ -11,4 +11,6 @@ public class AuthReqDto implements Serializable {
 
     private String username;
     private String password;
+    private String totp;
+    private Boolean rememberMe = false;
 }

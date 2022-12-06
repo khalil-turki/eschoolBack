@@ -1,12 +1,12 @@
 package edu.esprit.kaddem.controller;
 
 import edu.esprit.kaddem.dto.AbstractUserDto;
+import edu.esprit.kaddem.model.user.Utilisateur;
 import edu.esprit.kaddem.services.UserService;
 import edu.esprit.kaddem.utils.PolymorphicUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +20,17 @@ public class UserController {
     public List<? extends AbstractUserDto<?>> getAllUsers() {
         var users = userService.getAllUsers();
         return users.stream().map(PolymorphicUtils::getDtoFromUser).toList();
+    }
+
+    @PutMapping("/update2fa/{status}")
+    public void update2FAStatus(@PathVariable boolean status) {
+        var user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userService.update2FAStatus(status, user.getId());
+    }
+
+    @GetMapping("/qrUrl")
+    public String getQRUrl() {
+        var user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userService.generateQRUrl(user);
     }
 }

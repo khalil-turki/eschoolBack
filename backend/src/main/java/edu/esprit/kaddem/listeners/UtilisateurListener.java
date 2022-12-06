@@ -1,6 +1,7 @@
 package edu.esprit.kaddem.listeners;
 
 import edu.esprit.kaddem.model.user.Utilisateur;
+import org.apache.commons.codec.binary.Base32;
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,7 @@ public class UtilisateurListener {
         if (object instanceof Utilisateur utilisateur && ((Utilisateur) object).getPlainPassword() != null) {
             utilisateur.setPassword(passwordEncoder.getObject().encode(utilisateur.getPlainPassword()));
             utilisateur.setPlainPassword(null);
+            utilisateur.setSecret(new Base32().encodeToString(new byte[20]));
         }
     }
 }

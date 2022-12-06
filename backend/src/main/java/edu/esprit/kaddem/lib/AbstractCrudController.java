@@ -21,11 +21,9 @@ import java.util.stream.Collectors;
 public abstract class AbstractCrudController<T extends AbstractEntity<?>, U extends AbstractDto<?>> {
     @Autowired
     private AbstractCrudService<T> service;
-
     private final ModelMapper mapper = new ModelMapper();
     private final Class<U> dtoClass;
     private final Class<T> entityClass;
-
     public AbstractCrudController() {
         mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());
         entityClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
@@ -37,11 +35,9 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
     protected U toDto(T entity) {
         return mapper.map(entity, this.dtoClass);
     }
-
     private T toEntity(U dto) {
         return mapper.map(dto, entityClass);
     }
-
 
     @GetMapping()
     public Iterable<U> findAll() {
@@ -58,7 +54,6 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
         var entity = toEntity(dto);
         var created = service.create(entity);
         return toDto(created);
-
     }
 
     @DeleteMapping("/{id}")

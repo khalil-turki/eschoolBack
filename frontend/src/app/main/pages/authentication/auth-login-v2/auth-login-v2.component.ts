@@ -14,7 +14,6 @@ import { CoreConfigService } from '@core/services/config.service';
   encapsulation: ViewEncapsulation.None
 })
 export class AuthLoginV2Component implements OnInit {
-  //  Public
   public coreConfig: any;
   public loginForm: UntypedFormGroup;
   public loading = false;
@@ -22,7 +21,7 @@ export class AuthLoginV2Component implements OnInit {
   public returnUrl: string;
   public error = '';
   public passwordTextType: boolean;
-
+  public showTOTP: boolean = false;
   private _unsubscribeAll: Subject<any>;
 
   constructor(
@@ -72,16 +71,18 @@ export class AuthLoginV2Component implements OnInit {
       return;
     }
 
-    // Login
     this.loading = true;
     this._authenticationService
-      .login(this.f.email.value, this.f.password.value)
+      .login(this.f.email.value, this.f.password.value, this.f.totp.value, this.f.rememberMe.value)
       .pipe(first())
       .subscribe(
         data => {
           this._router.navigate([this.returnUrl]);
         },
         error => {
+          if (error.includes("2FA is enabled for this account")) {
+            this.showTOTP = true;
+          }
           this.error = error;
           this.loading = false;
         }
@@ -91,7 +92,9 @@ export class AuthLoginV2Component implements OnInit {
   ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      totp: [''],
+      rememberMe: [false]
     });
 
     this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
