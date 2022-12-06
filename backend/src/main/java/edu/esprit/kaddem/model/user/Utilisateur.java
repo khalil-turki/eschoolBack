@@ -17,6 +17,7 @@ import javax.persistence.*;
 import java.time.Instant;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 
 @NoArgsConstructor
@@ -42,7 +43,7 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     private String numTel;
 
     @Column(name = "datedenaissance")
-    private Instant dateDeNaissance;
+    private Date dateDeNaissance;
 
     @Column(name = "password")
     private String password;

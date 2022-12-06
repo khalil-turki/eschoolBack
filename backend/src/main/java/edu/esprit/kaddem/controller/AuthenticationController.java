@@ -1,5 +1,6 @@
 package edu.esprit.kaddem.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.esprit.kaddem.dto.AbstractUserDto;
 import edu.esprit.kaddem.dto.EtudiantDto;
 import edu.esprit.kaddem.dto.ParentDto;
@@ -19,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 @Api
@@ -31,10 +33,16 @@ public class AuthenticationController {
     @Autowired
     private AuthenticationService authenticationService;
 
+    ObjectMapper oMapper = new ObjectMapper();
+
+
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthReqDto authReqDto) {
         var token = authenticationService.getToken(authReqDto.getUsername(), authReqDto.getPassword());
-        return ResponseEntity.ok(new AuthResDto(token));
+        var user = getAuthenticatedUser();
+        var retVal = oMapper.convertValue(user, Map.class);
+        retVal.put("token", token);
+        return ResponseEntity.ok(retVal);
     }
 
     @GetMapping(value = "/refresh")

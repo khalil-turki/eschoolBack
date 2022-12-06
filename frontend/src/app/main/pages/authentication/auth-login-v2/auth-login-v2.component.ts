@@ -23,14 +23,8 @@ export class AuthLoginV2Component implements OnInit {
   public error = '';
   public passwordTextType: boolean;
 
-  // Private
   private _unsubscribeAll: Subject<any>;
 
-  /**
-   * Constructor
-   *
-   * @param {CoreConfigService} _coreConfigService
-   */
   constructor(
     private _coreConfigService: CoreConfigService,
     private _formBuilder: UntypedFormBuilder,
@@ -63,14 +57,10 @@ export class AuthLoginV2Component implements OnInit {
     };
   }
 
-  // convenience getter for easy access to form fields
   get f() {
     return this.loginForm.controls;
   }
 
-  /**
-   * Toggle password
-   */
   togglePasswordTextType() {
     this.passwordTextType = !this.passwordTextType;
   }
@@ -78,7 +68,6 @@ export class AuthLoginV2Component implements OnInit {
   onSubmit() {
     this.submitted = true;
 
-    // stop here if form is invalid
     if (this.loginForm.invalid) {
       return;
     }
@@ -99,32 +88,20 @@ export class AuthLoginV2Component implements OnInit {
       );
   }
 
-  // Lifecycle Hooks
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * On init
-   */
   ngOnInit(): void {
     this.loginForm = this._formBuilder.group({
-      email: ['admin@demo.com', [Validators.required, Validators.email]],
-      password: ['admin', Validators.required]
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
     });
 
-    // get return url from route parameters or default to '/'
     this.returnUrl = this._route.snapshot.queryParams['returnUrl'] || '/';
 
-    // Subscribe to config changes
     this._coreConfigService.config.pipe(takeUntil(this._unsubscribeAll)).subscribe(config => {
       this.coreConfig = config;
     });
   }
 
-  /**
-   * On destroy
-   */
   ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }
