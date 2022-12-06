@@ -1,5 +1,6 @@
 package edu.esprit.kaddem.config;
 
+
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint, Serializable {
+
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {

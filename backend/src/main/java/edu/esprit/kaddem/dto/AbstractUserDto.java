@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.time.Instant;
+import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -18,6 +19,9 @@ public abstract class AbstractUserDto<T extends Utilisateur> extends AbstractDto
     private String nom;
     private String prenom;
     private String email;
+    private String avatar;
     private String numTel;
-    private Instant dateDeNaissance;
+    private Date dateDeNaissance;
+    private String plainPassword;
+    private String role;
 }

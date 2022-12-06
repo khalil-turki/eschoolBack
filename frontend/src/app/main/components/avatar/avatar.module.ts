@@ -19,6 +19,9 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [AvatarComponent],
+  exports: [
+    AvatarComponent
+  ],
   imports: [RouterModule.forChild(routes), NgbModule, CoreCommonModule, ContentHeaderModule, CardSnippetModule]
 })
 export class AvatarModule {}

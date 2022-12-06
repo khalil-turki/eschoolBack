@@ -77,7 +77,7 @@ export class EcommerceComponent implements OnInit {
   ) {
     this._authenticationService.currentUser.subscribe(x => (this.currentUser = x));
     this.isAdmin = this._authenticationService.isAdmin;
-    this.isClient = this._authenticationService.isClient;
+    this.isClient = this._authenticationService.isEtudiant;
 
     this._coreTranslationService.translate(english, french, german, portuguese);
     // Statistics Bar Chart
@@ -699,7 +699,7 @@ export class EcommerceComponent implements OnInit {
         localStorage.getItem('currentUser')
       ) {
         setTimeout(() => {
-          if (this.currentUser.role == 'Admin') {
+          if (this.currentUser.role == 'ROLE_PROFESSEUR' || this.currentUser.role == 'ROLE_ADMIN') {
             // Get Dynamic Width for Charts
             this.isMenuToggled = true;
             this.statisticsBar.chart.width = this.statisticsBarChartRef?.nativeElement.offsetWidth;
