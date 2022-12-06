@@ -110,11 +110,39 @@
                 </div>
             </div>
         </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>Nombre de departement</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+                        <input
+                                type="text"
+                                id="basic-icon-default-nums"
+                                class="form-control"
+                                placeholder="3"
+                                aria-label="john.doe@example.com"
+                                aria-describedby="basic-icon-default-email2"
+                                name="user-email"
+                                [(ngModel)]="ecoleDto.photo"
+                                [class.error]="newUserForm.submitted && FEmailRef.invalid"
+                                #FEmailRef="ngModel"
+                                required
+
+                        />
+                        <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
+              <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
+            </span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
         <div class="col-sm-9 offset-sm-3">
             <button type="submit"
-                    class="btn btn-primary mr-1"
+                    class="btn btn-outline-primary round"
                     (click)="submit(newUserForm)"
                     rippleEffect
                     [swal]="{

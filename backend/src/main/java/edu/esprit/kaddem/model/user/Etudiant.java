@@ -1,9 +1,12 @@
 package edu.esprit.kaddem.model.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import edu.esprit.kaddem.model.Classe;
 import edu.esprit.kaddem.model.Ecole;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,14 +22,13 @@ import java.util.Objects;
 @DiscriminatorValue(Role.Values.ROLE_ETUDIANT)
 public class Etudiant extends Utilisateur {
 
-    @ManyToMany()
+    @ManyToMany
     private List<Parent> parents = new ArrayList<>();
 
-    @ManyToOne
-    private Classe classe = null;
-
-    @ManyToOne
-    private Ecole ecole = null;
+    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @JsonManagedReference
+    @JoinColumn(columnDefinition="integer", name = "classe_id")
+    private Classe classe;
 
     @Override
     public boolean equals(Object o) {

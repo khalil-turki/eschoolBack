@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/university?createDatabaseIfNotExist=true&userSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
     username: root
-    password:
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   ## Specify DBMS
   jpa:
@@ -14,6 +14,9 @@ spring:
       hibernate:
         ddl-auto: update
         dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true
+        format_sql: true
+
     generate-ddl: true
 
   mvc:
@@ -41,10 +44,9 @@ stripe:
   public_key: pk_test_51Lx9G5BIfp2CHd1jNkaZ14NyJGwdlOtXPOk9uhKG5lraLhRoW7NqNn5ruKGDFyg7Hy9YAG2pq9BfFypiptaeAbwl00sVziuw7a
   webhook_secret: whsec_ed2832d4a2b3cc01b86486f3560ba0243e8c343ab0ea32799daef378290e1a27
 
-jwt:
-  secret: 1234567890
-  expirationDateInMs: 86400000 # 24 hours
-  refreshExpirationDateInMs: 604800000 # 7 days
+rsa:
+  private-key: classpath:certs/private:pem
+  public-key: classpath:certs/public.pem
 
 app:
   twillio:

@@ -30,19 +30,6 @@
     <!--/ Bookmark -->
   </div>
   <ul class="nav navbar-nav align-items-center ml-auto">
-    <!-- Language selection -->
-    <li ngbDropdown class="nav-item dropdown dropdown-language">
-      <a class="nav-link dropdown-toggle" id="dropdown-flag" ngbDropdownToggle>
-        <i class="flag-icon flag-icon-{{ languageOptions[_translateService.currentLang].flag }}"></i
-        ><span class="selected-language">{{ languageOptions[_translateService.currentLang].title }}</span></a
-      >
-      <div ngbDropdownMenu aria-labelledby="dropdown-flag">
-        <a *ngFor="let lang of _translateService.getLangs()" ngbDropdownItem (click)="setLanguage(lang)">
-          <i class="flag-icon flag-icon-{{ languageOptions[lang].flag }}"></i> {{ languageOptions[lang].title }}
-        </a>
-      </div>
-    </li>
-    <!--/ Language selection -->
 
     <!-- Toggle skin -->
     <li class="nav-item d-none d-lg-block">
@@ -77,17 +64,13 @@
         <ng-container *ngIf="this.currentUser">
           <div class="user-nav d-sm-flex d-none">
             <span class="user-name font-weight-bolder"
-              >{{ this.currentUser.firstName }} {{ this.currentUser.lastName }}</span
+              >{{ this.currentUser.prenom }} {{ this.currentUser.nom }}</span
             ><span class="user-status">{{ this.currentUser.role }}</span>
           </div>
-          <span class="avatar"
-            ><img
-              class="round"
-              src="assets/images/portrait/small/{{ this.currentUser.avatar }}"
-              alt="avatar"
-              height="40"
-              width="40" /><span class="avatar-status-online"></span
-          ></span>
+          <span class="avatar">
+            <app-initials-avatar [user]="this.currentUser" [size]="2.5"></app-initials-avatar>
+            <span class="avatar-status-online"></span>
+          </span>
         </ng-container>
       </a>
       <div ngbDropdownMenu aria-labelledby="navbarUserDropdown" class="dropdown-menu dropdown-menu-right">

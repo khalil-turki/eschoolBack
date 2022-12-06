@@ -21,7 +21,7 @@
                 All users from secure (admin only) api end point.
                 <span *ngIf="loading" class="spinner-border spinner-border-sm"></span>
                 <ng-container *ngIf="users">
-                  <span *ngFor="let user of users">{{ user.firstName }} {{ user.lastName }} ({{ user.role }}), </span>
+                  <span *ngFor="let user of users">{{ user.prenom }} {{ user.nom }} ({{ user.role }}), </span>
                 </ng-container>
               </p>
             </div>

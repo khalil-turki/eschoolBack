@@ -1,8 +1,8 @@
 package edu.esprit.kaddem.dto;
 
-import edu.esprit.kaddem.dto.ClasseDto;
-import edu.esprit.kaddem.dto.ParentDto;
+import edu.esprit.kaddem.model.user.Admin;
 import edu.esprit.kaddem.model.user.Etudiant;
+import edu.esprit.kaddem.model.user.Parent;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +18,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Accessors(chain = true)
-public class EtudiantDto extends AbstractUserDto<Etudiant> implements Serializable {
-    private List<Integer> parentIds;
-    private Integer classeId;
+public class AdminDto extends AbstractUserDto<Admin> implements Serializable {
+    private EcoleDto ecole;
 }

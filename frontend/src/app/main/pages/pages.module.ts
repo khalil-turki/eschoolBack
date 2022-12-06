@@ -40,6 +40,9 @@ import {InvoiceComponent} from './invoice/invoice.component';
 import {EcoleNewComponent} from './ecole/ecole-new/ecole-new.component';
 import {EcoleEditComponent} from './ecole/ecole-edit/ecole-edit.component';
 import {RouterModule} from "@angular/router";
+import {NgApexchartsModule} from "ng-apexcharts";
+import { StattComponent } from './statt/statt.component';
+import {ChartsModule} from "ng2-charts";
 
 @NgModule({
     declarations: [
@@ -55,7 +58,8 @@ import {RouterModule} from "@angular/router";
         NouveauEtudiantComponent,
         NouveauClasseComponent,
         DetailEtudiantComponent,
-        DetailClassesComponent
+        DetailClassesComponent,
+        StattComponent,
 
 
     ],
@@ -83,7 +87,9 @@ import {RouterModule} from "@angular/router";
         PaginationModule,
         Ng2SearchPipeModule,
         CsvModule,
-        RouterModule
+        RouterModule,
+        NgApexchartsModule,
+        ChartsModule
     ],
 
     providers: []

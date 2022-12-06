@@ -25,6 +25,7 @@ import { UserListService } from 'app/main/apps/user/user-list/user-list.service'
 import { UserViewComponent } from 'app/main/apps/user/user-view/user-view.component';
 import { UserViewService } from 'app/main/apps/user/user-view/user-view.service';
 import { NewUserSidebarComponent } from 'app/main/apps/user/user-list/new-user-sidebar/new-user-sidebar.component';
+import {AvatarModule} from "../../../layout/components/avatar/avatar.module";
 
 // routing
 const routes: Routes = [
@@ -77,7 +78,8 @@ const routes: Routes = [
     CorePipesModule,
     CoreDirectivesModule,
     InvoiceModule,
-    CoreSidebarModule
+    CoreSidebarModule,
+    AvatarModule
   ],
   providers: [UserListService, UserViewService, UserEditService]
 })

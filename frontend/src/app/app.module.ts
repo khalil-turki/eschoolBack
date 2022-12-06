@@ -20,7 +20,6 @@ import { CardSnippetModule } from '@core/components/card-snippet/card-snippet.mo
 
 import { coreConfig } from 'app/app-config';
 import { AuthGuard } from 'app/auth/helpers/auth.guards';
-import { fakeBackendProvider } from 'app/auth/helpers'; // used to create fake backend
 import { JwtInterceptor, ErrorInterceptor } from 'app/auth/helpers';
 import { AppComponent } from 'app/app.component';
 import { LayoutModule } from 'app/layout/layout.module';
@@ -44,6 +43,7 @@ import {
     NouveauEtudiantComponent
 } from "./main/pages/etudiant/nouveau-etudiant/nouveau-etudiant/nouveau-etudiant.component";
 import {PageEtudiantsComponent} from "./main/pages/etudiant/etudiant-list/etudiant-list/page-etudiants.component";
+import {StattComponent} from "./main/pages/statt/statt.component";
 
 const appRoutes: Routes = [
   {
@@ -61,6 +61,15 @@ const appRoutes: Routes = [
   },
     { path : 'classes',
         component : ClasseListComponent,
+
+    } ,
+
+    { path : 'invoices',
+        component : InvoiceComponent,
+
+    },
+    { path : 'stat',
+        component : StattComponent,
 
     } ,
     { path : 'ecoles/listecoles',
@@ -194,11 +203,6 @@ const appRoutes: Routes = [
           [DatatablesService],
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-        // ! IMPORTANT: Provider used to create fake backend, comment while using real API
-        fakeBackendProvider,
-
-
-
     ],
     bootstrap: [AppComponent],
 

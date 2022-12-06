@@ -1,0 +1,28 @@
+<span class="avatar" *ngIf="user.avatar && user.avatar.length > 0; else customAvatar">
+            <img
+                    class="round"
+                    src="assets/images/portrait/small/{{ user.avatar }}"
+                    alt="avatar"
+                    height="{{ canvasSize }}"
+                    width="{{ canvasSize }}"/>
+            <span class="avatar-status-online"></span>
+          </span>
+<ng-template #customAvatar>
+    <div class="avatar" style="height: {{canvasSize}}rem; width: {{canvasSize}}rem;"
+         [ngClass]="
+                    {
+                      'bg-light-danger': user.role === Role.Admin,
+                      'bg-light-success': user.role === Role.Etudiant,
+                      'bg-light-warning': user.role === Role.Professeur,
+                      'bg-light-primary': user.role === Role.Parent
+                    }"
+    >
+        <div class="avatar-content"
+             [ngStyle]="{
+              'font-size': this.initialsSize + ' rem!important;',
+              'width': '100% ',
+              'height': 'unset'
+              }">{{user.prenom + user.nom | initials | uppercase }}
+        </div>
+    </div>
+</ng-template>

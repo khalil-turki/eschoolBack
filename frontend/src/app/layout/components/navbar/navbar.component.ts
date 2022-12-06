@@ -208,11 +208,6 @@ export class NavbarComponent implements OnInit, OnDestroy {
         }
       });
     }
-
-    // Set the selected language from default languageOptions
-    this.selectedLanguage = _.find(this.languageOptions, {
-      id: this._translateService.currentLang
-    });
   }
 
   /**
