@@ -1,13 +1,18 @@
 package edu.esprit.kaddem.lib;
 
+import edu.esprit.kaddem.dto.search.PagedResponse;
+import edu.esprit.kaddem.dto.search.SearchRequest;
+import edu.esprit.kaddem.dto.search.util.SearchRequestUtil;
 import edu.esprit.kaddem.exception.EntityNotFoundException;
 import edu.esprit.kaddem.utils.PatchHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
 import org.springframework.stereotype.Component;
 
 import javax.json.JsonMergePatch;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -81,7 +86,6 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
     public List<T> getAll() {
 
 
-
         return repository.findAll();
     }
 
@@ -90,6 +94,15 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
         Class<T> clazz = (Class<T>) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         T entity = findById(id);
         return patchHelper.mergePatch(patchRequest, entity, clazz);
+    }
+
+    public PagedResponse<T> list(final SearchRequest searchRequest) {
+        final Page<T> response = repository.findAll(SearchRequestUtil.toPageRequest(searchRequest));
+        if (response.isEmpty()) {
+            return new PagedResponse<>(Collections.emptyList(), 0, response.getTotalElements());
+        }
+        final List<T> content = response.getContent();
+        return new PagedResponse<>(content, content.size(), response.getTotalElements());
     }
 
 }

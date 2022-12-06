@@ -12,6 +12,8 @@ import edu.esprit.kaddem.services.EcoleService;
 import edu.esprit.kaddem.services.EtudiantService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -70,5 +72,7 @@ public class EtudiantController extends AbstractCrudController<Etudiant, Etudian
     public int countEtudiantsByClasseId(@PathVariable("classeId") Integer classeId) {
         return etudiantService.countEtudiantsByIdClasse(classeId);
     }
+
+
 
 }

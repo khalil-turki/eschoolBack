@@ -1,5 +1,8 @@
 package edu.esprit.kaddem.lib;
 
+import edu.esprit.kaddem.dto.search.PagedResponse;
+import edu.esprit.kaddem.dto.search.SearchRequest;
+import edu.esprit.kaddem.dto.search.util.SearchRequestUtil;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.json.JsonMergePatch;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 public abstract class AbstractCrudController<T extends AbstractEntity<?>, U extends AbstractDto<?>> {
@@ -59,6 +64,11 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
     @PatchMapping(path="/{id}", consumes = "application/merge-patch+json")
     public U patch(@PathVariable("id") Integer id, @RequestBody JsonMergePatch patch) {
         return toDto(service.patch(id, patch));
+    }
+    @GetMapping("/list")
+    public List<U> list(SearchRequest searchRequest) {
+        var list = service.list(searchRequest);
+        return list.getContent().stream().map(this::toDto).collect(Collectors.toList());
     }
 
     private Utilisateur getAuthenticatedUser(){
