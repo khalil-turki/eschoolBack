@@ -13,9 +13,11 @@ import edu.esprit.kaddem.services.AuthenticationService;
 import edu.esprit.kaddem.utils.JwtTokenUtil;
 import io.jsonwebtoken.impl.DefaultClaims;
 import io.swagger.annotations.Api;
+import org.jboss.aerogear.security.otp.Totp;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,9 +40,17 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthReqDto authReqDto) {
-        var token = authenticationService.getToken(authReqDto.getUsername(), authReqDto.getPassword());
-        var user = getAuthenticatedUser();
-        var retVal = oMapper.convertValue(user, Map.class);
+        var token = authenticationService.getToken(authReqDto.getUsername(), authReqDto.getPassword(), authReqDto.getRememberMe());
+
+        var user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(user.getIsUsing2FA()) {
+            if(authReqDto.getTotp() == null || authReqDto.getTotp().isEmpty())
+                throw new AccessDeniedException("2FA is enabled for this account");
+            var totp = new Totp(user.getSecret());
+            if(!totp.verify(authReqDto.getTotp()))
+                throw new AccessDeniedException("TOTP is invalid");
+        }
+        var retVal = oMapper.convertValue(getAuthenticatedUser(), Map.class);
         retVal.put("token", token);
         return ResponseEntity.ok(retVal);
     }
@@ -54,21 +64,19 @@ public class AuthenticationController {
 
     @GetMapping("/me")
     public AbstractUserDto<? extends Utilisateur> getAuthenticatedUser() {
-        var user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        // switch to check for roles
-        switch (user.getRole()) {
-            case ROLE_ETUDIANT:
-                return mapper.map(user, EtudiantDto.class);
-            case ROLE_ADMIN:
-            case ROLE_PROFESSEUR:
-                return mapper.map(user, ProfesseurDto.class);
-
-            case ROLE_PARENT:
-                return mapper.map(user, ParentDto.class);
-            default:
-                throw new RuntimeException("Unknown role");
+        Utilisateur user = null;
+        try {
+            user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } catch (Exception e) {
+            throw new AccessDeniedException("Access denied");
         }
+        // switch to check for roles
+        return switch (user.getRole()) {
+            case ROLE_ETUDIANT -> mapper.map(user, EtudiantDto.class);
+            case ROLE_ADMIN, ROLE_PROFESSEUR -> mapper.map(user, ProfesseurDto.class);
+            case ROLE_PARENT -> mapper.map(user, ParentDto.class);
+            default -> throw new RuntimeException("Unknown role");
+        };
     }
 
     @PostMapping("/signup")

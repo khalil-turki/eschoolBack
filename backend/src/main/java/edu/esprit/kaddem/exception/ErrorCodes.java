@@ -35,6 +35,8 @@ public enum ErrorCodes  {
 
         BAD_CREDENTIALS(12003),
 
+        INVALID_OPERATION(13000),
+        FORBIDDEN(14000),
 
 
         // Liste des exception techniaues

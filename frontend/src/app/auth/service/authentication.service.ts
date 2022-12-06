@@ -39,9 +39,9 @@ export class AuthenticationService {
     return this.currentUser && this.currentUserSubject.value.role === Role.Etudiant;
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string, totp: string, rememberMe: boolean) {
     return this._http
-      .post<any>(`${environment.apiUrl}/auth/login`, {username: email, password})
+      .post<any>(`${environment.apiUrl}/auth/login`, {username: email, password, rememberMe, totp})
       .pipe(
         map(user => {
           if (user && user.token) {
@@ -50,7 +50,7 @@ export class AuthenticationService {
               this._toastrService.success(
                 'You have successfully logged in as an ' +
                 user.role +
-                ' user to Kaddem. Now you can start to explore. Enjoy! 🎉',
+                ' Kaddem. Now you can start to explore. Enjoy! 🎉',
                 '👋 Welcome, ' + user.prenom + '!',
                 {toastClass: 'toast ngx-toastr', closeButton: true}
               );
@@ -63,8 +63,6 @@ export class AuthenticationService {
   }
 
   logout() {
-    debugger
-
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
   }

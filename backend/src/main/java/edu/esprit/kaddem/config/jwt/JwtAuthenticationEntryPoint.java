@@ -1,4 +1,4 @@
-package edu.esprit.kaddem.config;
+package edu.esprit.kaddem.config.jwt;
 
 
 import java.io.IOException;
