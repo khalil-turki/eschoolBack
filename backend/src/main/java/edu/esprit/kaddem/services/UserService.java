@@ -44,4 +44,12 @@ public class UserService {
                 StandardCharsets.UTF_8);
     }
 
+    public void delete(Integer id) {
+        userRepository.deleteById(id);
+    }
+
+    public void add(Utilisateur user) {
+        userRepository.save(user);
+    }
+
 }

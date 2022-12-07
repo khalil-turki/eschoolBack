@@ -9,9 +9,12 @@ import edu.esprit.kaddem.dto.ParentDto;
 import edu.esprit.kaddem.dto.ProfesseurDto;
 import edu.esprit.kaddem.dto.auth.AuthReqDto;
 import edu.esprit.kaddem.dto.auth.AuthResDto;
+import edu.esprit.kaddem.dto.auth.ReqNewPasswdDto;
+import edu.esprit.kaddem.dto.auth.ResPasswdDto;
 import edu.esprit.kaddem.model.user.Etudiant;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import edu.esprit.kaddem.services.AuthenticationService;
+import edu.esprit.kaddem.services.EmailService;
 import io.swagger.annotations.Api;
 import org.jboss.aerogear.security.otp.Totp;
 import org.modelmapper.ModelMapper;
@@ -35,6 +38,9 @@ public class AuthenticationController {
 
     ObjectMapper oMapper = new ObjectMapper();
 
+
+    @Autowired
+    EmailService emailService;
 
     @RateLimit(3)
     @TrackPerformance
@@ -85,5 +91,17 @@ public class AuthenticationController {
     public ResponseEntity<?> signup(@RequestBody EtudiantDto etudiantDto) {
         var user = mapper.map(etudiantDto, Etudiant.class);
         return ResponseEntity.ok(mapper.map(authenticationService.signup(user), EtudiantDto.class));
+    }
+
+    @PostMapping("/request-password-reset")
+    public ResponseEntity<?> resetPassword(@RequestBody ReqNewPasswdDto reqDto) {
+        authenticationService.forgotPassword(reqDto.getEmail());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/reset-password/{token}")
+    public ResponseEntity<?> resetPassword(@PathVariable String token, @RequestBody ResPasswdDto resPwd) {
+        authenticationService.resetPassword(token, resPwd.getEmail(), resPwd.getPassword());
+        return ResponseEntity.ok().build();
     }
 }

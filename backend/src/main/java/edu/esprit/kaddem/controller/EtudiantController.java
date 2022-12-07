@@ -35,12 +35,8 @@ public class EtudiantController extends AbstractCrudController<Etudiant, Etudian
     private EcoleService ecoleService;
     @Autowired
     private ClasseService classeService;
-
     @Autowired
-    private EmailSenderConfiguration emailSender;
-
-    @Autowired
-    private EmailServiceImpl emailService;
+    private EmailService emailService;
 
     public EtudiantController(PDFGeneratorService pdfGeneratorService) {
         this.pdfGeneratorService = pdfGeneratorService;
@@ -136,7 +132,7 @@ public class EtudiantController extends AbstractCrudController<Etudiant, Etudian
             }
 
 
-            this.emailService.sendSimpleMessage(To, subject, msg);
+            emailService.sendSimpleMessage(To, subject, msg);
         } else {
             throw new EntityNotFoundException("subject not found");
         }

@@ -40,6 +40,11 @@ public class AuthenticationService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+
+    @Autowired
+    private EmailService emailService;
+
+
     @Override
     @SneakyThrows
     public Utilisateur loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -54,7 +59,7 @@ public class AuthenticationService implements UserDetailsService {
     @Log
     public String getToken(String email, String password, Boolean rememberMe) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, password);
-        Authentication auth = authenticationManager.authenticate(token); // throws exceptions if anything goes wrong.
+        Authentication auth = authenticationManager.authenticate(token);
         Utilisateur userDetails = loadUserByUsername(email);
         SecurityContextHolder.getContext().setAuthentication(auth);
         return jwtTokenUtil.generateToken(userDetails, rememberMe);
@@ -70,9 +75,10 @@ public class AuthenticationService implements UserDetailsService {
         String resetToken = Long.toHexString(Double.doubleToLongBits(Math.random()));
         user.setConfirmationToken(resetToken);
         userRepository.save(user);
-        EmailService.SendEmail(email,
-                "To complete the password reset process, please click here: http://localhost:4200/pages/authentication/reset-password-v2/" + resetToken,
-                "Complete password reset");
+        emailService.sendSimpleMessage(email,
+                "Complete password reset",
+                "To complete the password reset process, please click here: http://localhost:8081/auth/reset-password/" + resetToken
+                );
     }
 
     public String refreshToken(String token) {
@@ -80,7 +86,7 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     @SneakyThrows
-    public Utilisateur resetPassword(String email, String newPassword, String token) throws UsernameNotFoundException {
+    public Utilisateur resetPassword(String token, String email, String newPassword) throws UsernameNotFoundException {
 
         var currentAuthenticator = loadUserByUsername(email);
         if (currentAuthenticator == null || !currentAuthenticator.getConfirmationToken().equals(token)) {
@@ -100,7 +106,7 @@ public class AuthenticationService implements UserDetailsService {
         etudiant.setGender(Gender.UNSPECIFIED);
         etudiant.setRole(Role.ROLE_ETUDIANT);
         var registered = etudiantService.create(etudiant);
-        EmailService.SendEmail(registered.getEmail(), "Welcome to Kaddem", "Welcome to Kaddem");
+        emailService.sendSimpleMessage(registered.getEmail(), "Welcome to Kaddem", "Welcome to Kaddem");
         return registered;
     }
 }

@@ -41,4 +41,15 @@ public class UserController {
         var user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userService.generateQRUrl(user);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteUser(@PathVariable("id") Integer id) {
+        userService.delete(id);
+    }
+
+    @PostMapping("/")
+    public void addUser(@RequestBody AbstractUserDto<?> user) {
+        Utilisateur u = PolymorphicUtils.getUserFromDto(user);
+        userService.add(u);
+    }
 }

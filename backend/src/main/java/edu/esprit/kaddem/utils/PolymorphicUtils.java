@@ -1,9 +1,6 @@
 package edu.esprit.kaddem.utils;
 
-import edu.esprit.kaddem.dto.AbstractUserDto;
-import edu.esprit.kaddem.dto.EtudiantDto;
-import edu.esprit.kaddem.dto.ParentDto;
-import edu.esprit.kaddem.dto.ProfesseurDto;
+import edu.esprit.kaddem.dto.*;
 import edu.esprit.kaddem.model.user.*;
 import org.modelmapper.ModelMapper;
 
@@ -20,6 +17,20 @@ public class PolymorphicUtils {
             return mapper.map(user, ParentDto.class);
         } else if (Admin.class.equals(user.getClass())) {
             return mapper.map(user, AbstractUserDto.class);
+        } else {
+            throw new IllegalArgumentException("Unknown user type");
+        }
+    }
+
+    public static Utilisateur getUserFromDto(AbstractUserDto<?> userDto){
+        if (EtudiantDto.class.equals(userDto.getClass())) {
+            return mapper.map(userDto, Etudiant.class);
+        } else if (ProfesseurDto.class.equals(userDto.getClass())) {
+            return mapper.map(userDto, Professeur.class);
+        } else if (ParentDto.class.equals(userDto.getClass())) {
+            return mapper.map(userDto, Parent.class);
+        } else if (AdminDto.class.equals(userDto.getClass())) {
+            return mapper.map(userDto, Admin.class);
         } else {
             throw new IllegalArgumentException("Unknown user type");
         }
