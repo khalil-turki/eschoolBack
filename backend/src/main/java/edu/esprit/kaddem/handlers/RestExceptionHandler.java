@@ -1,5 +1,6 @@
 package edu.esprit.kaddem.handlers;
 
+import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
 import edu.esprit.kaddem.exception.EntityNotFoundException;
 import edu.esprit.kaddem.exception.ErrorCodes;
 import edu.esprit.kaddem.exception.InvalidEntityException;
@@ -44,7 +45,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDto, notFound);
     }
 
-    @ExceptionHandler(InvalidEntityException.class)
+    @ExceptionHandler({InvalidEntityException.class, InvalidDefinitionException.class})
     public ResponseEntity<ErrorDto> handleException(InvalidEntityException exception, WebRequest webRequest) {
         final HttpStatus badRequest = HttpStatus.BAD_REQUEST;
 

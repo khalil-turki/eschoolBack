@@ -1,5 +1,7 @@
 package edu.esprit.kaddem.model.user;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import edu.esprit.kaddem.deserializers.CustomAuthorityDeserializer;
 import edu.esprit.kaddem.lib.AbstractEntity;
 import edu.esprit.kaddem.listeners.UtilisateurListener;
 import edu.esprit.kaddem.model.Adresse;
@@ -36,7 +38,7 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     @Column(name = "prenom")
     private String prenom;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @Column(name = "numtel")
@@ -89,6 +91,7 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     private boolean enabled = true;
 
     @Override
+    @JsonDeserialize(using = CustomAuthorityDeserializer.class)
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singleton(new SimpleGrantedAuthority(this.getRole().toString()));
     }

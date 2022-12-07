@@ -5,33 +5,26 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.validation.Validator;
 
 import javax.json.JsonMergePatch;
 import javax.json.JsonValue;
 
 @Component
-public class PatchHelper {
-    private final ObjectMapper mapper;
+public class PatchUtil {
 
+    @Autowired
+    private ObjectMapper mapper;
 
-    public PatchHelper() {
-        this.mapper = new ObjectMapper()
-                .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)
-                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
-                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
-                .findAndRegisterModules()
-                .configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES, true);
+    public PatchUtil() {
     }
-
 
     public <T> T mergePatch(JsonMergePatch mergePatch, T targetBean, Class<T> beanClass) {
         JsonValue target = mapper.convertValue(targetBean, JsonValue.class);
         JsonValue patched = applyMergePatch(mergePatch, target);
-        return convert(patched, beanClass);
+        return convertAndValidate(patched, beanClass);
     }
-
 
     private JsonValue applyMergePatch(JsonMergePatch mergePatch, JsonValue target) {
         try {
@@ -41,8 +34,8 @@ public class PatchHelper {
         }
     }
 
-
-    private <T> T convert(JsonValue jsonValue, Class<T> beanClass) {
-        return mapper.convertValue(jsonValue, beanClass);
+    private <T> T convertAndValidate(JsonValue jsonValue, Class<T> beanClass) {
+        T bean = mapper.convertValue(jsonValue, beanClass);
+        return bean;
     }
 }

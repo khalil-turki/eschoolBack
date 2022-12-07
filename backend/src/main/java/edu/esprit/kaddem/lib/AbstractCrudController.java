@@ -3,6 +3,7 @@ package edu.esprit.kaddem.lib;
 import edu.esprit.kaddem.dto.search.PagedResponse;
 import edu.esprit.kaddem.dto.search.SearchRequest;
 import edu.esprit.kaddem.dto.search.util.SearchRequestUtil;
+import edu.esprit.kaddem.exception.InvalidEntityException;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
@@ -33,10 +34,18 @@ public abstract class AbstractCrudController<T extends AbstractEntity<?>, U exte
     }
 
     protected U toDto(T entity) {
-        return mapper.map(entity, this.dtoClass);
+        try {
+            return mapper.map(entity, this.dtoClass);
+        } catch (Exception e) {
+            throw new InvalidEntityException(e.getMessage());
+        }
     }
     private T toEntity(U dto) {
-        return mapper.map(dto, entityClass);
+        try {
+            return mapper.map(dto, entityClass);
+        } catch (Exception e) {
+            throw new InvalidEntityException(e.getMessage());
+        }
     }
 
     @GetMapping()

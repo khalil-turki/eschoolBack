@@ -1,13 +1,16 @@
 package edu.esprit.kaddem.services;
 
 import edu.esprit.kaddem.exception.EntityNotFoundException;
+import edu.esprit.kaddem.model.user.Etudiant;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import edu.esprit.kaddem.repository.UtilisateurRepository;
+import edu.esprit.kaddem.utils.PatchUtil;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.json.JsonMergePatch;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -21,6 +24,9 @@ public class UserService {
 
     @Autowired
     private UtilisateurRepository userRepository;
+
+    @Autowired private PatchUtil patchUtil;
+
 
     public List<Utilisateur> getAllUsers() {
         return userRepository.findAll();
@@ -52,4 +58,11 @@ public class UserService {
         userRepository.save(user);
     }
 
+    @SneakyThrows
+    public Utilisateur patch(Integer id, JsonMergePatch patch) {
+        var oldUser = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        var patched = patchUtil.mergePatch(patch, (Etudiant)oldUser, Etudiant.class);
+        userRepository.save(patched);
+        return patched;
+    }
 }

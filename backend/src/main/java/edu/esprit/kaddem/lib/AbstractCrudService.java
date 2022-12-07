@@ -4,7 +4,7 @@ import edu.esprit.kaddem.dto.search.PagedResponse;
 import edu.esprit.kaddem.dto.search.SearchRequest;
 import edu.esprit.kaddem.dto.search.util.SearchRequestUtil;
 import edu.esprit.kaddem.exception.EntityNotFoundException;
-import edu.esprit.kaddem.utils.PatchHelper;
+import edu.esprit.kaddem.utils.PatchUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
@@ -20,8 +20,7 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
     @Autowired
     private AbstractRepository<T> repository;
 
-    @Autowired
-    private PatchHelper patchHelper;
+    @Autowired private PatchUtil patchUtil;
 
     public T create(T entity) {
         try {
@@ -84,16 +83,13 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
     }
 
     public List<T> getAll() {
-
-
         return repository.findAll();
     }
-
 
     public T patch(Integer id, JsonMergePatch patchRequest) {
         Class<T> clazz = (Class<T>) ((java.lang.reflect.ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
         T entity = findById(id);
-        return patchHelper.mergePatch(patchRequest, entity, clazz);
+        return patchUtil.mergePatch(patchRequest, entity, clazz);
     }
 
     public PagedResponse<T> list(final SearchRequest searchRequest) {
