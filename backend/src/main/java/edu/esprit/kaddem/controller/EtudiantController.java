@@ -39,6 +39,7 @@ public class EtudiantController extends AbstractCrudController<Etudiant, Etudian
     private EmailService emailService;
 
     public EtudiantController(PDFGeneratorService pdfGeneratorService) {
+        super();
         this.pdfGeneratorService = pdfGeneratorService;
     }
 

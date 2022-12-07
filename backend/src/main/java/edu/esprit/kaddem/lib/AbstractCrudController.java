@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public abstract class AbstractCrudController<T extends AbstractEntity<?>, U extends AbstractDto<?>> {
     @Autowired
     private AbstractCrudService<T> service;
-    private final ModelMapper mapper = new ModelMapper();
+    protected final ModelMapper mapper = new ModelMapper();
     private final Class<U> dtoClass;
     private final Class<T> entityClass;
     public AbstractCrudController() {

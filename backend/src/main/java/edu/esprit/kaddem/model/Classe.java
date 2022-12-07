@@ -29,6 +29,6 @@ public class Classe extends AbstractEntity<Classe> {
     @ManyToMany
     private List<Professeur> professeurs;
 
-    @OneToMany(mappedBy = "classe",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "classe", cascade = CascadeType.MERGE)
     private List<Etudiant> etudiants;
 }

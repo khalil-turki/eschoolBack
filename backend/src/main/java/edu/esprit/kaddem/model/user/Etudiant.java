@@ -25,9 +25,8 @@ public class Etudiant extends Utilisateur {
     @ManyToMany
     private List<Parent> parents = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JsonManagedReference
-    @JoinColumn(columnDefinition="integer", name = "classe_id")
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @JoinColumn(columnDefinition = "integer", name = "classe_id")
     private Classe classe;
 
     @Override
