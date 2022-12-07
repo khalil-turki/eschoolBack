@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 
+import edu.esprit.kaddem.annotations.Log;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import io.jsonwebtoken.impl.DefaultClaims;
 import lombok.Getter;
@@ -36,6 +37,7 @@ public class JwtTokenUtil implements Serializable {
         return getClaimFromToken(token, Claims::getExpiration);
     }
 
+    @Log
     public <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = getAllClaimsFromToken(token);
         return claimsResolver.apply(claims);
@@ -58,6 +60,7 @@ public class JwtTokenUtil implements Serializable {
     }
 
     //create the token
+    @Log
     private String doGenerateToken(Map<String, Object> claims, String subject, boolean rememberMe) {
         long expirationDate = rememberMe ? JWT_TOKEN_VALIDITY_SECONDS : refreshExpirationDateInMs;
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))

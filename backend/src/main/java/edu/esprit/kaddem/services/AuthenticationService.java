@@ -1,5 +1,6 @@
 package edu.esprit.kaddem.services;
 
+import edu.esprit.kaddem.annotations.Log;
 import edu.esprit.kaddem.exception.EntityNotFoundException;
 import edu.esprit.kaddem.model.user.Etudiant;
 import edu.esprit.kaddem.model.user.Gender;
@@ -50,6 +51,7 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     @SneakyThrows
+    @Log
     public String getToken(String email, String password, Boolean rememberMe) {
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(email, password);
         Authentication auth = authenticationManager.authenticate(token); // throws exceptions if anything goes wrong.

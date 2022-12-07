@@ -1,6 +1,8 @@
 package edu.esprit.kaddem.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.esprit.kaddem.annotations.RateLimit;
+import edu.esprit.kaddem.annotations.TrackPerformance;
 import edu.esprit.kaddem.dto.AbstractUserDto;
 import edu.esprit.kaddem.dto.EtudiantDto;
 import edu.esprit.kaddem.dto.ParentDto;
@@ -10,8 +12,6 @@ import edu.esprit.kaddem.dto.auth.AuthResDto;
 import edu.esprit.kaddem.model.user.Etudiant;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import edu.esprit.kaddem.services.AuthenticationService;
-import edu.esprit.kaddem.utils.JwtTokenUtil;
-import io.jsonwebtoken.impl.DefaultClaims;
 import io.swagger.annotations.Api;
 import org.jboss.aerogear.security.otp.Totp;
 import org.modelmapper.ModelMapper;
@@ -20,9 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.Map;
 
 @Api
@@ -38,6 +36,8 @@ public class AuthenticationController {
     ObjectMapper oMapper = new ObjectMapper();
 
 
+    @RateLimit(3)
+    @TrackPerformance
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthReqDto authReqDto) {
         var token = authenticationService.getToken(authReqDto.getUsername(), authReqDto.getPassword(), authReqDto.getRememberMe());
@@ -56,6 +56,7 @@ public class AuthenticationController {
     }
 
     @GetMapping(value = "/refresh")
+    @TrackPerformance
     public AuthResDto refreshtoken(HttpServletRequest request) {
         String token = request.getHeader("Authorization").substring(7);
         var newToken = authenticationService.refreshToken(token);
@@ -80,6 +81,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/signup")
+    @TrackPerformance
     public ResponseEntity<?> signup(@RequestBody EtudiantDto etudiantDto) {
         var user = mapper.map(etudiantDto, Etudiant.class);
         return ResponseEntity.ok(mapper.map(authenticationService.signup(user), EtudiantDto.class));
