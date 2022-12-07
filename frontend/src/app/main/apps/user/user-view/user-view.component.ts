@@ -5,6 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { UserViewService } from 'app/main/apps/user/user-view/user-view.service';
+import {User} from "../../../../auth/models";
 
 @Component({
   selector: 'app-user-view',
@@ -16,7 +17,7 @@ export class UserViewComponent implements OnInit, OnDestroy {
   // public
   public url = this.router.url;
   public lastValue;
-  public data;
+  public data: User;
 
   // private
   private _unsubscribeAll: Subject<any>;

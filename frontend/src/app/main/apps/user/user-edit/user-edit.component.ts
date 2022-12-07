@@ -8,6 +8,7 @@ import { FlatpickrOptions } from 'ng2-flatpickr';
 import { cloneDeep } from 'lodash';
 
 import { UserEditService } from 'app/main/apps/user/user-edit/user-edit.service';
+import {User} from "../../../../auth/models";
 
 @Component({
   selector: 'app-user-edit',
@@ -20,7 +21,7 @@ export class UserEditComponent implements OnInit, OnDestroy {
   public url = this.router.url;
   public urlLastValue;
   public rows;
-  public currentRow;
+  public currentRow:User;
   public tempRow;
   public avatarImage: string;
 
@@ -29,9 +30,6 @@ export class UserEditComponent implements OnInit, OnDestroy {
   public birthDateOptions: FlatpickrOptions = {
     altInput: true
   };
-
-  public selectMultiLanguages = ['English', 'Spanish', 'French', 'Russian', 'German', 'Arabic', 'Sanskrit'];
-  public selectMultiLanguagesSelected = [];
 
   // Private
   private _unsubscribeAll: Subject<any>;
@@ -91,11 +89,13 @@ export class UserEditComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
+    this.currentRow = new User();
     this._userEditService.onUserEditChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
       this.rows = response;
       this.rows.map(row => {
         if (row.id == this.urlLastValue) {
           this.currentRow = row;
+          debugger;
           this.avatarImage = this.currentRow.avatar;
           this.tempRow = cloneDeep(row);
         }

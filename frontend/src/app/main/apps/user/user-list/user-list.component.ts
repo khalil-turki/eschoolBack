@@ -8,6 +8,7 @@ import { CoreConfigService } from '@core/services/config.service';
 import { CoreSidebarService } from '@core/components/core-sidebar/core-sidebar.service';
 
 import { UserListService } from 'app/main/apps/user/user-list/user-list.service';
+import {User} from "../../../../auth/models";
 
 @Component({
   selector: 'app-user-list',
@@ -18,7 +19,7 @@ import { UserListService } from 'app/main/apps/user/user-list/user-list.service'
 export class UserListComponent implements OnInit {
   // Public
   public sidebarToggleRef = false;
-  public rows;
+  public rows: User[];
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public temp = [];
@@ -200,7 +201,6 @@ export class UserListComponent implements OnInit {
    * On destroy
    */
   ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
   }

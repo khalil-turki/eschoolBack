@@ -17,6 +17,7 @@ public class UserService {
 
     @Value("${app.name}")
     private String appName;
+    public static String QR_PREFIX = "https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=";
 
     @Autowired
     private UtilisateurRepository userRepository;
@@ -25,14 +26,15 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public Utilisateur getUserById(int id) {
+        return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
+    }
+
     public void update2FAStatus(boolean status, Integer userId) {
         var user = userRepository.findById(userId).orElseThrow(EntityNotFoundException::new);
         user.setIsUsing2FA(status);
         userRepository.save(user);
     }
-
-    public static String QR_PREFIX =
-            "https://chart.googleapis.com/chart?chs=200x200&chld=M%%7C0&cht=qr&chl=";
 
     @SneakyThrows
     public String generateQRUrl(Utilisateur user) {

@@ -1,5 +1,6 @@
 package edu.esprit.kaddem.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import edu.esprit.kaddem.lib.AbstractDto;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import lombok.AllArgsConstructor;
@@ -21,7 +22,10 @@ public abstract class AbstractUserDto<T extends Utilisateur> extends AbstractDto
     private String email;
     private String avatar;
     private String numTel;
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateDeNaissance;
     private String plainPassword;
     private String role;
+    private Boolean enabled;
+    private String gender ;
 }

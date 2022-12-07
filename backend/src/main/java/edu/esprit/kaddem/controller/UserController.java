@@ -22,6 +22,14 @@ public class UserController {
         return users.stream().map(PolymorphicUtils::getDtoFromUser).toList();
     }
 
+    @GetMapping("/{id}")
+    public AbstractUserDto<?> getUserById(@PathVariable("id") Integer id) {
+        if(id == null)
+            id = ((Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+        var user = userService.getUserById(id);
+        return PolymorphicUtils.getDtoFromUser(user);
+    }
+
     @PutMapping("/update2fa/{status}")
     public void update2FAStatus(@PathVariable boolean status) {
         var user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

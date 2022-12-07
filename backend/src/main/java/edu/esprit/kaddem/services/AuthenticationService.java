@@ -2,6 +2,8 @@ package edu.esprit.kaddem.services;
 
 import edu.esprit.kaddem.exception.EntityNotFoundException;
 import edu.esprit.kaddem.model.user.Etudiant;
+import edu.esprit.kaddem.model.user.Gender;
+import edu.esprit.kaddem.model.user.Role;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import edu.esprit.kaddem.utils.JwtTokenUtil;
 import io.jsonwebtoken.impl.DefaultClaims;
@@ -93,6 +95,8 @@ public class AuthenticationService implements UserDetailsService {
     }
 
     public Etudiant signup(Etudiant etudiant){
+        etudiant.setGender(Gender.UNSPECIFIED);
+        etudiant.setRole(Role.ROLE_ETUDIANT);
         var registered = etudiantService.create(etudiant);
         EmailService.SendEmail(registered.getEmail(), "Welcome to Kaddem", "Welcome to Kaddem");
         return registered;

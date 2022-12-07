@@ -9,4 +9,9 @@ export class User {
   avatar: string;
   role: Role;
   token?: string;
+  numTel: string;
+  plainPassword: string;
+  enabled: boolean;
+  dateDeNaissance: Date;
+  gender: string;
 }

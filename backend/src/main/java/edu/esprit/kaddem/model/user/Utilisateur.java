@@ -80,6 +80,11 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     @Column(name = "role", nullable = false, insertable = false, updatable = false)
     private Role role;
 
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", nullable = false, insertable = false, updatable = false)
+    private Gender gender;
+
     @Column(name = "enabled")
     private boolean enabled = true;
 
