@@ -1,114 +1,76 @@
-import { Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
+import {Component, OnInit, OnDestroy, ViewEncapsulation, ViewChild} from '@angular/core';
+import {Router} from '@angular/router';
+import {NgForm} from '@angular/forms';
 
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { FlatpickrOptions } from 'ng2-flatpickr';
-import { cloneDeep } from 'lodash';
+import {Subject} from 'rxjs';
+import {takeUntil} from 'rxjs/operators';
+import {FlatpickrOptions} from 'ng2-flatpickr';
+import {cloneDeep} from 'lodash';
 
-import { UserEditService } from 'app/main/apps/user/user-edit/user-edit.service';
+import {UserEditService} from 'app/main/apps/user/user-edit/user-edit.service';
 import {User} from "../../../../auth/models";
 
 @Component({
-  selector: 'app-user-edit',
-  templateUrl: './user-edit.component.html',
-  styleUrls: ['./user-edit.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-user-edit',
+    templateUrl: './user-edit.component.html',
+    styleUrls: ['./user-edit.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class UserEditComponent implements OnInit, OnDestroy {
-  // Public
-  public url = this.router.url;
-  public urlLastValue;
-  public rows;
-  public currentRow:User;
-  public tempRow;
-  public avatarImage: string;
+    public url = this.router.url;
+    public urlLastValue;
+    public rows;
+    public currentRow: User;
+    public tempRow;
+    public avatarImage: string;
 
-  @ViewChild('accountForm') accountForm: NgForm;
+    @ViewChild('accountForm') accountForm: NgForm;
 
-  public birthDateOptions: FlatpickrOptions = {
-    altInput: true
-  };
+    public birthDateOptions: FlatpickrOptions = {
+        altInput: true
+    };
 
-  // Private
-  private _unsubscribeAll: Subject<any>;
+    private _unsubscribeAll: Subject<any>;
 
-  /**
-   * Constructor
-   *
-   * @param {Router} router
-   * @param {UserEditService} _userEditService
-   */
-  constructor(private router: Router, private _userEditService: UserEditService) {
-    this._unsubscribeAll = new Subject();
-    this.urlLastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
-  }
-
-  // Public Methods
-  // -----------------------------------------------------------------------------------------------------
-
-  /**
-   * Reset Form With Default Values
-   */
-  resetFormWithDefaultValues() {
-    this.accountForm.resetForm(this.tempRow);
-  }
-
-  /**
-   * Upload Image
-   *
-   * @param event
-   */
-  uploadImage(event: any) {
-    if (event.target.files && event.target.files[0]) {
-      let reader = new FileReader();
-
-      reader.onload = (event: any) => {
-        this.avatarImage = event.target.result;
-      };
-
-      reader.readAsDataURL(event.target.files[0]);
+    constructor(private router: Router, private _userEditService: UserEditService) {
+        this._unsubscribeAll = new Subject();
+        this.urlLastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
     }
-  }
 
-  /**
-   * Submit
-   *
-   * @param form
-   */
-  submit(form) {
-    if (form.valid) {
-      console.log('Submitted...!');
+    resetFormWithDefaultValues() {
+        this.accountForm.resetForm(this.tempRow);
     }
-  }
 
-  // Lifecycle Hooks
-  // -----------------------------------------------------------------------------------------------------
-  /**
-   * On init
-   */
-  ngOnInit(): void {
-    this.currentRow = new User();
-    this._userEditService.onUserEditChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
-      this.rows = response;
-      this.rows.map(row => {
-        if (row.id == this.urlLastValue) {
-          this.currentRow = row;
-          debugger;
-          this.avatarImage = this.currentRow.avatar;
-          this.tempRow = cloneDeep(row);
+    uploadImage(event: any) {
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+
+            reader.onload = (event: any) => {
+                this.avatarImage = event.target.result;
+            };
+
+            reader.readAsDataURL(event.target.files[0]);
         }
-      });
-    });
-  }
+    }
 
-  /**
-   * On destroy
-   */
-  ngOnDestroy(): void {
-    // Unsubscribe from all subscriptions
-    this._unsubscribeAll.next();
-    this._unsubscribeAll.complete();
-  }
+    async submit(form) {
+        if (form.valid) {
+            await this._userEditService.saveUser(this.currentRow);
+            this.router.navigate(['/apps/user/user-list']);
+        }
+    }
+
+    ngOnInit(): void {
+        this.currentRow = new User();
+        this._userEditService.onUserEditChanged.pipe(takeUntil(this._unsubscribeAll)).subscribe(response => {
+            this.currentRow = response;
+            this.avatarImage = this.currentRow.avatar;
+            this.tempRow = cloneDeep(response);
+        });
+    }
+
+    ngOnDestroy(): void {
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
+    }
 }

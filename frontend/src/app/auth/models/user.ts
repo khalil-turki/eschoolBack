@@ -14,4 +14,5 @@ export class User {
   enabled: boolean;
   dateDeNaissance: Date;
   gender: string;
+  isUsing2FA: boolean;
 }

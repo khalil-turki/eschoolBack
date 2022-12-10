@@ -28,4 +28,5 @@ public abstract class AbstractUserDto<T extends Utilisateur> extends AbstractDto
     private String role;
     private Boolean enabled;
     private String gender ;
+    private Boolean isUsing2FA;
 }
