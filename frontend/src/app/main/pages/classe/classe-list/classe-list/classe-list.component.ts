@@ -11,6 +11,7 @@ import {EtudiantControllerService} from "../../../../../../gs-api/src/services/e
 import {EtudiantDto} from "../../../../../../gs-api/src/models/etudiant-dto";
 import Swal from "sweetalert2";
 import {msg} from "ng-packagr/lib/utils/log";
+import {AuthenticationService} from "../../../../../auth/service";
 
 
 @Component({
@@ -34,11 +35,15 @@ export class ClasseListComponent implements OnInit, Resolve<any>{
   public exportCSVData;
   public kitchenSinkRows: any;
   public pageBasicText = 1;
+  public currentUser: any;
+
 
 
   constructor(private router: Router,
               private classeService: ClasseControllerService,
-              private  etudiantService:EtudiantControllerService
+              private  etudiantService:EtudiantControllerService,
+              private authService: AuthenticationService
+
   ) {
     this._unsubscribeAll = new Subject();
     this.onDatatablessChanged = new BehaviorSubject({});
@@ -61,6 +66,8 @@ export class ClasseListComponent implements OnInit, Resolve<any>{
       this.rows = response;
       this.tempData = this.rows;
       this.exportCSVData = this.rows;
+      this.currentUser = this.authService.currentUserValue;
+
     });
   }
 

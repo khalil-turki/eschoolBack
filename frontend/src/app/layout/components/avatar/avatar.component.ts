@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {User, Role} from "../../../auth/models";
+import {EtudiantDto} from "../../../../gs-api/src/models/etudiant-dto";
 
 @Component({
     selector: 'app-initials-avatar',
@@ -7,7 +8,7 @@ import {User, Role} from "../../../auth/models";
     styleUrls: ['./avatar.component.scss']
 })
 export class AvatarComponent implements OnInit {
-    @Input() public user: User;
+    @Input() public user: User|EtudiantDto;
     @Input() size;
     public Role = Role;
 

@@ -21,4 +21,5 @@ import java.util.List;
 public class EtudiantDto extends AbstractUserDto<Etudiant> implements Serializable {
     private List<Integer> parentIds;
     private Integer classeId;
+    private String photo;
 }

@@ -43,6 +43,7 @@ import {RouterModule} from "@angular/router";
 import {NgApexchartsModule} from "ng-apexcharts";
 import { StattComponent } from './statt/statt.component';
 import {ChartsModule} from "ng2-charts";
+import {AvatarModule} from "../../layout/components/avatar/avatar.module";
 
 @NgModule({
     declarations: [
@@ -89,7 +90,8 @@ import {ChartsModule} from "ng2-charts";
         CsvModule,
         RouterModule,
         NgApexchartsModule,
-        ChartsModule
+        ChartsModule,
+        AvatarModule
     ],
 
     providers: []

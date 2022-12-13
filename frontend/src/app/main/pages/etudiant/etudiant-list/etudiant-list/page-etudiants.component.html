@@ -1,25 +1,24 @@
+<div    *ngIf="currentUser.role === 'ROLE_ETUDIANT' ">
 <div class="col">
     <div class="row m-2">
       <div class="col-md-0 p-4">
-        <h1>Liste des etudiants</h1>
+        <h1>Students List</h1>
 
 
 
-              <div class="d-flex justify-content-md-between">
-              <a type="button" class="btn btn-primary" (click)="nvEtudiant()">
+              <div class="d-flex justify-content-md-end">
+                  <a csvLink [data]="exportCSVData" class="btn btn-outline-primary round"rippleEffect
+                  >Export CSV</a>
+
+              <a type="button"  class="btn btn-outline-primary round"   (click)="nvEtudiant()">
 
                   <i class="fas fa-plus"></i>&nbsp;
-                  Nouveau
+                  new
               </a>
 
 
 
 
-
-
-
-              <a csvLink [data]="exportCSVData" class="btn btn-outline-secondary float-right mr-1" rippleEffect
-              >Export CSV</a>
 
 
       </div>
@@ -50,7 +49,7 @@
         <div class="card-footer">
             <div class="d-flex justify-content-center">
         <div *ngIf="listEtudiants.length == 0" class="alert alert-info" role="alert" >
-           <H1>Aucun etudiant trouvé dans cette classe </H1>
+           <H1>this class is empty ! </H1>
         </div>
             </div>
         </div>
@@ -61,13 +60,13 @@
     <div class="card-footer">
         <div class="d-flex justify-content-end">
             <div *ngIf="listEtudiants.length != 0" >
-            <ngb-pagination [collectionSize]="50" [(page)]="pageBasicText" aria-label="Custom pagination"  >
+            <ngb-pagination [collectionSize]="index" [(page)]="pageBasicText" aria-label="Custom pagination"  >
 
               <ng-template ngbPaginationPrevious
-              ><span [data-feather]="'chevron-left'" [class]="'font-weight-bolder'"></span>Prev
+              ><div class="button"  (click)="previous()"> Previous</div>
               </ng-template>
               <ng-template ngbPaginationNext
-              >Next<span [data-feather]="'chevron-right'" [class]="'font-weight-bolder'"></span>
+              ><div class="button"  (click)="next()">  Next   </div>
               </ng-template>
           </ngb-pagination>
             </div>
@@ -76,3 +75,16 @@
        </div>
 
 </div>
+    </div>
+
+<div    *ngIf="currentUser.role != 'ROLE_ETUDIANT' ">
+
+
+<div  class="alert alert-info" role="alert" >
+    <div class="d-flex justify-content-center">
+    <H1>You Should Connect As Admin To See Students List </H1>
+    </div>
+</div>
+</div>
+
+

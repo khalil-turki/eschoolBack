@@ -1,8 +1,15 @@
+<div    *ngIf="currentUser.role === 'ROLE_ETUDIANT' ">
 <div class="col mb-3">
     <div class="col-md-12 mb-3 mt-3">
       <button (click)="fileInput.click()" style="background-color: transparent; border: none;">
 
-        <img [src]="imgUrl" class="rounded-circle" width="100px" height="100px" />
+        <div *ngIf="etudiantDto.photo">
+          <img [src]="etudiantDto.photo" class="rounded-circle" width="100px" height="100px">
+          <input hidden type="file" #fileInput (change)="(fileInput.files)">
+        </div>
+        <div *ngIf="etudiantDto.photo==null" >
+          <app-initials-avatar [user]="etudiantDto" [size]="7.2"></app-initials-avatar>
+        </div>
 
         <input hidden type="file" #fileInput (change)="onFileInput(fileInput.files)">
 
@@ -45,7 +52,7 @@
 
             <div class="col">
               <select class="form-control" name="Class" [(ngModel)] = "classeDto.id" >
-                <option [value]="null">Selectionner une classe </option>
+                <option [value]="null">Select Class </option>
                <!--  <option *ngFor="let cat of listeCategorie" [value]="cat.id">{{ cat.code }} - {{ cat.designation }}</option> -->
                 <option *ngFor="let class of listeClasse" [value]= "class.id"> {{ class.nomClasse }}</option>
               </select>
@@ -53,7 +60,7 @@
 
             <div class="col">
               <select class="form-control" name="Parent" [(ngModel)] = "parentDto.id" >
-                <option [value]="null">Selectionner un parent</option>
+                <option [value]="null">Select Parent</option>
                <!--  <option *ngFor="let cat of listeCategorie" [value]="cat.id">{{ cat.code }} - {{ cat.designation }}</option> -->
                 <option *ngFor="let par of listeParent" [value]= "par.id">  {{ par.id }} - mr {{ par.nom }} - {{ par.prenom }} </option>
               </select>
@@ -107,17 +114,26 @@
     </div>
     <div class="col-md-12 text-right">
   <!--<button class="btn btn-danger mr-3" (click)="cancel()"> -->
-      <button class="btn btn-danger mr-3"(click)="cancelClick()">
+      <button class="btn btn-outline-primary round" (click)="cancelClick()">
 
         <i class="fas fa-ban"></i>&nbsp;
-        Annuler
+        CANCEL
       </button>
     <!--<button class="btn btn-primary" (click)="enregistrerArticle()"> -->
-        <button class="btn btn-primary" (click)="enregistrerEtudiant()">
+        <button class="btn btn-outline-primary round"(click)="enregistrerEtudiant()">
 
         <i class="fas fa-save"></i>&nbsp;
-        Enregitrer
+        SAVE
       </button>
     </div>
 
   </div>
+</div>
+<div    *ngIf="currentUser.role != 'ROLE_ETUDIANT' ">
+<div  class="alert alert-info" role="alert" >
+  <div class="d-flex justify-content-center">
+    <H1>You Should Connect As Admin To Insert Students  </H1>
+  </div>
+</div>
+</div>
+

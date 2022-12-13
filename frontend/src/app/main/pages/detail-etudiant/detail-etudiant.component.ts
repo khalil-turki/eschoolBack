@@ -1,10 +1,12 @@
 import { outputAst } from '@angular/compiler';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {EtudiantDto} from "../../../../gs-api/src/models/etudiant-dto";
 import {EtudiantControllerService} from "../../../../gs-api/src/services/etudiant-controller.service";
 import {ClasseDto} from "../../../../gs-api/src/models/classe-dto";
 import Swal from "sweetalert2";
+import {ClasseControllerService} from "../../../../gs-api/src/services/classe-controller.service";
+import {AuthenticationService} from "../../../auth/service";
 
 @Component({
   selector: 'app-detail-etudiant',
@@ -23,20 +25,39 @@ export class DetailEtudiantComponent implements OnInit {
   suppressionResult = new EventEmitter();
 
 
-  errorMsgs: Array<string> = [];
+  errorMsg: Array<string> = [];
+  public currentUser: any;
 
   constructor(
       private router: Router,
-      private etudiantService: EtudiantControllerService
+      private etudiantService: EtudiantControllerService,
+      private classeService: ClasseControllerService,
+      private authService: AuthenticationService
   )
   {
   }
 
   ngOnInit(): void {
-    console.log(this.etudiantDto.photo);
+
+    this.currentUser = this.authService.currentUserValue;
 
   }
 
+  public isAdministrator(): void {
+    this.authService.isAdmin;
+  }
+
+  mailAbsence (idEtudiant) {
+    this.etudiantService.mailAbsenceUsingPOSTResponse(idEtudiant).subscribe();
+    Swal.fire('Mail Sent !', '', 'success')
+
+
+  }
+
+  mailPayement(idEtudiant) {
+    this.etudiantService.mailPayementUsingPOSTResponse(idEtudiant).subscribe();
+    Swal.fire('Mail Sent !', '', 'success')
+  }
 
   modifierEtudiant(idEtudiant?: number): void {
     this.router.navigate(['nvEtudiant', idEtudiant]);
@@ -44,6 +65,14 @@ export class DetailEtudiantComponent implements OnInit {
   }
 
 
+
+  PDF(idEtudiant: number,idClasse:number): void {
+    console.log(idEtudiant);
+  window.location.href = '///localhost:8081/etudiants/pdf/'+idEtudiant+'/'+idClasse;
+  Swal.fire('PDG GENERATED !', '', 'success')
+
+
+  }
 
 
 
@@ -89,7 +118,7 @@ export class DetailEtudiantComponent implements OnInit {
 
 
 
-  
+
 }
 
 

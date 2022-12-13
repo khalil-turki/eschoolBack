@@ -4,7 +4,7 @@ import { HttpClient, HttpRequest, HttpResponse, HttpHeaders } from '@angular/com
 import { BaseService as __BaseService } from '../base-service';
 import { ApiConfiguration as __Configuration } from '../api-configuration';
 import { StrictHttpResponse as __StrictHttpResponse } from '../strict-http-response';
-import { Observable as __Observable } from 'rxjs';
+import {Observable, Observable as __Observable} from 'rxjs';
 import { map as __map, filter as __filter } from 'rxjs/operators';
 
 import { IterableEtudiantDto } from '../models/iterable-etudiant-dto';
@@ -37,7 +37,120 @@ class EtudiantControllerService extends __BaseService {
     super(config, http);
   }
 
-  /**
+    /**
+     * LIST
+     * @return OK
+     */
+    listUsingGET4Response(page:number):__Observable<__StrictHttpResponse<Array<EtudiantDto>>> {
+        let __params = this.newParams();
+        let __headers = new HttpHeaders();
+        let __body: any = null;
+        let req = new HttpRequest<any>(
+            'GET',
+            this.rootUrl + `/etudiants/list?page=${encodeURIComponent(String(page))}&size=3`,
+            __body,
+            {
+                headers: __headers,
+                params: __params,
+                responseType: 'json'
+            });
+
+        return this.http.request<any>(req).pipe(
+            __filter(_r => _r instanceof HttpResponse),
+            __map((_r) => {
+                return _r as __StrictHttpResponse<Array<EtudiantDto>>;
+            })
+        );
+    }
+    /**
+     * LIST
+     * @return OK
+     */
+    listUsingGET4(page:number):__Observable<Array<EtudiantDto>> {
+        return this.listUsingGET4Response(page).pipe(
+            __map(_r => _r.body as Array<EtudiantDto>)
+        );
+    }
+
+
+    /**
+     * mailAbsence
+     *
+     * - `etudiantid`: etudiantid
+     *
+     */
+    mailAbsenceUsingPOSTResponse(etudiantId): __Observable<__StrictHttpResponse<null>> {
+        let __params = this.newParams();
+        let __headers = new HttpHeaders();
+        let __body: any = null;
+
+
+        let req = new HttpRequest<any>(
+            'POST',
+            this.rootUrl + `/etudiants/sendemail/absence/${encodeURIComponent(etudiantId)}`,
+            __body,
+            {
+                headers: __headers,
+                params: __params,
+                responseType: 'json'
+            });
+
+        return this.http.request<any>(req).pipe(
+            __filter(_r => _r instanceof HttpResponse),
+            __map((_r) => {
+                return _r as __StrictHttpResponse<null>;
+            })
+        );
+    }
+
+    /**
+     * mailPayement
+     *
+     * - `etudiantid`: etudiantid
+     *
+     */
+    mailPayementUsingPOSTResponse(etudiantId): __Observable<__StrictHttpResponse<null>> {
+        let __params = this.newParams();
+        let __headers = new HttpHeaders();
+        let __body: any = null;
+
+
+        let req = new HttpRequest<any>(
+            'POST',
+            this.rootUrl + `/etudiants/sendemail/payement/${encodeURIComponent(etudiantId)}`,
+            __body,
+            {
+                headers: __headers,
+                params: __params,
+                responseType: 'json'
+            });
+
+        return this.http.request<any>(req).pipe(
+            __filter(_r => _r instanceof HttpResponse),
+            __map((_r) => {
+                return _r as __StrictHttpResponse<null>;
+            })
+        );
+    }
+    /**
+     * assignEtudiantToClasse
+     * @param params The `EtudiantControllerService.AssignEtudiantToClasseUsingPOSTParams` containing the following parameters:
+     *
+     * - `etudiantid`: etudiantid
+     *
+     * - `classeid`: classeid
+     */
+    mailAbsenceUsingPOST(params: EtudiantControllerService.AssignEtudiantToClasseUsingPOSTParams): __Observable<null> {
+        return this.assignEtudiantToClasseUsingPOSTResponse(params).pipe(
+            __map(_r => _r.body as null)
+        );
+    }
+
+
+
+
+
+    /**
    * Rechercher les etudiant par Classe ID
    *
    * Cette methode permet de chercher les etudiants par leurs classe ID
@@ -132,18 +245,6 @@ class EtudiantControllerService extends __BaseService {
         __map(_r => _r.body as number)
     );
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   /**
@@ -589,6 +690,22 @@ module EtudiantControllerService {
      */
     classeid: number;
   }
+
+    /**
+     * Parameters for PDFUsingPOST
+     */
+    export interface PDFUsingPOSTParam{
+
+        /**
+         * etudiantid
+         */
+        etudiantid: number;
+
+        /**
+         * classeid
+         */
+        classeid: number;
+    }
 
   /**
    * Parameters for assignEtudiantToEcoleUsingPOST

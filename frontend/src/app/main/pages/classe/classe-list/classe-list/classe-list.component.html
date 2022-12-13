@@ -1,5 +1,6 @@
-<!-- ngx-datatable-row-details -->
+<div    *ngIf="currentUser.role === 'ROLE_ETUDIANT' ">
 
+<!-- ngx-datatable-row-details -->
 <div class="content-wrapper container-xxl p-0">
     <div class="content-body">
         <div class="card">
@@ -11,10 +12,10 @@
                     >Export CSV</a
                     >
 
-                    <a type="button" class="btn btn-primary" (click)="nouveauClasse()">
+                    <a type="button"  class="btn btn-outline-primary round"(click)="nouveauClasse()">
 
                         <i class="fas fa-plus"></i>&nbsp;
-                        Nouveau
+                        NEW CLASS
                     </a>
 
                 </div>
@@ -63,8 +64,8 @@
                                     </ng-template>
                                 </ngx-datatable-column>
 
-                                <ngx-datatable-column name="Nom de classe ⬍  " prop="nomClasse" [width]="250"></ngx-datatable-column>
-                                <ngx-datatable-column name="Specialité    ⬍" prop="specialite" [width]="250"></ngx-datatable-column>
+                                <ngx-datatable-column name="Class Name ⬍  " prop="nomClasse" [width]="250"></ngx-datatable-column>
+                                <ngx-datatable-column name="Speciality    ⬍" prop="specialite" [width]="250"></ngx-datatable-column>
 
                                 <ngx-datatable-column name="Actions" [width]="120" [sortable]="false">
 
@@ -119,7 +120,7 @@
                                                   }
                                                 }"
                                                 (click)="delete(row.id)"
-                                        ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Supprimer</button>
+                                        ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> DELETE</button>
 
                                         </div>
 
@@ -141,7 +142,17 @@
               </div>
         </div>
     </div>
+  </div>
+
 </div>
+
+<div    *ngIf="currentUser.role != 'ROLE_ETUDIANT' ">
+<div  class="alert alert-info" role="alert" >
+    <div class="d-flex justify-content-center">
+        <H1>You Should Connect As Admin To See Class List </H1>
+    </div>
+</div>
+
 
 
 

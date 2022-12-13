@@ -84,11 +84,12 @@ public class EtudiantController extends AbstractCrudController<Etudiant, Etudian
         return etudiantService.countEtudiantsByIdClasse(classeId);
     }
 
-    @GetMapping("/pdf/generate/{etudiantId}/{classeId}")
+    @GetMapping("/pdf/{etudiantId}/{classeId}")
     public void generatePDF(HttpServletResponse response ,@PathVariable("classeId") Integer classeId,@PathVariable("etudiantId") Integer etudiantId) throws IOException {
         String nom = etudiantService.findById(etudiantId).getNom();
         String prenom = etudiantService.findById(etudiantId).getPrenom();
-        String classe = etudiantService.findById(etudiantId).getClasse().getNomClasse();
+        Classe classe1 = etudiantService.findById(etudiantId).getClasse();
+        String classe = classe1 != null ? classe1.getNomClasse() : "Member of Kaddem";
         response.setContentType("application/pdf");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd:hh:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
@@ -98,6 +99,7 @@ public class EtudiantController extends AbstractCrudController<Etudiant, Etudian
         response.setHeader(headerKey, headerValue);
 
         this.pdfGeneratorService.export(response,nom,prenom,classe);
+        System.out.println("PDF Generated");
     }
     @PostMapping("/sendemail/{subject}/{etudiantId}")
     public void sendEmail(@PathVariable String subject,@PathVariable("etudiantId") Integer etudiantId) throws IOException {

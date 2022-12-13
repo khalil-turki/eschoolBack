@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {ClasseDto} from "../../../../../gs-api/src/models/classe-dto";
 import {ClasseControllerService} from "../../../../../gs-api/src/services/classe-controller.service";
 import Swal from "sweetalert2";
+import {AuthenticationService} from "../../../../auth/service";
 
 
 
@@ -15,12 +16,15 @@ export class NouveauClasseComponent implements OnInit {
 
   classeDto:ClasseDto={};
   errorMsg:Array<string> =[];
+  public currentUser: any;
+
 
   constructor(
     private router:  Router,
     private activatedRoute: ActivatedRoute,
-    private classeService:ClasseControllerService
-    
+    private classeService:ClasseControllerService,
+    private authService: AuthenticationService
+
     ) { }
 
     ngOnInit(): void {
@@ -31,6 +35,8 @@ export class NouveauClasseComponent implements OnInit {
           this.classeDto = classe;
         });
       }
+      this.currentUser = this.authService.currentUserValue;
+
     }
   
   cancelClick(): void {

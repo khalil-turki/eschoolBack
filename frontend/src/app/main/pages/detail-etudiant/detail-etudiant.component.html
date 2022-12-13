@@ -3,13 +3,21 @@
     <div class="col mb-3">
 
 
-
-
-        <img [src]="etudiantDto.photo ? etudiantDto.photo : 'assets/images/etudiant.png'"  width="100px" height="100px">
-
-
+<div *ngIf="etudiantDto.photo">
+        <img [src]="etudiantDto.photo" class="rounded-circle" width="100px" height="100px">
         <input hidden type="file" #fileInput (change)="(fileInput.files)">
+</div>
+        <div *ngIf="etudiantDto.photo==null" >
+        <app-initials-avatar [user]="etudiantDto" [size]="7.2"></app-initials-avatar>
+        </div>
+    </div>
+    <h2><i class="fas fa-info-circle blue-color"></i>&nbsp;Student Information</h2>
 
+
+    <div class="alert alert-danger" *ngIf="errorMsg.length > 0">
+        <div *ngFor="let msg of errorMsg">
+            <span >{{msg}}</span>
+        </div>
     </div>
 
   <!--  Details article-->
@@ -69,13 +77,13 @@
 
 
     <!--  boutons action-->
-
+    <div    *ngIf="currentUser.role == 'ROLE_ETUDIANT' ">
     <div class="col-md-2 mb-1 mt-1 ">
         <div class="row">
             <div class="col-md-4">
     <div class="col-md-2">
 
-        <div class="d-flex align-items-center">
+        <div class="d-flex align-items-center" >
             <div ngbDropdown container="body">
                 <a ngbDropdownToggle
                    href="javascript:void(0);"
@@ -93,10 +101,6 @@
                      aria-labelledby="dropdownBrowserState">
 
 
-                    <a
-                            class="d-flex align-items-center" (click)="(etudiantDto.id)"
-                    ><i class="fa-solid fa-user"></i>Show Student</a
-                    >
 
                     <a
                             class="d-flex align-items-center" (click)="modifierEtudiant(etudiantDto.id)"
@@ -108,9 +112,22 @@
                     >
 
                     <a
-                            class="d-flex align-items-center" (click)="confirmerEtSupprimer(etudiantDto.id)"
+                            class="d-flex align-items-center" (click)="PDF(etudiantDto.id,96)"
                     ><i class="fa-solid fa-file-pdf"></i> Certificate of attendance </a
                     >
+
+                    <a
+                            class="d-flex align-items-center" (click)="mailPayement(etudiantDto.id)"
+                    ><i class="fa-solid fa-envelope"></i> Payment issues </a
+                    >
+
+                    <a
+                            class="d-flex align-items-center" (click)="mailAbsence(etudiantDto.id)"
+                    ><i class="fa-solid fa-envelope"></i> Absence issues </a
+                    >
+
+
+
 
 
 
@@ -121,6 +138,7 @@
         </div>
     </div>
 </div>
+        </div>
 
 <!--  boutons action-->
 

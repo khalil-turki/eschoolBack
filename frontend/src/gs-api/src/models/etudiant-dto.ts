@@ -14,5 +14,5 @@ export interface EtudiantDto {
   prenom?: string;
   adresse?: AdresseDto;
   photo?: string;
-
+  avatar?: string;
 }

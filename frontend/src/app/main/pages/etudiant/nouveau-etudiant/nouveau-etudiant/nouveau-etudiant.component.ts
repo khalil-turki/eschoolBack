@@ -12,6 +12,7 @@ import {ClasseControllerService} from "../../../../../../gs-api/src/services/cla
 import {ParentControllerService} from "../../../../../../gs-api/src/services/parent-controller.service";
 import {PhotoControllerService} from "../../../../../../gs-api/src/services/photo-controller.service";
 import Swal from "sweetalert2";
+import {AuthenticationService} from "../../../../../auth/service";
 
 @Component({
   selector: 'app-nouveau-etudiant',
@@ -29,9 +30,11 @@ export class NouveauEtudiantComponent implements OnInit {
   classeDto:ClasseDto ={};
   file: File | null = null;
   imgUrl: string | ArrayBuffer = 'assets/images/etudiant.png';
+  public currentUser: any;
 
 
-  
+
+
 
   constructor(
     private router:  Router,
@@ -39,8 +42,10 @@ export class NouveauEtudiantComponent implements OnInit {
     private etudiantService:EtudiantControllerService,
     private classeService:ClasseControllerService,
     private parentService:ParentControllerService,
-    private photoService:PhotoControllerService
-    ) { }
+    private photoService:PhotoControllerService,
+    private authService: AuthenticationService
+
+  ) { }
 
     ngOnInit(): void {
       this.parentService.findAllUsingGET5().subscribe(parents => {this.listeParent = parents;});
@@ -61,6 +66,8 @@ export class NouveauEtudiantComponent implements OnInit {
           this.parentDto = this.etudiantDto.parent? this.etudiantDto.parent : {};
         });
       }
+      this.currentUser = this.authService.currentUserValue;
+
     }
     
   cancelClick(): void {
