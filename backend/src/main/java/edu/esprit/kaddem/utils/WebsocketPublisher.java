@@ -22,7 +22,6 @@ public class WebsocketPublisher {
     @Autowired
     ObjectMapper objectMapper;
 
-    @Autowired
     ModelMapper modelMapper = new ModelMapper();
     @Autowired
     WebsocketUserSessionStore sessionStore;
