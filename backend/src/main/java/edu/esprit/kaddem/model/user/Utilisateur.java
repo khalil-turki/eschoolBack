@@ -59,8 +59,8 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     @Column(name = "photo")
     private String photo;
 
-    @Column(name = "is_using_2fa")
-    private Boolean isUsing2FA;
+    @Column(name = "is_using_2fa", columnDefinition = "boolean default false")
+    private Boolean isUsing2FA = false;
 
     @Column(name = "secret_2fa")
     private String secret;
@@ -84,12 +84,9 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     private Role role;
 
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "gender", nullable = false, insertable = false, updatable = false)
-    private Gender gender = Gender.UNSPECIFIED;
 
-    @Column(name = "enabled")
-    private boolean enabled = true;
+    @Column(name = "enabled", columnDefinition = "boolean default true")
+    private Boolean enabled = true;
 
     @Override
     @JsonDeserialize(using = CustomAuthorityDeserializer.class)
@@ -119,6 +116,9 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
 
     @Override
     public boolean isEnabled() {
+        if(this.enabled == null) {
+            this.enabled = true;
+        }
         return this.enabled;
     }
 

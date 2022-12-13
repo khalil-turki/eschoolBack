@@ -24,10 +24,13 @@ public class NotificationsController {
 
     @GetMapping("/me")
     public List<NotificationDto> getNotifications() {
-        Utilisateur user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication();
-        return user.getNotifications().stream()
-                .map(notification -> modelMapper.map(notification, NotificationDto.class))
-                .collect(Collectors.toList());
+
+        var authed = SecurityContextHolder.getContext().getAuthentication();
+        if(authed instanceof Utilisateur user) {
+            return user.getNotifications().stream()
+                    .map(notification -> modelMapper.map(notification, NotificationDto.class))
+                    .collect(Collectors.toList());
+        } else return List.of();
     }
 
     @GetMapping("/test")
