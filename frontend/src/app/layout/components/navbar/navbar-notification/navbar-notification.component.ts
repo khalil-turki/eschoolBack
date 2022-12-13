@@ -1,37 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { NotificationsService } from 'app/layout/components/navbar/navbar-notification/notifications.service';
+import {NotificationsService} from 'app/layout/components/navbar/navbar-notification/notifications.service';
+import {RxStompService} from "./rx-stomp.service";
+import {Message} from "@stomp/stompjs";
+import {Subscription} from "rxjs";
 
-// Interface
 interface notification {
-  messages: [];
-  systemMessages: [];
-  system: Boolean;
+    title: string;
+    content: string;
+    icon: string;
+    isRead: boolean;
 }
 
 @Component({
-  selector: 'app-navbar-notification',
-  templateUrl: './navbar-notification.component.html'
+    selector: 'app-navbar-notification',
+    templateUrl: './navbar-notification.component.html'
 })
 export class NavbarNotificationComponent implements OnInit {
-  // Public
-  public notifications: notification;
+    public notifications: notification[];
+    private topicSubscription: Subscription;
 
-  /**
-   *
-   * @param {NotificationsService} _notificationsService
-   */
-  constructor(private _notificationsService: NotificationsService) {}
+    constructor(private _notificationsService: NotificationsService,
+                private rxStompService: RxStompService) {
+    }
 
-  // Lifecycle Hooks
-  // -----------------------------------------------------------------------------------------------------
+    ngOnInit(): void {
+        this._notificationsService.onApiDataChange.subscribe(res => {
+            this.notifications = res;
+        });
+        this.topicSubscription = this.rxStompService
+            .watch('/user/queue/notification')
+            .subscribe((message: Message) => {
+                const notification = JSON.parse(message.body) as notification;
+                this.notifications.push(notification);
+            });
+    }
 
-  /**
-   * On init
-   */
-  ngOnInit(): void {
-    this._notificationsService.onApiDataChange.subscribe(res => {
-      this.notifications = res;
-    });
-  }
+    ngOnDestroy(): void {
+        this.topicSubscription.unsubscribe();
+    }
 }

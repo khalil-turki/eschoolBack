@@ -5,6 +5,8 @@ import edu.esprit.kaddem.model.Classe;
 import edu.esprit.kaddem.model.Ecole;
 import lombok.*;
 import org.hibernate.Hibernate;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -22,10 +24,11 @@ import java.util.Objects;
 @DiscriminatorValue(Role.Values.ROLE_ETUDIANT)
 public class Etudiant extends Utilisateur {
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
     private List<Parent> parents = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(columnDefinition = "integer", name = "classe_id")
     private Classe classe;
 

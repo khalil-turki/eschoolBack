@@ -6,8 +6,11 @@ import edu.esprit.kaddem.lib.AbstractEntity;
 import edu.esprit.kaddem.listeners.UtilisateurListener;
 import edu.esprit.kaddem.model.Adresse;
 import edu.esprit.kaddem.model.Ecole;
+import edu.esprit.kaddem.model.Notification;
 import edu.esprit.kaddem.model.PaymentSession;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,10 +20,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.Instant;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @NoArgsConstructor
 @Getter
@@ -75,8 +75,9 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     @JoinColumn(name = "id_ecole")
     private Ecole ecole;
 
-    @OneToMany(mappedBy = "initiator")
-    private List<PaymentSession> paymentSessions;
+    @OneToMany(mappedBy = "initiator", cascade = CascadeType.ALL,fetch=FetchType.EAGER)
+    @Fetch(FetchMode.SELECT)
+    private List<PaymentSession> paymentSessions = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false, insertable = false, updatable = false)
@@ -120,4 +121,7 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     public boolean isEnabled() {
         return this.enabled;
     }
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    private List<Notification> notifications;
 }
