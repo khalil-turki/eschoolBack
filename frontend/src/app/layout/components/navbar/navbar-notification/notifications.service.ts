@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { BehaviorSubject } from 'rxjs';
 import {environment} from "../../../../../environments/environment";
+import {Notification} from "./notification.model";
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,13 @@ export class NotificationsService {
         resolve(this.apiData);
       }, reject);
     });
+  }
+
+  async markAllAsRead() {
+    await this._httpClient.post(`${environment.apiUrl}/notifications/markAllAsRead`, {}).toPromise();
+  }
+
+  async markAsRead(notification: Notification) {
+    await this._httpClient.post(`${environment.apiUrl}/notifications//markAsRead/${notification.id}`, {}).toPromise();
   }
 }

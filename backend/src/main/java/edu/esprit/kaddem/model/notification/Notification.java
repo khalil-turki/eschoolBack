@@ -1,8 +1,10 @@
-package edu.esprit.kaddem.model;
+package edu.esprit.kaddem.model.notification;
 
 import edu.esprit.kaddem.lib.AbstractEntity;
 import edu.esprit.kaddem.model.user.Utilisateur;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -10,8 +12,9 @@ import java.util.List;
 
 @Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 public class Notification {
-
     @Id
     @GeneratedValue
     private Integer id;
@@ -20,19 +23,15 @@ public class Notification {
     private String title;
     private String icon;
     
-    private Boolean isRead = false;
+    @OneToMany(mappedBy = "notification")
+    private List<NotificationUser> users = new ArrayList<>();
 
-    @ManyToMany(cascade = CascadeType.MERGE)
-    private List<Utilisateur> destinations = new ArrayList<>();
-
-    public Notification(String content, String title, String icon) {
+    public Notification(String content, String title, String icon, String actionUrl) {
         this.content = content;
         this.title = title;
         this.icon = icon;
+        this.actionUrl = actionUrl;
     }
 
-    public Notification() {
-    }
-
-
+    private String actionUrl;
 }

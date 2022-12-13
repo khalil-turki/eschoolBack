@@ -1,25 +1,24 @@
 package edu.esprit.kaddem.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import edu.esprit.kaddem.deserializers.CustomAuthorityDeserializer;
 import edu.esprit.kaddem.lib.AbstractEntity;
 import edu.esprit.kaddem.listeners.UtilisateurListener;
 import edu.esprit.kaddem.model.Adresse;
 import edu.esprit.kaddem.model.Ecole;
-import edu.esprit.kaddem.model.Notification;
+import edu.esprit.kaddem.model.notification.Notification;
 import edu.esprit.kaddem.model.PaymentSession;
+import edu.esprit.kaddem.model.notification.NotificationUser;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.time.Instant;
 import java.util.*;
 
 @NoArgsConstructor
@@ -83,8 +82,6 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     @Column(name = "role", nullable = false, insertable = false, updatable = false)
     private Role role;
 
-
-
     @Column(name = "enabled", columnDefinition = "boolean default true")
     private Boolean enabled = true;
 
@@ -122,6 +119,7 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
         return this.enabled;
     }
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    private List<Notification> notifications;
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    private List<NotificationUser> users = new ArrayList<>();
 }
