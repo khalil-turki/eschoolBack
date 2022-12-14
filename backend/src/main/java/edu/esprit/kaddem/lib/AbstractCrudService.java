@@ -31,11 +31,7 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
 
     public T create(T entity) {
         try {
-                entity.setCreatedDate(LocalDateTime.now());
-
-
-
-
+            entity.setCreatedDate(LocalDateTime.now());
             return repository.save(entity);
         } catch (JpaObjectRetrievalFailureException e) {
             throw new EntityNotFoundException(e.getMessage());
