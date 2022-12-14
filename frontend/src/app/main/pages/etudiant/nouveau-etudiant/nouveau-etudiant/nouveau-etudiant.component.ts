@@ -84,26 +84,26 @@ export class NouveauEtudiantComponent implements OnInit {
 
     .subscribe(etud => {
           this.savePhoto(etud.id, etud.nom);
+          Swal.fire({
+            title: 'Patientez svp',
+            html: 'En cours  ...',// add html attribute if you want or remove
+            allowOutsideClick: true,
+            onBeforeOpen: () => {
+              Swal.showLoading();
+            },
+          });
 
 
     },
 
           error => {
-            this.errorMsg = error.error.errors;
-            console.log("helllloooooo" + this.errorMsg);
+            Swal.fire('invalid information !', '', 'error')
           }
 
     )
 
 
-    Swal.fire({
-      title: 'Patientez svp',
-      html: 'En cours  ...',// add html attribute if you want or remove
-      allowOutsideClick: false,
-      onBeforeOpen: () => {
-        Swal.showLoading();
-      },
-    });
+
 
 
     Swal.fire({
