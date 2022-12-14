@@ -274,7 +274,7 @@
 </div>
 <div    *ngIf=" currentUser.role !=  'ROLE_ETUDIANT'  || currentUser.role !=  'ROLE_PARENT' ">
     <div class="d-flex justify-content-center">
-        <ngb-alert [type]="'danger'" [dismissible]="false">
+        <ngb-alert [type]="'danger'" [dismissible]="false" [hidden]="currentUser.role ===  'ROLE_ETUDIANT'  ||currentUser.role ===  'ROLE_PARENT'">>
             <h4 class="alert-heading">NOT_AUTHORIZED</h4>
             <div class="alert-body">
                 Your are on admin mode.                        Please connect as user to access this page.
