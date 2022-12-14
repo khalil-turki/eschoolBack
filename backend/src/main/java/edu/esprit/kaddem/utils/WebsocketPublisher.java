@@ -2,8 +2,7 @@ package edu.esprit.kaddem.utils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.esprit.kaddem.dto.NotificationDto;
-import edu.esprit.kaddem.model.Notification;
-import jdk.jfr.EventType;
+import edu.esprit.kaddem.model.notification.Notification;
 import lombok.SneakyThrows;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,6 @@ import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessageType;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class WebsocketPublisher {

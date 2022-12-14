@@ -1,14 +1,14 @@
 <span class="avatar" *ngIf="user.avatar && user.avatar.length > 0; else customAvatar">
             <img
                     class="round"
-                    src="assets/images/portrait/small/{{ user.avatar }}"
+                    src="{{ user.avatar }}"
                     alt="avatar"
-                    height="{{ canvasSize }}"
-                    width="{{ canvasSize }}"/>
-            <span class="avatar-status-online"></span>
+                    [ngStyle] = "{'width.rem': canvasSize, 'height.rem': canvasSize}"
+            />
+<!--            <span class="avatar-status-online"></span>-->
           </span>
 <ng-template #customAvatar>
-    <div class="avatar" style="height: {{canvasSize}}rem; width: {{canvasSize}}rem;"
+    <div class="avatar" [ngStyle] = "{'width.rem': canvasSize, 'height.rem': canvasSize}"
          [ngClass]="
                     {
                       'bg-light-danger': user.role === Role.Admin,

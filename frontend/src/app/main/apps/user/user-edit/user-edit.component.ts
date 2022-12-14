@@ -9,6 +9,7 @@ import {cloneDeep} from 'lodash';
 
 import {UserEditService} from 'app/main/apps/user/user-edit/user-edit.service';
 import {User} from "../../../../auth/models";
+import {readFileAsync} from "../../../../utils/fileUtils";
 
 @Component({
     selector: 'app-user-edit',
@@ -41,15 +42,14 @@ export class UserEditComponent implements OnInit, OnDestroy {
         this.accountForm.resetForm(this.tempRow);
     }
 
-    uploadImage(event: any) {
+    async uploadImage(event: any) {
         if (event.target.files && event.target.files[0]) {
-            let reader = new FileReader();
+            let fileContents = await readFileAsync(event.target.files[0]);
 
-            reader.onload = (event: any) => {
-                this.avatarImage = event.target.result;
-            };
+            let response = await this._userEditService.uploadImage(fileContents);
+            let res = JSON.parse(response);
+            this.currentRow.avatar = res.url;
 
-            reader.readAsDataURL(event.target.files[0]);
         }
     }
 
@@ -72,5 +72,11 @@ export class UserEditComponent implements OnInit, OnDestroy {
     ngOnDestroy(): void {
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    async removeAvatar() {
+        await this._userEditService.removeAvatar();
+        this.currentRow.avatar = '';
+        this.avatarImage = '';
     }
 }

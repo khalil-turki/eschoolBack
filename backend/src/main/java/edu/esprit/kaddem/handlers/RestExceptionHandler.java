@@ -5,6 +5,7 @@ import edu.esprit.kaddem.exception.EntityNotFoundException;
 import edu.esprit.kaddem.exception.ErrorCodes;
 import edu.esprit.kaddem.exception.InvalidEntityException;
 import edu.esprit.kaddem.exception.InvalidOperationException;
+import io.jsonwebtoken.SignatureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
@@ -59,7 +60,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errorDto, badRequest);
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
+    @ExceptionHandler({BadCredentialsException.class, SignatureException.class})
     public ResponseEntity<ErrorDto> handleException(BadCredentialsException exception, WebRequest webRequest) {
         final HttpStatus badRequest = HttpStatus.UNAUTHORIZED;
 

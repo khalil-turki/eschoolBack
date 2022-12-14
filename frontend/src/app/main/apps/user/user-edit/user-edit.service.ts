@@ -44,4 +44,12 @@ export class UserEditService implements Resolve<any> {
             }, reject);
         });
     }
+
+    async uploadImage(file: any): Promise<any> {
+        return this._httpClient.put(`${environment.apiUrl}/user/avatar`, file).toPromise();
+    }
+
+    async removeAvatar() {
+        return this._httpClient.delete(`${environment.apiUrl}/user/avatar`).toPromise();
+    }
 }
