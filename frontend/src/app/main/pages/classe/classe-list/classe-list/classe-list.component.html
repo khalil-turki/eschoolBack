@@ -1,4 +1,4 @@
-<div    *ngIf="currentUser.role === 'ROLE_ETUDIANT' ">
+<div    *ngIf="currentUser.role === 'ROLE_ADMIN' ">
 
 <!-- ngx-datatable-row-details -->
 <div class="content-wrapper container-xxl p-0">
@@ -146,7 +146,7 @@
 
 </div>
 
-<div    *ngIf="currentUser.role != 'ROLE_ETUDIANT' ">
+<div    *ngIf="currentUser.role != 'ROLE_ADMIN' ">
 <div  class="alert alert-info" role="alert" >
     <div class="d-flex justify-content-center">
         <H1>You Should Connect As Admin To See Class List </H1>

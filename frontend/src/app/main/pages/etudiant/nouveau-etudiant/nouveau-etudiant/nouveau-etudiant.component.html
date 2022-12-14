@@ -1,4 +1,4 @@
-<div    *ngIf="currentUser.role === 'ROLE_ETUDIANT' ">
+<div    *ngIf="currentUser.role === 'ROLE_ADMIN' ">
 <div class="col mb-3">
     <div class="col-md-12 mb-3 mt-3">
       <button (click)="fileInput.click()" style="background-color: transparent; border: none;">
@@ -131,7 +131,7 @@
 
   </div>
 </div>
-<div    *ngIf="currentUser.role != 'ROLE_ETUDIANT' ">
+<div    *ngIf="currentUser.role != 'ROLE_ADMIN' ">
 <div  class="alert alert-info" role="alert" >
   <div class="d-flex justify-content-center">
     <H1>You Should Connect As Admin To Insert Students  </H1>

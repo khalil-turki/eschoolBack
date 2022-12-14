@@ -1,4 +1,4 @@
-<div    *ngIf="currentUser.role === 'ROLE_ETUDIANT' ">
+<div    *ngIf="currentUser.role === 'ROLE_ADMIN' ">
 <div class="col">
     <div class="row m-2">
       <div class="col-md-0 p-4">
@@ -77,7 +77,7 @@
 </div>
     </div>
 
-<div    *ngIf="currentUser.role != 'ROLE_ETUDIANT' ">
+<div    *ngIf="currentUser.role != 'ROLE_ADMIN' ">
 
 
 <div  class="alert alert-info" role="alert" >
