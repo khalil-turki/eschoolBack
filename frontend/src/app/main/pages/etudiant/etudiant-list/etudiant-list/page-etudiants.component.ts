@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EtudiantDto} from "../../../../../../gs-api/src/models/etudiant-dto";
 import {EtudiantControllerService} from "../../../../../../gs-api/src/services/etudiant-controller.service";
@@ -11,38 +11,31 @@ import {AuthenticationService, UserService} from "../../../../../auth/service";
 })
 export class PageEtudiantsComponent implements OnInit {
 
-  listEtudiants : Array<EtudiantDto> = [];
-  listEtudiants2 : Array<EtudiantDto> = [];
-  errorMsgs:Array<string> =[];
-  searchText:any;
-  public page=0;
+  listEtudiants: Array<EtudiantDto> = [];
+  listEtudiants2: Array<EtudiantDto> = [];
+  errorMsgs: Array<string> = [];
+  searchText: any;
+  public page = 0;
   public pageBasicText = 1;
   public exportCSVData;
   public currentUser: any;
-  public index =20;
-
-
-
-
-
+  public index = 20;
 
 
   constructor(
-    private router: Router,
-    private etudiantService:EtudiantControllerService,
-    private activatedRoute: ActivatedRoute,
-    private userService:AuthenticationService
-
-  ) { }
+      private router: Router,
+      private etudiantService: EtudiantControllerService,
+      private activatedRoute: ActivatedRoute,
+      private userService: AuthenticationService
+  ) {
+  }
 
 
   ngOnInit(): void {
     const idClasse = this.activatedRoute.snapshot.params['idClasse'];
-    if (idClasse)
-    {
+    if (idClasse) {
       this.findEtudiantsByIdClass(idClasse);
-    }
-    else {
+    } else {
       this.findAllEtudiants();
     }
 
@@ -52,7 +45,6 @@ export class PageEtudiantsComponent implements OnInit {
   }
 
 
-
   findAllEtudiants(): void {
     this.etudiantService.listUsingGET4(this.page).subscribe(res => {
       this.listEtudiants = res;
@@ -60,13 +52,13 @@ export class PageEtudiantsComponent implements OnInit {
 
     });
 
-    this.etudiantService.listUsingGET4(this.page+1).subscribe(res => {
+    this.etudiantService.listUsingGET4(this.page + 1).subscribe(res => {
       this.listEtudiants2 = res;
 
     });
   }
 
-  findEtudiantsByIdClass(idClasse){
+  findEtudiantsByIdClass(idClasse) {
     this.etudiantService.findEtudiantsByClasseIdUsingGET(idClasse).subscribe(res => {
       this.listEtudiants = res;
       this.exportCSVData = this.listEtudiants;
@@ -79,38 +71,30 @@ export class PageEtudiantsComponent implements OnInit {
     this.router.navigate(['nvEtudiant']);
   }
 
-  handleSuppression(event:any):void{
+  handleSuppression(event: any): void {
     if (event === 'success') {
-      this.findAllEtudiants
-
+      this.findAllEtudiants()
+    } else {
+      this.errorMsgs = event;
     }
-    else { this.errorMsgs =event ;}
-
   }
 
-
-
   next(): void {
-    if(this.listEtudiants.length>2 && this.listEtudiants2.length>0) {
-        this.page++;
+    if (this.listEtudiants.length > 2 && this.listEtudiants2.length > 0) {
+      this.page++;
 
-      if(this.listEtudiants2.length>0)
-      {this.index++;}
+      if (this.listEtudiants2.length > 0) {
+        this.index++;
+      }
 
     }
-
     this.findAllEtudiants();
-
   }
 
   previous(): void {
-    if(this.page>0) {
+    if (this.page > 0) {
       this.page--;
-
       this.findAllEtudiants();
     }
   }
-
-
-
-  }
+}

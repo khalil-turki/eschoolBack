@@ -7,15 +7,15 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-xl-12 col-lg-12 d-flex justify-content-between border-container-lg">
-                  <div class="user-avatar-section">
+                  <div class="user-avatar-section mt-auto mb-auto">
                     <div class="d-flex justify-content-start">
                       <app-initials-avatar [user]="data" [size]="2.5"></app-initials-avatar>
-                      <div class="d-flex flex-column ml-1">
+                      <div class="d-flex ml-1">
                         <div class="user-info mb-1">
                           <h4 class="mb-0">{{data.prenom}} {{ data.nom }}</h4>
                           <span class="card-text">{{ data.email }}</span>
                         </div>
-                        <div class="d-flex flex-wrap">
+                        <div class="d-flex flex-wrap ml-1" style="height: 1rem;">
                           <a routerLink="/apps/user/user-edit/{{ data.id }}" class="btn btn-primary" rippleEffect
                             >Edit</a
                           >

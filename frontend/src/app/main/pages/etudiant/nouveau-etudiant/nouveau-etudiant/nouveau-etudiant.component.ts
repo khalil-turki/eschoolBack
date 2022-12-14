@@ -112,9 +112,10 @@ export class NouveauEtudiantComponent implements OnInit {
       text: 'A new user has been created.!',
     });
   }
-
+  public providedCredentials = false;
 
   onFileInput(files: FileList | null): void {
+    debugger;
     if (files) {
       this.file = files.item(0);
       if (this.file) {
@@ -123,6 +124,7 @@ export class NouveauEtudiantComponent implements OnInit {
         fileReader.onload = (event) => {
           if (fileReader.result) {
             this.imgUrl = fileReader.result;
+            this.providedCredentials = true;
           }
         };
       }
