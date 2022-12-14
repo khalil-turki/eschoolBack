@@ -3,6 +3,7 @@ package edu.esprit.kaddem.controller;
 import edu.esprit.kaddem.converters.JsonMergePatchHttpMessageConverter;
 import edu.esprit.kaddem.dto.AbstractUserDto;
 import edu.esprit.kaddem.model.user.Utilisateur;
+import edu.esprit.kaddem.services.FlickrPhotoService;
 import edu.esprit.kaddem.services.UserService;
 import edu.esprit.kaddem.utils.PolymorphicUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,9 @@ import javax.json.Json;
 import javax.json.JsonMergePatch;
 import javax.json.JsonReader;
 import java.io.StringReader;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -29,7 +32,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public AbstractUserDto<?> getUserById(@PathVariable("id") Integer id) {
-        if(id == null)
+        if (id == null)
             id = ((Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
         var user = userService.getUserById(id);
         return PolymorphicUtils.getDtoFromUser(user);
@@ -58,12 +61,29 @@ public class UserController {
         userService.add(u);
     }
 
-    @Autowired private JsonMergePatchHttpMessageConverter jsonMergePatchHttpMessageConverter;
+    @Autowired
+    private JsonMergePatchHttpMessageConverter jsonMergePatchHttpMessageConverter;
+
     @PatchMapping(value = "/{id}", consumes = "application/merge-patch+json")
     public AbstractUserDto patchUser(@PathVariable("id") Integer id, @RequestBody String body) {
         JsonReader reader = Json.createReader(new StringReader(body));
         var patch = Json.createMergePatch(reader.readValue());
         var patched = userService.patch(id, patch);
         return PolymorphicUtils.getDtoFromUser(patched);
+    }
+
+    @PutMapping("/avatar")
+    public Map<String, String> savePhoto(@RequestBody byte[] photo) {
+        var user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        user = userService.updateAvatar(user, photo);
+        var map = new HashMap<String, String>();
+        map.put("url", user.getAvatar());
+        return map;
+    }
+
+    @DeleteMapping("/avatar")
+    public void deletePhoto() {
+        var user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        userService.deleteAvatar(user);
     }
 }

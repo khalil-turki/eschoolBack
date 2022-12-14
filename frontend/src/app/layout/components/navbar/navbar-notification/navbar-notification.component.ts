@@ -13,7 +13,7 @@ import {Router} from "@angular/router";
     templateUrl: './navbar-notification.component.html'
 })
 export class NavbarNotificationComponent implements OnInit {
-    public notifications: Notification[];
+    public notifications: Notification[] = [];
     private topicSubscription: Subscription;
 
     constructor(private _notificationsService: NotificationsService,

@@ -40,6 +40,6 @@ export class NotificationsService {
   }
 
   async markAsRead(notification: Notification) {
-    await this._httpClient.post(`${environment.apiUrl}/notifications//markAsRead/${notification.id}`, {}).toPromise();
+    await this._httpClient.post(`${environment.apiUrl}/notifications/markAsRead/${notification.id}`, {}).toPromise();
   }
 }
