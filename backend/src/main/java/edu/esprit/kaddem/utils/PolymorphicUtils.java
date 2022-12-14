@@ -16,7 +16,7 @@ public class PolymorphicUtils {
         } else if (Parent.class.equals(user.getClass())) {
             return mapper.map(user, ParentDto.class);
         } else if (Admin.class.equals(user.getClass())) {
-            return mapper.map(user, AbstractUserDto.class);
+            return mapper.map(user, AdminDto.class);
         } else {
             throw new IllegalArgumentException("Unknown user type");
         }
@@ -33,6 +33,21 @@ public class PolymorphicUtils {
             return mapper.map(userDto, Admin.class);
         } else {
             throw new IllegalArgumentException("Unknown user type");
+        }
+    }
+
+    public static Class<?> getUserClass(Role role){
+        switch (role){
+            case ROLE_ETUDIANT:
+                return Etudiant.class;
+            case ROLE_PROFESSEUR:
+                return Professeur.class;
+            case ROLE_PARENT:
+                return Parent.class;
+            case ROLE_ADMIN:
+                return Admin.class;
+            default:
+                throw new IllegalArgumentException("Unknown user type");
         }
     }
 }

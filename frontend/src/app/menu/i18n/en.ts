@@ -30,7 +30,7 @@ export const locale = {
         },
         USER: {
           COLLAPSIBLE: 'User',
-          LIST: 'List',
+          LIST: 'Manage',
           VIEW: 'View',
           EDIT: 'Edit'
         }

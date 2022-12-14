@@ -2,9 +2,11 @@ package edu.esprit.kaddem.services;
 
 import edu.esprit.kaddem.exception.EntityNotFoundException;
 import edu.esprit.kaddem.model.user.Etudiant;
+import edu.esprit.kaddem.model.user.Role;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import edu.esprit.kaddem.repository.UtilisateurRepository;
 import edu.esprit.kaddem.utils.PatchUtil;
+import edu.esprit.kaddem.utils.PolymorphicUtils;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -64,7 +66,14 @@ public class UserService {
     @SneakyThrows
     public Utilisateur patch(Integer id, JsonMergePatch patch) {
         var oldUser = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        var patched = patchUtil.mergePatch(patch, (Etudiant) oldUser, Etudiant.class);
+        var clazz = patch.toJsonValue().asJsonObject().get("role").toString().replace("\"", "");
+        var newConcreteClass = PolymorphicUtils.getUserClass(Role.fromValue(clazz));
+        var patched = (Utilisateur) patchUtil.unsafeMergePatch(patch, oldUser, newConcreteClass);
+
+        patched.setRole(Role.fromValue(clazz));
+        if(oldUser.getRole() != patched.getRole()){
+            userRepository.delete(oldUser);
+        }
         userRepository.save(patched);
         return patched;
     }

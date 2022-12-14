@@ -14,7 +14,8 @@
                 <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
                   <!-- users edit media object start -->
                   <div class="media mb-2">
-                    <app-initials-avatar [user]="currentRow" [size]="3.5" class="mt-auto mb-auto mr-1"></app-initials-avatar>
+                    <app-initials-avatar [user]="currentRow" [size]="3.5"
+                                         class="mt-auto mb-auto mr-1"></app-initials-avatar>
                     <div class="media-body mt-50">
                       <h4>{{ currentRow.prenom }} {{currentRow.nom}}</h4>
                       <div class="col-12 d-flex mt-1 px-0">
@@ -32,7 +33,9 @@
                             <i class="mr-0" data-feather="edit"></i>
                           </span>
                         </label>
-                        <button class="btn btn-outline-secondary d-none d-sm-block" (click)="removeAvatar()" rippleEffect>Remove</button>
+                        <button class="btn btn-outline-secondary d-none d-sm-block" (click)="removeAvatar()"
+                                rippleEffect>Remove
+                        </button>
                         <button class="btn btn-outline-secondary d-block d-sm-none">
                           <i class="mr-0" data-feather="trash-2"></i>
                         </button>
@@ -104,19 +107,6 @@
                             >This field is required!</small
                             >
                           </span>
-                        </div>
-                      </div>
-                      <div class="col-md-4">
-                        <div class="form-group">
-                          <label for="status">Status</label>
-                          <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
-                            <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="status"
-                                [(ngModel)]="currentRow.enabled"
-                            />
-                          </div>
                         </div>
                       </div>
                       <div class="col-md-4">
@@ -194,7 +184,8 @@
                         </button>
                         <button type="reset"
                                 (click)="resetFormWithDefaultValues()"
-                                class="btn btn-outline-secondary" rippleEffect>Reset</button>
+                                class="btn btn-outline-secondary" rippleEffect>Reset
+                        </button>
                       </div>
                     </div>
                   </form>
@@ -205,7 +196,7 @@
             </li>
             <li ngbNavItem>
               <a ngbNavLink class="d-flex align-items-center"
-              ><i data-feather="share-2" class="mr-sm-50"></i><span class="d-none d-sm-block">Security</span></a
+              ><i data-feather="key" class="mr-sm-50"></i><span class="d-none d-sm-block">Security</span></a
               >
               <ng-template ngbNavContent>
                 <!-- Social Tab starts -->
@@ -222,8 +213,9 @@
                             </span>
                           </div>
                           <input
-                              id="twitter-input"
+                              id="password"
                               type="password"
+                              name="password"
                               [(ngModel)]="currentRow.plainPassword"
                               class="form-control"
                               placeholder="xxxxxxxxxxxx"
@@ -232,24 +224,18 @@
                         </div>
                       </div>
                       <div class="col-lg-4 col-md-6 form-group">
-                        <label for="use-2fa">Use 2FA</label>
-                        <div class="input-group input-group-merge">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon5">
-                              <i class="font-medium-2" data-feather="lock"></i>
-                            </span>
-                          </div>
-                          <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
-                            <input
-                                type="checkbox"
-                                class="custom-control-input"
-                                id="use-2fa"
-                                [(ngModel)]="currentRow.isUsing2FA"
-                            />
-                          </div>
+                        <div class="custom-control custom-control-primary custom-switch">
+                          <p class="mb-50">2FA</p>
+                          <input
+                              type="checkbox"
+                              name="use-2fa"
+                              class="custom-control-input"
+                              id="use-2fa"
+                              [(ngModel)]="currentRow.isUsing2FA"
+                          />
+                          <label class="custom-control-label" for="use-2fa"></label>
                         </div>
                       </div>
-
                       <div class="col-12 d-flex flex-sm-row flex-column mt-2">
                         <button type="submit"
                                 (click)="submit(accountForm)"

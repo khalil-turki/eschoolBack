@@ -28,7 +28,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
     @ViewChild('accountForm') accountForm: NgForm;
 
     public birthDateOptions: FlatpickrOptions = {
-        altInput: true
+        altInput: true,
+        altFormat: 'Y-m-d',
     };
 
     private _unsubscribeAll: Subject<any>;
@@ -45,11 +46,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
     async uploadImage(event: any) {
         if (event.target.files && event.target.files[0]) {
             let fileContents = await readFileAsync(event.target.files[0]);
-
-            let response = await this._userEditService.uploadImage(fileContents);
-            let res = JSON.parse(response);
+            let res = await this._userEditService.uploadImage(fileContents);
             this.currentRow.avatar = res.url;
-
         }
     }
 

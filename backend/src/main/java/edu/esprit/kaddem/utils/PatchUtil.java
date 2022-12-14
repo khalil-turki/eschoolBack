@@ -26,6 +26,12 @@ public class PatchUtil {
         return convertAndValidate(patched, beanClass);
     }
 
+    public Object unsafeMergePatch(JsonMergePatch mergePatch, Object targetBean, Class<?> beanClass) {
+        JsonValue target = mapper.convertValue(targetBean, JsonValue.class);
+        JsonValue patched = applyMergePatch(mergePatch, target);
+        return convertAndValidate(patched, beanClass);
+    }
+
     private JsonValue applyMergePatch(JsonMergePatch mergePatch, JsonValue target) {
         try {
             return mergePatch.apply(target);

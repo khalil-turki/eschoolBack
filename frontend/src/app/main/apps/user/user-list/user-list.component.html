@@ -9,7 +9,7 @@
           <div class="users-list-filter">
             <form>
               <div class="row">
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-6">
                   <fieldset class="form-group">
                     <ng-select
                       [items]="selectRole"
@@ -21,19 +21,7 @@
                     ></ng-select>
                   </fieldset>
                 </div>
-                <div class="col-12 col-md-4">
-                  <fieldset class="form-group">
-                    <ng-select
-                      [items]="selectPlan"
-                      [(ngModel)]="selectedPlan"
-                      name="selectedPlan"
-                      bindLabel="name"
-                      placeholder="Select Plan"
-                      (change)="filterByPlan($event)"
-                    ></ng-select>
-                  </fieldset>
-                </div>
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-6">
                   <fieldset class="form-group">
                     <ng-select
                       [items]="selectStatus"
@@ -126,15 +114,13 @@
               </div>
             </ng-template>
           </ngx-datatable-column>
-          <ngx-datatable-column name="Plan" prop="currentPlan" [width]="100"></ngx-datatable-column>
-          <ngx-datatable-column name="Status" prop="status" [width]="50">
+          <ngx-datatable-column name="Enabled" prop="enabled" [width]="50">
             <ng-template let-status="value" ngx-datatable-cell-template>
               <div
                 class="badge badge-pill"
                 [ngClass]="{
-                  'badge-light-success': status == 'active',
-                  'badge-light-secondary': status == 'inactive',
-                  'badge-light-warning': status == 'pending'
+                  'badge-light-success': status,
+                  'badge-light-warning': !status
                 }"
               >
                 {{ status }}
