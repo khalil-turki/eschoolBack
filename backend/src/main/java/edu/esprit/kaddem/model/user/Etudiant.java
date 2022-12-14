@@ -1,5 +1,6 @@
 package edu.esprit.kaddem.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import edu.esprit.kaddem.model.Adresse;
 import edu.esprit.kaddem.model.Classe;
@@ -27,6 +28,7 @@ public class Etudiant extends Utilisateur {
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @Fetch(FetchMode.SELECT)
+    @JsonIgnore
     private List<Parent> parents = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)

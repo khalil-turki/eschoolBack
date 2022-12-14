@@ -14,7 +14,7 @@
                 <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
                   <!-- users edit media object start -->
                   <div class="media mb-2">
-                    <app-initials-avatar [user]="currentRow" [size]="3.5" class="mr-1"></app-initials-avatar>
+                    <app-initials-avatar [user]="currentRow" [size]="3.5" class="mt-auto mb-auto mr-1"></app-initials-avatar>
                     <div class="media-body mt-50">
                       <h4>{{ currentRow.prenom }} {{currentRow.nom}}</h4>
                       <div class="col-12 d-flex mt-1 px-0">
@@ -32,7 +32,7 @@
                             <i class="mr-0" data-feather="edit"></i>
                           </span>
                         </label>
-                        <button class="btn btn-outline-secondary d-none d-sm-block" rippleEffect>Remove</button>
+                        <button class="btn btn-outline-secondary d-none d-sm-block" (click)="removeAvatar()" rippleEffect>Remove</button>
                         <button class="btn btn-outline-secondary d-block d-sm-none">
                           <i class="mr-0" data-feather="trash-2"></i>
                         </button>
@@ -109,11 +109,14 @@
                       <div class="col-md-4">
                         <div class="form-group">
                           <label for="status">Status</label>
-                          <select class="form-control" [(ngModel)]="currentRow.enabled" name="status" id="status">
-                            <option>active</option>
-                            <option>inactive</option>
-                            <option>pending</option>
-                          </select>
+                          <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
+                            <input
+                                type="checkbox"
+                                class="custom-control-input"
+                                id="status"
+                                [(ngModel)]="currentRow.enabled"
+                            />
+                          </div>
                         </div>
                       </div>
                       <div class="col-md-4">
@@ -183,23 +186,6 @@
                                  name="phone"/>
                         </div>
                       </div>
-                      <div class="col-lg-6 col-md-6">
-                        <div class="form-group">
-                          <label class="d-block mb-1">Gender</label>
-                          <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="male" name="gender" value="" class="custom-control-input"/>
-                            <label class="custom-control-label" for="male">Male</label>
-                          </div>
-                          <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="female" name="gender" class="custom-control-input"/>
-                            <label class="custom-control-label" for="female">Female</label>
-                          </div>
-                          <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="unspecified" name="gender" class="custom-control-input"/>
-                            <label class="custom-control-label" for="unspecified">Unspecified</label>
-                          </div>
-                        </div>
-                      </div>
                       <div class="col-12 d-flex flex-sm-row flex-column mt-2">
                         <button type="submit"
                                 (click)="submit(accountForm)"
@@ -232,7 +218,7 @@
                         <div class="input-group input-group-merge">
                           <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon3">
-                              <i class="font-medium-2" data-feather="twitter"></i>
+                              <i class="font-medium-2" data-feather="key"></i>
                             </span>
                           </div>
                           <input
@@ -246,43 +232,28 @@
                         </div>
                       </div>
                       <div class="col-lg-4 col-md-6 form-group">
-                        <label for="facebook-input">Confirm Password</label>
-                        <div class="input-group input-group-merge">
-                          <div class="input-group-prepend">
-                            <span class="input-group-text" id="basic-addon4">
-                              <i class="font-medium-2" data-feather="facebook"></i>
-                            </span>
-                          </div>
-                          <input
-                              id="facebook-input"
-                              type="password"
-                              class="form-control"
-                              placeholder="xxxxxxxxxxx"
-                              aria-describedby="basic-addon4"
-                          />
-                        </div>
-                      </div>
-                      <div class="col-lg-4 col-md-6 form-group">
-                        <label for="instagram-input">Use 2FA</label>
+                        <label for="use-2fa">Use 2FA</label>
                         <div class="input-group input-group-merge">
                           <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon5">
-                              <i class="font-medium-2" data-feather="instagram"></i>
+                              <i class="font-medium-2" data-feather="lock"></i>
                             </span>
                           </div>
-                          <input
-                              id="instagram-input"
-                              type="text"
-                              class="form-control"
-                              value="https://www.instagram.com/adopt-ionism744"
-                              placeholder="https://www.instagram.com/"
-                              aria-describedby="basic-addon5"
-                          />
+                          <div class="custom-control custom-switch custom-switch-success mr-2 mb-1">
+                            <input
+                                type="checkbox"
+                                class="custom-control-input"
+                                id="use-2fa"
+                                [(ngModel)]="currentRow.isUsing2FA"
+                            />
+                          </div>
                         </div>
                       </div>
 
                       <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                        <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" rippleEffect>
+                        <button type="submit"
+                                (click)="submit(accountForm)"
+                                class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1" rippleEffect>
                           Save Changes
                         </button>
                         <button type="reset" class="btn btn-outline-secondary" rippleEffect>Reset</button>

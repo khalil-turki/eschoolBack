@@ -25,8 +25,11 @@ public class UserService {
     @Autowired
     private UtilisateurRepository userRepository;
 
-    @Autowired private PatchUtil patchUtil;
+    @Autowired
+    private PatchUtil patchUtil;
 
+    @Autowired
+    private FlickrPhotoService flickrPhotoService;
 
     public List<Utilisateur> getAllUsers() {
         return userRepository.findAll();
@@ -61,8 +64,22 @@ public class UserService {
     @SneakyThrows
     public Utilisateur patch(Integer id, JsonMergePatch patch) {
         var oldUser = userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-        var patched = patchUtil.mergePatch(patch, (Etudiant)oldUser, Etudiant.class);
+        var patched = patchUtil.mergePatch(patch, (Etudiant) oldUser, Etudiant.class);
         userRepository.save(patched);
         return patched;
+    }
+
+    public Utilisateur updateAvatar(Utilisateur user, byte[] avatar) {
+        java.io.InputStream inputStream = new java.io.ByteArrayInputStream(avatar);
+        String titre = String.format("%d_%d", System.currentTimeMillis(), user.getId());
+        var url = flickrPhotoService.savePhoto(inputStream, titre);
+        user.setAvatar(url);
+        userRepository.save(user);
+        return user;
+    }
+
+    public void deleteAvatar(Utilisateur user) {
+        user.setAvatar(null);
+        userRepository.save(user);
     }
 }
