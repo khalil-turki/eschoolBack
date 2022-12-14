@@ -20,5 +20,4 @@ import java.util.List;
 public class ParentDto extends AbstractUserDto<Parent> implements Serializable {
     private Integer id;
     private String cin;
-    private List<EtudiantDto> etudiants;
 }
