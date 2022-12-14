@@ -18,4 +18,13 @@ public enum Role {
         public static final String ROLE_PARENT = "ROLE_PARENT";
         public static final String ROLE_ETUDIANT = "ROLE_ETUDIANT";
     }
+
+    public static Role fromValue(String value) {
+        for (Role role : Role.values()) {
+            if (role.value.equals(value)) {
+                return role;
+            }
+        }
+        throw new IllegalArgumentException("Unknown role: " + value);
+    }
 }
