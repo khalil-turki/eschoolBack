@@ -10,6 +10,9 @@ import {ClasseControllerService} from "../../../../../gs-api/src/services/classe
 import {EcoleDto} from "../../../../../gs-api/src/models/ecole-dto";
 import {DatatablesService} from "../../../tables/datatables/datatables.service";
 import {ChartOptions} from "../../../ui/card/card-analytics/card-analytics.component";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
+import {CoreConfigService} from "../../../../../@core/services/config.service";
+import {AuthenticationService} from "../../../../auth/service";
 
 @Injectable({
     providedIn: 'root'
@@ -56,6 +59,7 @@ export class EcoleComponent implements OnInit, Resolve<any> {
 
     public selectedRole = [];
     public selectedPlan = [];
+    public currentUser: any;
 
 
 
@@ -98,6 +102,8 @@ export class EcoleComponent implements OnInit, Resolve<any> {
     constructor(
         private router: Router,
         private ecoleService: EcoleControllerService,
+        private userService:AuthenticationService
+
     ) {
         this._unsubscribeAll = new Subject();
         this.onDatatablessChanged = new BehaviorSubject({});
@@ -121,6 +127,9 @@ export class EcoleComponent implements OnInit, Resolve<any> {
             this.tempData = this.rows;
             this.exportCSVData = this.rows;
         });
+
+        this.currentUser = this.userService.currentUserValue;
+
     }
 
 
@@ -193,5 +202,6 @@ export class EcoleComponent implements OnInit, Resolve<any> {
         window.location.reload();
 
     }
+
 
 }

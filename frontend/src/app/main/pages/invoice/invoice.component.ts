@@ -7,6 +7,7 @@ import { InvoicePreviewService } from 'app/main/apps/invoice/invoice-preview/inv
 import {InvoiceService} from "./invoice.service";
 import Swal from "sweetalert2";
 import {PayementControllerService} from "../../../../gs-api/src/services/payement-controller.service";
+import {AuthenticationService} from "../../../auth/service";
 
 
 
@@ -29,6 +30,9 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     swiftCode: 'BR91905'
   };
 
+  public currentUser: any;
+
+
   // private
   private _unsubscribeAll: Subject<any>;
 
@@ -44,6 +48,8 @@ export class InvoiceComponent implements OnInit, OnDestroy {
       private _invoicePreviewService: InvoiceService,
       private _coreSidebarService: CoreSidebarService,
       private payementService: PayementControllerService,
+      private userService:AuthenticationService
+
   ) {
     this._unsubscribeAll = new Subject();
     this.urlLastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
@@ -67,6 +73,8 @@ export class InvoiceComponent implements OnInit, OnDestroy {
    * On init
    */
   ngOnInit(): void {
+    this.currentUser = this.userService.currentUserValue;
+
 
   }
 

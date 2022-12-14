@@ -1,6 +1,6 @@
 <!-- ngx-datatable-row-details -->
 
-<div class="content-wrapper container-xxl p-0">
+<div class="content-wrapper container-xxl p-0" *ngIf="currentUser.role === 'ROLE_ADMIN' ">
     <div class="content-body">
 
         <div class="card">
@@ -171,3 +171,15 @@
 
 
         <!-- ngx-datatable-row-details -->
+    </div> <!-- users list end -->  </div>
+<div    *ngIf="currentUser.role != 'ROLE_ADMIN' ">
+    <div class="d-flex justify-content-center">
+        <ngb-alert [type]="'danger'" [dismissible]="false">
+            <h4 class="alert-heading">NOT_AUTHORIZED</h4>
+            <div class="alert-body">
+                Only Admin can see  school list , Please connect as Admin !
+            </div>
+        </ngb-alert>
+    </div>
+
+</div>

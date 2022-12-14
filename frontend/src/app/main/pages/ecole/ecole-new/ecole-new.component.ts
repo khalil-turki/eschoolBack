@@ -3,10 +3,13 @@ import {EcoleControllerService} from "../../../../../gs-api/src/services/ecole-c
 import {ActivatedRoute, Router} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {ToastrService} from "ngx-toastr";
-import {FormBuilder} from "@angular/forms";
+import {FormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {CoreSidebarService} from "../../../../../@core/components/core-sidebar/core-sidebar.service";
 import Swal from "sweetalert2";
 import {EcoleDto} from "../../../../../gs-api/src/models/ecole-dto";
+import {Subject} from "rxjs";
+import {takeUntil} from "rxjs/operators";
+import {AuthenticationService} from "../../../../auth/service";
 
 
 @Component({
@@ -19,6 +22,10 @@ export class EcoleNewComponent implements OnInit {
 
   public error = '';
   public submitted = false;
+  private _unsubscribeAll: Subject<any>;
+  public currentUser: any;
+
+
   public selectStatus: any = [
     { name: 'All', value: '' },
     { name: 'Pending', value: 'Pending' },
@@ -100,7 +107,9 @@ export class EcoleNewComponent implements OnInit {
               private _formBuilder: FormBuilder,
               private _route: ActivatedRoute,
               private _router: Router,
-              private ecoleControllerService: EcoleControllerService
+              private ecoleControllerService: EcoleControllerService,
+              private userService:AuthenticationService
+
   ) {
   }
 
@@ -119,7 +128,60 @@ export class EcoleNewComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.registerForm = this._formBuilder.group({
+      username: ['', [Validators.required]],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', Validators.required]
+    });
+    this.currentUser = this.userService.currentUserValue;
 
+  }
+
+
+  // Public
+  public coreConfig: any;
+  public passwordTextType: boolean;
+  public registerForm: UntypedFormGroup;
+
+
+
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.registerForm.controls;
+  }
+
+  /**
+   * Toggle password
+   */
+  togglePasswordTextType() {
+    this.passwordTextType = !this.passwordTextType;
+  }
+
+  /**
+   * On Submit
+   */
+  onSubmit() {
+    this.submitted = true;
+
+    // stop here if form is invalid
+    if (this.registerForm.invalid) {
+      return;
+    }
+  }
+
+  // Lifecycle Hooks
+  // -----------------------------------------------------------------------------------------------------
+  Unothorized: any;
+
+
+
+  /**
+   * On destroy
+   */
+  ngOnDestroy(): void {
+    // Unsubscribe from all subscriptions
+    this._unsubscribeAll.next();
+    this._unsubscribeAll.complete();
   }
 
 

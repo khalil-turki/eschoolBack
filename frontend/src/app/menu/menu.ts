@@ -79,14 +79,14 @@ export const menu: CoreMenu[] = [
       },
       {
         id: 'ecoles',
-        title: 'Ecoles',
+        title: 'Schools Management',
         translate: 'MENU.PAGES.SECTION',
         type: 'collapsible',
         icon: 'home',
         children: [{
 
           id: 'ecoles',
-          title: 'Liste',
+          title: 'Schools',
           translate: 'MENU.PAGES.PRICING',
           type: 'item',
           icon: 'list',
@@ -99,7 +99,7 @@ export const menu: CoreMenu[] = [
         },{
 
           id: 'ecoless',
-          title: 'Nouveau',
+          title: 'Add school',
           translate: 'MENU.PAGES.PRICING',
           type: 'item',
           icon: 'plus-circle',

@@ -1,9 +1,14 @@
-<form class="form form-horizontal" (ngSubmit)="(newUserForm.form.valid)" #newUserForm="ngForm">
+
+
+<form class="form form-horizontal" (ngSubmit)="(newUserForm.form.valid)" #newUserForm="ngForm"    *ngIf="currentUser.role === 'ROLE_ADMIN' ">
+    <ng-template #Unothorized>
+        <app-not-authorized></app-not-authorized>
+    </ng-template>
     <div class="row">
         <div class="col-12">
             <div class="form-group row">
                 <div class="col-sm-3 col-form-label">
-                    <label>Nom Ecole</label>
+                    <label>School name</label>
                 </div>
                 <div class="col-sm-9">
                     <div class="input-group input-group-merge">
@@ -15,19 +20,18 @@
                                 placeholder="John Doe"
                                 name="user-fullname"
                                 [(ngModel)]="ecoleDto.nom"
-                                [class.error]="submitted && FNameRef.invalid"
-                                #FNameRef="ngModel"
-                                required
-                                aria-label="Esprit"
-                                aria-describedby="basic-icon-default-fullname2"
+                                [class.error]="submitted "
+                                [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
                         />
-                        <span *ngIf="newUserForm.submitted && FNameRef.invalid" class="invalid-form">
-              <small class="form-text text-danger" *ngIf="FNameRef.errors.required">This field is required!</small>
-            </span>
+                        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                            <div *ngIf="f.username.errors.required">Nom is required</div>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
+
         <div class="col-12">
             <div class="form-group row">
                 <div class="col-sm-3 col-form-label">
@@ -52,7 +56,7 @@
                         <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
               <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
             </span>
-                        <small class="form-text text-muted"> vous pouvez utiliser des chiifres , lèttres et symboles  </small>
+                        <small class="form-text text-muted"> You can use numbers, letters, and symbols </small>
 
                     </div>
                 </div>
@@ -85,7 +89,7 @@
         <div class="col-12">
             <div class="form-group row">
                 <div class="col-sm-3 col-form-label">
-                    <label>Numero Telephone</label>
+                    <label>Phone number</label>
                 </div>
                 <div class="col-sm-9">
                     <div class="input-group input-group-merge">
@@ -113,7 +117,7 @@
         <div class="col-12">
             <div class="form-group row">
                 <div class="col-sm-3 col-form-label">
-                    <label>Nombre de departement</label>
+                    <label>Number of departements</label>
                 </div>
                 <div class="col-sm-9">
                     <div class="input-group input-group-merge">
@@ -162,4 +166,15 @@
         </div>
     </div>
 </form>
+<div    *ngIf="currentUser.role != 'ROLE_ADMIN' ">
+    <div class="d-flex justify-content-center">
+            <ngb-alert [type]="'danger'" [dismissible]="false">
+                <h4 class="alert-heading">NOT_AUTHORIZED</h4>
+                <div class="alert-body">
+                    Only Admin can add schools, Please connect as Admin to add schools!
+                </div>
+            </ngb-alert>
+        </div>
+
+</div>
   
