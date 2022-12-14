@@ -4,6 +4,7 @@ import edu.esprit.kaddem.lib.AbstractEntity;
 import lombok.*;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 @Getter
 @Setter
@@ -11,6 +12,8 @@ import javax.persistence.Entity;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Entity
+@Embeddable
+
 public class Adresse extends AbstractEntity<Adresse> {
     @Column(name = "adresse1")
     private String adresse1;

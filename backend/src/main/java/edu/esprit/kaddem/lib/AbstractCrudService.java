@@ -1,10 +1,16 @@
 package edu.esprit.kaddem.lib;
 
+import edu.esprit.kaddem.dto.EtudiantDto;
 import edu.esprit.kaddem.dto.search.PagedResponse;
 import edu.esprit.kaddem.dto.search.SearchRequest;
 import edu.esprit.kaddem.dto.search.util.SearchRequestUtil;
 import edu.esprit.kaddem.exception.EntityNotFoundException;
+import edu.esprit.kaddem.exception.ErrorCodes;
+import edu.esprit.kaddem.exception.InvalidEntityException;
+import edu.esprit.kaddem.model.user.Etudiant;
 import edu.esprit.kaddem.utils.PatchUtil;
+import edu.esprit.kaddem.validator.EtudiantValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
@@ -16,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 @Component
+@Slf4j
 public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
     @Autowired
     private AbstractRepository<T> repository;
@@ -25,6 +32,18 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
     public T create(T entity) {
         try {
             entity.setCreatedDate(LocalDateTime.now());
+            if( entity.getClass().getSimpleName().equals("Etudiant")){
+
+                List<String> errors = EtudiantValidator.validate((Etudiant) entity);
+                if (!errors.isEmpty()) {
+                    log.error("etudiant' is not valid {}", entity);
+                    throw new InvalidEntityException("L'etudiant' n'est pas valide", ErrorCodes.ETUDIANT_NOT_VALID, errors);
+                }
+
+                }
+
+
+
             return repository.save(entity);
         } catch (JpaObjectRetrievalFailureException e) {
             throw new EntityNotFoundException(e.getMessage());

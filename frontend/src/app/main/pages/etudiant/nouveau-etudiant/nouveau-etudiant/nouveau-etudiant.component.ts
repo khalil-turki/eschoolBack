@@ -90,6 +90,7 @@ export class NouveauEtudiantComponent implements OnInit {
 
           error => {
             this.errorMsg = error.error.errors;
+            console.log("helllloooooo" + this.errorMsg);
           }
 
     )

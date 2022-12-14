@@ -53,8 +53,6 @@ public class Utilisateur extends AbstractEntity<Utilisateur> implements UserDeta
     @Transient
     private String plainPassword;
 
-    @OneToOne
-    private Adresse adresse;
 
     @Column(name = "photo")
     private String photo;

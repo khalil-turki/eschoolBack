@@ -20,6 +20,10 @@ import java.util.List;
 @Accessors(chain = true)
 public class EtudiantDto extends AbstractUserDto<Etudiant> implements Serializable {
     private List<Integer> parentIds;
-    private Integer classeId;
     private String photo;
+    private AdresseDto adresse;
+    private ClasseDto classe;
+    private ParentDto parent;
+
+
 }

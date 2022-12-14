@@ -1,6 +1,7 @@
 package edu.esprit.kaddem.model.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import edu.esprit.kaddem.model.Adresse;
 import edu.esprit.kaddem.model.Classe;
 import edu.esprit.kaddem.model.Ecole;
 import lombok.*;
@@ -44,4 +45,7 @@ public class Etudiant extends Utilisateur {
     public int hashCode() {
         return getClass().hashCode();
     }
+
+    @OneToOne(cascade = CascadeType.ALL)
+    private Adresse adresse;
 }
