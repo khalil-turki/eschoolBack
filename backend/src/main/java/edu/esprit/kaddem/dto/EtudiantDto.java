@@ -24,6 +24,4 @@ public class EtudiantDto extends AbstractUserDto<Etudiant> implements Serializab
     private AdresseDto adresse;
     private ClasseDto classe;
     private ParentDto parent;
-
-
 }

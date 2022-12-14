@@ -46,4 +46,8 @@ public class EtudiantService extends AbstractCrudService<Etudiant> {
         }
         return super.create(entity);
     }
+
+    public Etudiant insertSilently(Etudiant entity){
+        return super.create(entity);
+    }
 }

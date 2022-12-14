@@ -106,8 +106,8 @@ public class AuthenticationService implements UserDetailsService {
         etudiant.setRole(Role.ROLE_ETUDIANT);
         etudiant.setIsUsing2FA(false);
         etudiant.setEnabled(true);
-        var registered = etudiantService.create(etudiant);
-        //emailService.sendSimpleMessage(registered.getEmail(), "Welcome to Kaddem", "Welcome to Kaddem");
+        var registered = etudiantService.insertSilently(etudiant);
+        emailService.sendSimpleMessage(registered.getEmail(), "Welcome to Kaddem", "Welcome to Kaddem");
         return registered;
     }
 }

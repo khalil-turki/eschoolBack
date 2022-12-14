@@ -1,15 +1,10 @@
 package edu.esprit.kaddem.lib;
 
-import edu.esprit.kaddem.dto.EtudiantDto;
 import edu.esprit.kaddem.dto.search.PagedResponse;
 import edu.esprit.kaddem.dto.search.SearchRequest;
 import edu.esprit.kaddem.dto.search.util.SearchRequestUtil;
 import edu.esprit.kaddem.exception.EntityNotFoundException;
-import edu.esprit.kaddem.exception.ErrorCodes;
-import edu.esprit.kaddem.exception.InvalidEntityException;
-import edu.esprit.kaddem.model.user.Etudiant;
 import edu.esprit.kaddem.utils.PatchUtil;
-import edu.esprit.kaddem.validator.EtudiantValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
