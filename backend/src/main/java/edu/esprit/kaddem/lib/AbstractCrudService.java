@@ -32,18 +32,6 @@ public abstract class AbstractCrudService<T extends AbstractEntity<?>> {
     public T create(T entity) {
         try {
             entity.setCreatedDate(LocalDateTime.now());
-            if( entity.getClass().getSimpleName().equals("Etudiant")){
-
-                List<String> errors = EtudiantValidator.validate((Etudiant) entity);
-                if (!errors.isEmpty()) {
-                    log.error("etudiant' is not valid {}", entity);
-                    throw new InvalidEntityException("L'etudiant' n'est pas valide", ErrorCodes.ETUDIANT_NOT_VALID, errors);
-                }
-
-                }
-
-
-
             return repository.save(entity);
         } catch (JpaObjectRetrievalFailureException e) {
             throw new EntityNotFoundException(e.getMessage());
