@@ -16,35 +16,124 @@
           <div class="row mb-3">
             <div class="col">
               <!-- <input type="text" class="form-control" name="codearticle" placeholder="Code article" [(ngModel)]="articleDto.codeArticle"> -->
-              <input type="text" class="form-control" name="Name" placeholder="Name" [(ngModel)]="etudiantDto.nom">
+              <input
+                      class="form-control"
+                      required
+                      id="nam"
+                      ngModel
+                      name="inputName"
+                      #inputName="ngModel"
+                      [class.error]="!inputName.valid"
+                      type="text"
+                      pattern="[A-Za-z]{1,32}"
+                      [(ngModel)]="etudiantDto.nom"
+
+              >
+              <ngb-alert [type]="'danger'" *ngIf="!inputName.valid" class="mt-lg-0" [dismissible]="false">
+                <div class="alert-body" >
+                  <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                  <small>Enter<strong> valid name</strong></small>
+                </div>
+              </ngb-alert>
 
             </div>
             <div class="col">
               <!--  <input type="text" class="form-control" name="designation" placeholder="Designation"  [(ngModel)]="articleDto.designation"> -->
-              <input type="text" class="form-control" name="FirstName" placeholder="FirstName"
-                     [(ngModel)]="etudiantDto.prenom">
+              <input type="text" class="form-control"  placeholder="FirstName"
+                     [(ngModel)]="etudiantDto.prenom"
+                     class="form-control"
+                     required
+                     ngModel
+                     name="inputPrenom"
+                     #inputPrenom="ngModel"
+                     [class.error]="!inputPrenom.valid"
+                     type="text"
+                     pattern="[A-Za-z]{1,32}"
 
+
+              >
+              <ngb-alert [type]="'danger'" *ngIf="!inputPrenom.valid" class="mt-lg-0" [dismissible]="false">
+                <div class="alert-body" >
+                  <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                  <small>Enter<strong> valid firstname</strong></small>
+                </div>
+              </ngb-alert>
             </div>
           </div>
           <div class="row mb-3">
             <div class="col">
-              <input type="text" class="form-control" name="date" placeholder="date"
-                     [(ngModel)]="etudiantDto.dateDeNaissance">
+              <input type="text" class="form-control"  placeholder="date"
+                     [(ngModel)]="etudiantDto.dateDeNaissance"
 
+              required
+              ngModel
+              name="inputDate"
+              #inputDate="ngModel"
+              [class.error]="!inputDate.valid"
+              type="text"
+              pattern="\d{1,2}-\d{1,2}-\d{4}"
+              >
+              <ngb-alert [type]="'danger'" *ngIf="!inputDate.valid" class="mt-lg-0" [dismissible]="false">
+                <div class="alert-body" >
+                  <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                  <small>Enter<strong> valid Date</strong></small>
+                </div>
+              </ngb-alert>
             </div>
 
 
             <div class="col">
-              <input type="text" class="form-control" name="Email" placeholder="Email " [(ngModel)]="etudiantDto.email">
+              <input type="text" class="form-control"  placeholder="Email " [(ngModel)]="etudiantDto.email"
+
+                     required
+                     id="inputEmail"
+                     ngModel
+                     name="inputEmail"
+                     #inputEmail="ngModel"
+                     [class.error]="!inputEmail.valid"
+                     type="text"
+                     pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+
+
+
+              >
+              <ngb-alert [type]="'danger'" *ngIf="!inputEmail.valid" class="mt-lg-0" [dismissible]="false">
+                <div class="alert-body" >
+                  <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                  <small>Enter<strong> valid email</strong></small>
+                </div>
+              </ngb-alert>
             </div>
 
             <div class="col">
-              <select class="form-control" name="Class" [(ngModel)]="classeDto.id">
-                <option [value]="null">Select Class</option>
+              <select class="form-control"  [(ngModel)]="classeDto.id"
+                      required
+                      id="nams"
+                      name="class"
+                      ngModel
+                      #class="ngModel"
+                      [class.error]="!class.valid"
+                      type="text"
+                      pattern="[A-Za-z]{1,32}"
+
+
+              >
+
+                <option [value]="null"  >Select Class</option>
                 <!--  <option *ngFor="let cat of listeCategorie" [value]="cat.id">{{ cat.code }} - {{ cat.designation }}</option> -->
-                <option *ngFor="let class of listeClasse" [value]="class.id"> {{ class.nomClasse }}</option>
+                <option *ngFor="let class of listeClasse" [value]="class.id" > {{ class.nomClasse }}</option>
               </select>
+              <div>
+                <ngb-alert [type]="'danger'" *ngIf="!class.valid" class="mt-lg-0" [dismissible]="false">
+                  <div class="alert-body" >
+                    <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                    <small>Enter<strong> valid Classe</strong></small>
+                  </div>
+                </ngb-alert>
+              </div>
+
             </div>
+
 
             <div class="col">
               <select class="form-control" name="Parent" [(ngModel)]="parentDto.id">
@@ -61,25 +150,92 @@
 
           <div class="row mb-3">
             <div class="col">
-              <input type="text" class="form-control" name="adresse1" placeholder="adresse1"
-                     [(ngModel)]="adresseDto.adresse1">
+              <input type="text"   placeholder="adresse1"
+                     [(ngModel)]="adresseDto.adresse1"
+                     class="form-control"
+                     required
+                     id="nasm"
+                     ngModel
+                     name="inputAdresse1"
+                     #inputAdresse1="ngModel"
+                     [class.error]="!inputAdresse1.valid"
+                     type="text"
+                     pattern="[A-Za-z]{1,32}"
+
+              >
+              <ngb-alert [type]="'danger'" *ngIf="!inputAdresse1.valid" class="mt-lg-0" [dismissible]="false">
+                <div class="alert-body" >
+                  <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                  <small>Enter<strong> valid Adresse 1</strong></small>
+                </div>
+              </ngb-alert>
             </div>
 
 
             <div class="col">
-              <input type="text" class="form-control" name="adresse2" placeholder="adresse2"
-                     [(ngModel)]="adresseDto.adresse2">
+              <input type="text" class="form-control"
+                     placeholder="adresse2"
+                     [(ngModel)]="adresseDto.adresse2"
+                     required
+                     id="nasdm"
+                     ngModel
+                     name="inputAdresse2"
+                     #inputAdresse2="ngModel"
+                     [class.error]="!inputAdresse2.valid"
+                     type="text"
+                     pattern="[A-Za-z]{1,32}"
+
+              >
+              <ngb-alert [type]="'danger'" *ngIf="!inputAdresse2.valid" class="mt-lg-0" [dismissible]="false">
+                <div class="alert-body" >
+                  <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                  <small>Enter<strong> valid Adresse 2</strong></small>
+                </div>
+              </ngb-alert>
             </div>
 
 
             <div class="col">
-              <input type="text" class="form-control" name="codePostale" placeholder="codePostale"
-                     [(ngModel)]="adresseDto.codePostale">
+              <input type="text" class="form-control"  placeholder="codePostale"
+                     [(ngModel)]="adresseDto.codePostale"
+                     required
+                     id="nasddm"
+                     ngModel
+                     name="inputCodepo"
+                     #inputCodepo="ngModel"
+                     [class.error]="!inputCodepo.valid"
+                     type="text"
+                     pattern="[0-9]*"
+              >
+              <ngb-alert [type]="'danger'" *ngIf="!inputCodepo.valid" class="mt-lg-0" [dismissible]="false">
+                <div class="alert-body" >
+                  <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                  <small>Enter<strong> valid Code postal</strong></small>
+                </div>
+              </ngb-alert>
             </div>
 
 
             <div class="col">
-              <input type="text" class="form-control" name="pays" placeholder="pays" [(ngModel)]="adresseDto.pays">
+              <input type="text" class="form-control"  placeholder="pays" [(ngModel)]="adresseDto.pays"
+                     required
+                     id="nansm"
+                     ngModel
+                     name="inputPays"
+                     #inputPays="ngModel"
+                     [class.error]="!inputPays.valid"
+                     type="text"
+                     pattern="[A-Za-z]{1,32}"
+
+
+
+              >
+              <ngb-alert [type]="'danger'" *ngIf="!inputPays.valid" class="mt-lg-0" [dismissible]="false">
+                <div class="alert-body" >
+                  <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                  <small>Enter<strong> valid Pays</strong></small>
+                </div>
+              </ngb-alert>
             </div>
           </div>
 
@@ -87,7 +243,26 @@
           <div class="row mb-3">
 
             <div class="col">
-              <input type="text" class="form-control" name="ville" placeholder="ville" [(ngModel)]="adresseDto.ville">
+              <input type="text" class="form-control"  placeholder="ville" [(ngModel)]="adresseDto.ville"
+                     required
+                     id="nasmk"
+                     ngModel
+                     name="inputVille"
+                     #inputVille="ngModel"
+                     [class.error]="!inputVille.valid"
+                     type="text"
+                     pattern="[A-Za-z]{1,32}"
+
+
+
+              >
+              <ngb-alert [type]="'danger'" *ngIf="!inputVille.valid" class="mt-lg-0" [dismissible]="false">
+                <div class="alert-body" >
+                  <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                  <small>Enter<strong> valid Vile</strong></small>
+                </div>
+              </ngb-alert>
+
             </div>
 
 
