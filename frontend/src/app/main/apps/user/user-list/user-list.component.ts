@@ -9,6 +9,9 @@ import {CoreSidebarService} from '@core/components/core-sidebar/core-sidebar.ser
 
 import {UserListService} from 'app/main/apps/user/user-list/user-list.service';
 import {User} from "../../../../auth/models";
+import {Breadcrumb} from "../../../../layout/components/content-header/breadcrumb/breadcrumb.component";
+import Swal from "sweetalert2";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: 'app-user-list',
@@ -17,7 +20,7 @@ import {User} from "../../../../auth/models";
   encapsulation: ViewEncapsulation.None
 })
 export class UserListComponent implements OnInit {
-  public rows: User[];
+  public rows: User[] = [];
   public selectedOption = 10;
   public ColumnMode = ColumnMode;
   public temp = [];
@@ -41,6 +44,18 @@ export class UserListComponent implements OnInit {
   public selectedRole = [];
   public selectedStatus = undefined;
   public searchValue = '';
+  public breadcrumbDefault: Breadcrumb = {
+    links: [
+      {
+        name: 'Home',
+        isLink: true,
+        link: '/'
+      }, {
+        name: 'User',
+        isLink: false,
+        link: ''
+      }]
+  }
 
   @ViewChild(DatatableComponent) table: DatatableComponent;
 
@@ -50,7 +65,8 @@ export class UserListComponent implements OnInit {
   constructor(
       private _userListService: UserListService,
       private _coreSidebarService: CoreSidebarService,
-      private _coreConfigService: CoreConfigService
+      private _coreConfigService: CoreConfigService,
+      private modalService: NgbModal
   ) {
     this._unsubscribeAll = new Subject();
   }
@@ -119,5 +135,17 @@ export class UserListComponent implements OnInit {
   ngOnDestroy(): void {
     this._unsubscribeAll.next();
     this._unsubscribeAll.complete();
+  }
+  public deleting: User;
+
+  async deleteUser(row: User) {
+    this._userListService.deleteUser(this.deleting.id).subscribe(() => {
+      this._userListService.onUserListChanged.next(this.rows.filter(user => user.id !== this.deleting.id));
+    });
+  }
+  modalOpen(modalBasic, deleting) {
+    debugger
+    this.deleting = deleting;
+    this.modalService.open(modalBasic);
   }
 }

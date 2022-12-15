@@ -51,6 +51,10 @@ export class NavbarNotificationComponent implements OnInit {
     }
 
     countUnreadNotifications(): number {
-        return this.notifications.filter(notification => !notification.isRead).length;
+        if (this.notifications) {
+            return this.notifications.filter(notification => !notification.isRead).length;
+        } else {
+            return 0;
+        }
     }
 }

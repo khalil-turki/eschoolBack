@@ -6,6 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { UserViewService } from 'app/main/apps/user/user-view/user-view.service';
 import {User} from "../../../../auth/models";
+import {Breadcrumb} from "../../../../layout/components/content-header/breadcrumb/breadcrumb.component";
 
 @Component({
   selector: 'app-user-view',
@@ -18,7 +19,22 @@ export class UserViewComponent implements OnInit, OnDestroy {
   public url = this.router.url;
   public lastValue;
   public data: User;
-
+  public breadcrumbDefault: Breadcrumb = {
+    links: [
+      {
+        name: 'Home',
+        isLink: true,
+        link: '/'
+      }, {
+        name: 'User',
+        isLink: true,
+        link: '/apps/user/user-list'
+      }, {
+        name: 'View',
+        isLink: false,
+        link: ''
+      }]
+  }
   // private
   private _unsubscribeAll: Subject<any>;
 

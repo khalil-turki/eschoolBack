@@ -29,4 +29,8 @@ export class UserListService implements Resolve<any> {
         this.onUserListChanged.next(this.rows);
       });
   }
+
+  deleteUser(id: number) {
+    return this._httpClient.delete(`${environment.apiUrl}/user/${id}`);
+  }
 }

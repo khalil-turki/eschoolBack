@@ -1,8 +1,9 @@
 <div class="content-wrapper container-xxl p-0">
+  <app-breadcrumb [breadcrumb]="breadcrumbDefault"></app-breadcrumb>
+
   <div class="content-body">
-    <!-- User List -->
+
     <section class="users-list-wrapper">
-      <!-- users filter start -->
       <div class="card">
         <h5 class="card-header">Search Filter</h5>
         <div class="card-body">
@@ -38,8 +39,6 @@
           </div>
         </div>
       </div>
-      <!-- users filter end -->
-
       <div class="card">
         <div class="row">
           <div class="col-md-6 col-12">
@@ -138,8 +137,8 @@
                     ><span [data-feather]="'file-text'" [size]="16" [class]="'mr-50'"></span> Details</a
                   ><a routerLink="/apps/user/user-edit/{{ row.id }}" ngbDropdownItem
                     ><span [data-feather]="'edit'" [size]="16" [class]="'mr-50'"></span> Edit</a
-                  ><a href="javascript:;" ngbDropdownItem
-                    ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'"></span> Delete</a
+                  ><a ngbDropdownItem (click)="modalOpen(modalBasic, row)"
+                    ><span [data-feather]="'trash'" [size]="16" [class]="'mr-50'" ></span> Delete</a
                   >
                 </div>
               </div>
@@ -148,10 +147,7 @@
         </ngx-datatable>
       </div>
     </section>
-    <!--/ User List -->
   </div>
-
-  <!-- New User Sidebar -->
   <core-sidebar
     class="modal modal-slide-in sidebar-todo-modal fade"
     name="new-user-sidebar"
@@ -159,5 +155,27 @@
   >
     <app-new-user-sidebar></app-new-user-sidebar>
   </core-sidebar>
-  <!--/ New User Sidebar -->
+
+  <!-- Modal -->
+  <ng-template #modalBasic let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title" id="myModalLabel1">Confirm deletion</h4>
+      <button type="button" class="close" (click)="modal.dismiss('Cross click')" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" tabindex="0" ngbAutofocus>
+      <h5>Delete user?</h5>
+      <p>
+        Deleting this user will remove all the data related to this user. Are you sure you want to delete this user?
+      </p>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" (click)="deleteUser(this.deleting); modal.close('Accept click')" rippleEffect>
+        Accept
+      </button>
+    </div>
+  </ng-template>
+
+
 </div>
