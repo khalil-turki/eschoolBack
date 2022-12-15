@@ -14,18 +14,24 @@
                     <div class="input-group input-group-merge">
 
                         <input
+                                required
+                                id="nam"
+                                ngModel
+                                name="inputName"
+                                #inputName="ngModel"
+                                class="form-control w-25 h-25 pl-1"
+                                [class.error]="!inputName.valid"
                                 type="text"
-                                class="form-control dt-full-name"
-                                id="basic-icon-default-fullname"
-                                placeholder="John Doe"
-                                name="user-fullname"
+                                pattern="[A-Za-z]{1,32}"
                                 [(ngModel)]="ecoleDto.nom"
-                                [class.error]="submitted "
-                                [ngClass]="{ 'is-invalid': submitted && f.username.errors }"
+
                         />
-                        <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                            <div *ngIf="f.username.errors.required">Nom is required</div>
-                        </div>
+                        <ngb-alert [type]="'danger'" *ngIf="!inputName.valid" class="mt-lg-0" [dismissible]="false">
+                            <div class="alert-body" >
+                                <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                                <small>The value is <strong>invalid</strong> enter valid name</small>
+                            </div>
+                        </ngb-alert>
                     </div>
                 </div>
             </div>
@@ -40,23 +46,28 @@
                 <div class="col-sm-9">
                     <div class="input-group input-group-merge">
                         <input
-                                type="text"
-                                id="basic-icon-default-email"
-                                class="form-control dt-email"
-                                placeholder="john.doe@example.com"
-                                aria-label="john.doe@example.com"
-                                aria-describedby="basic-icon-default-email2"
-                                name="user-email"
-                                [(ngModel)]="ecoleDto.email"
-                                [class.error]="newUserForm.submitted && FEmailRef.invalid"
-                                #FEmailRef="ngModel"
                                 required
+                                id="inputEmail"
+                                ngModel
+                                name="inputEmail"
+                                #inputEmail="ngModel"
+                                class="form-control w-25 h-25 pl-1"
+                                [class.error]="!inputEmail.valid"
+                                type="text"
+                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                [(ngModel)]="ecoleDto.email"
+                                placeholder="foulen@esprit.tn"
+
 
                         />
-                        <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
-              <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
-            </span>
-                        <small class="form-text text-muted"> You can use numbers, letters, and symbols </small>
+
+                        <ngb-alert [type]="'danger'" *ngIf="!inputEmail.valid" class="mt-lg-0" [dismissible]="false">
+                            <div class="alert-body" >
+                                <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                                <small>The value is <strong>invalid</strong>Enter valid mail </small>
+                            </div>
+                        </ngb-alert>
+
 
                     </div>
                 </div>
@@ -72,17 +83,31 @@
 
 
                             <label for="status"></label>
-                            <select class="form-control" [(ngModel)]="ecoleDto.codeFiscal"
+                            <select class="form-control"
+
+                                    required
+                                    id="nams"
+                                    ngModel
+                                    #status="ngModel"
+                                    class="form-control w-25 h-25 pl-1"
+                                    [class.error]="!status.valid"
+                                    type="text"
+                                    pattern="[A-Za-z]{1,32}"
+                                    [(ngModel)]="ecoleDto.codeFiscal"
                                     name="status" id="status">
                                 <option>active</option>
                                 <option>inactive</option>
                                 <option>pending</option>
                             </select>
-                        <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
-              <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
-            </span>
-                        <small class="form-text text-muted">active|inactive|pending</small>
+
+
                     </div>
+                    <ngb-alert [type]="'danger'" *ngIf="!status.valid" class="mt-lg-0" [dismissible]="false">
+                        <div class="alert-body" >
+                            <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                            <small>The value is <strong>invalid</strong>Select Status! </small>
+                        </div>
+                    </ngb-alert>
                 </div>
             </div>
         </div>
@@ -94,22 +119,25 @@
                 <div class="col-sm-9">
                     <div class="input-group input-group-merge">
                         <input
-                                type="text"
-                                id="basic-icon-default-num"
-                                class="form-control"
-                                placeholder="98975800"
-                                aria-label="john.doe@example.com"
-                                aria-describedby="basic-icon-default-email2"
-                                name="user-email"
-                                [(ngModel)]="ecoleDto.numTel"
-                                [class.error]="newUserForm.submitted && FEmailRef.invalid"
-                                #FEmailRef="ngModel"
                                 required
+                                id="numbers"
+                                ngModel
+                                name="inputNumber"
+                                #inputNumber="ngModel"
+                                class="form-control w-25 h-25 pl-1"
+                                [class.error]="!inputNumber.valid"
+                                type="text"
+                                pattern="[0-9]*"
+                                [(ngModel)]="ecoleDto.numTel"
+
 
                         />
-                        <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
-              <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
-            </span>
+                        <ngb-alert [type]="'danger'" *ngIf="!inputNumber.valid" class="mt-lg-0" [dismissible]="false">
+                            <div class="alert-body" >
+                                <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                                <small>The value is <strong>invalid</strong>Enter valid phone number</small>
+                            </div>
+                        </ngb-alert>
                     </div>
                 </div>
             </div>
@@ -122,22 +150,25 @@
                 <div class="col-sm-9">
                     <div class="input-group input-group-merge">
                         <input
-                                type="text"
-                                id="basic-icon-default-nums"
-                                class="form-control"
-                                placeholder="3"
-                                aria-label="john.doe@example.com"
-                                aria-describedby="basic-icon-default-email2"
-                                name="user-email"
-                                [(ngModel)]="ecoleDto.photo"
-                                [class.error]="newUserForm.submitted && FEmailRef.invalid"
-                                #FEmailRef="ngModel"
                                 required
+                                id="inputNumberDep"
+                                ngModel
+                                name="inputNumberDep"
+                                #inputNumberDep="ngModel"
+                                class="form-control w-25 h-25 pl-1"
+                                [class.error]="!inputNumberDep.valid"
+                                type="text"
+                                pattern="[0-9]*"
+                                [(ngModel)]="ecoleDto.photo"
+
 
                         />
-                        <span *ngIf="newUserForm.submitted && FEmailRef.invalid" class="invalid-form">
-              <small class="form-text text-danger" *ngIf="FEmailRef.errors.required">This field is required!</small>
-            </span>
+                        <ngb-alert [type]="'danger'" *ngIf="!inputNumberDep.valid" class="mt-lg-0" [dismissible]="false">
+                            <div class="alert-body" >
+                                <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                                <small>The value is <strong>invalid</strong>enter valid number</small>
+                            </div>
+                        </ngb-alert>
                     </div>
                 </div>
             </div>
