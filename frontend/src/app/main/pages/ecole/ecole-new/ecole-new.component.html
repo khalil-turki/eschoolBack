@@ -173,6 +173,132 @@
                 </div>
             </div>
         </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>Adresse 1</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+                        <input
+                                [(ngModel)]="adresseDto.adresse2"
+                                class="form-control"
+                                required
+                                id="nadsm"
+                                ngModel
+                                name="inputAdresse2"
+                                #inputAdresse2="ngModel"
+                                [class.error]="!inputAdresse2.valid"
+                                type="text"
+                                pattern="[A-Za-z]{1,32}"
+
+
+                        />
+                        <ngb-alert [type]="'danger'" *ngIf="!inputAdresse2.valid" class="mt-lg-0" [dismissible]="false">
+                            <div class="alert-body" >
+                                <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                                <small>Enter<strong> valid Adresse 2</strong></small>
+                            </div>
+                        </ngb-alert>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>Postalcode</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+                        <input
+                                [(ngModel)]="adresseDto.codePostale"
+                                class="form-control"
+                                required
+                                id="inputAdre"
+                                ngModel
+                                name="inputAdre"
+                                #inputAdre="ngModel"
+                                [class.error]="!inputAdre.valid"
+                                type="text"
+                                pattern="[A-Za-z]{1,32}"
+
+
+                        />
+                        <ngb-alert [type]="'danger'" *ngIf="!inputAdre.valid" class="mt-lg-0" [dismissible]="false">
+                            <div class="alert-body" >
+                                <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                                <small>Enter<strong> valid postal code</strong></small>
+                            </div>
+                        </ngb-alert>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>Country</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+                        <input
+                                [(ngModel)]="adresseDto.pays"
+                                class="form-control"
+                                required
+                                id="inputAs"
+                                ngModel
+                                name="inputAs"
+                                #inputAs="ngModel"
+                                [class.error]="!inputAs.valid"
+                                type="text"
+                                pattern="[A-Za-z]{1,32}"
+
+
+                        />
+                        <ngb-alert [type]="'danger'" *ngIf="!inputAs.valid" class="mt-lg-0" [dismissible]="false">
+                            <div class="alert-body" >
+                                <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                                <small>Enter<strong> valid country</strong></small>
+                            </div>
+                        </ngb-alert>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-group row">
+                <div class="col-sm-3 col-form-label">
+                    <label>City</label>
+                </div>
+                <div class="col-sm-9">
+                    <div class="input-group input-group-merge">
+                        <input
+                                [(ngModel)]="adresseDto.ville"
+                                class="form-control"
+                                required
+                                id="ville"
+                                ngModel
+                                name="inputAdres1"
+                                #inputAdres1="ngModel"
+                                [class.error]="!inputAdres1.valid"
+                                type="text"
+                                pattern="[A-Za-z]{1,32}"
+
+
+                        />
+                        <ngb-alert [type]="'danger'" *ngIf="!inputAdres1.valid" class="mt-lg-0" [dismissible]="false">
+                            <div class="alert-body" >
+                                <span [data-feather]="'info'" [class]="'mr-50 align-middle'"></span>
+                                <small>Enter<strong> valid Adresse 1</strong></small>
+                            </div>
+                        </ngb-alert>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
 
 
         <div class="col-sm-9 offset-sm-3">

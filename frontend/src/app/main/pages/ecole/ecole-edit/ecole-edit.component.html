@@ -137,34 +137,11 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                <button
-                                                        type="submit"
-                                                        (click)="submit(accountForm)"
-                                                        class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
-                                                        rippleEffect
-                                                >
-                                                    Save Changes
-                                                </button>
-                                                <button (click)="resetFormWithDefaultValues()"
-                                                        class="btn btn-outline-secondary" rippleEffect>
-                                                    Reset
-                                                </button>
-                                            </div>
+
                                         </div>
                                     </form>
                                     <!-- users edit account form ends -->
                                 </div>
-                                <!-- Account Tab ends -->
-                            </ng-template>
-                        </li>
-                        <li ngbNavItem>
-                            <a ngbNavLink class="d-flex align-items-center">
-                                <i data-feather="info" class="mr-sm-50"></i><span
-                                    class="d-none d-sm-block">Information</span></a
-                            >
-                            <ng-template ngbNavContent let-row="row">
-                                <!-- Information Tab starts -->
                                 <div class="tab-pane" id="information" aria-labelledby="information-tab"
                                      role="tabpanel">
                                     <!-- users edit Info form start  -->
@@ -234,7 +211,7 @@
                                                             class="form-control"
 
                                                             name="address"
-                                                            [(ngModel)]="ecoleDto.adresse.adresse1"
+                                                            [(ngModel)]="adresseDto.adresse2"
                                                             [class.error]="accountForm.submitted && EmailRef.invalid"
                                                             #EmailRef="ngModel"
                                                             required
@@ -249,22 +226,6 @@
                                             </div>
                                             <div class="col-lg-4 col-md-6">
                                                 <div class="form-group">
-                                                    <label for="address-2">Address Line 2</label>
-                                                    <input
-                                                            id="address-2"
-                                                            type="text"
-                                                            class="form-control"
-
-                                                            name="address"
-                                                            [(ngModel)]="ecoleDto.adresse.adresse2"
-                                                            [class.error]="accountForm.submitted && EmailRef.invalid"
-                                                            #EmailRef="ngModel"
-                                                            required
-                                                    />
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-4 col-md-6">
-                                                <div class="form-group">
                                                     <label for="postcode">Postcode</label>
                                                     <input
                                                             id="postcode"
@@ -272,7 +233,7 @@
                                                             class="form-control"
 
                                                             name="address"
-                                                            [(ngModel)]="ecoleDto.adresse.adresse1"
+                                                            [(ngModel)]="adresseDto.codePostale"
                                                             [class.error]="accountForm.submitted && EmailRef.invalid"
                                                             #EmailRef="ngModel"
                                                             required
@@ -288,7 +249,7 @@
                                                             class="form-control"
                                                             placeholder="City"
                                                             name="address"
-                                                            [(ngModel)]="ecoleDto.adresse.ville"
+                                                            [(ngModel)]="adresseDto.ville"
                                                             [class.error]="accountForm.submitted && EmailRef.invalid"
                                                             #EmailRef="ngModel"
                                                             required
@@ -304,7 +265,7 @@
                                                             class="form-control"
                                                             placeholder="City"
                                                             name="address"
-                                                            [(ngModel)]="ecoleDto.adresse.pays"
+                                                            [(ngModel)]="adresseDto.pays"
                                                             [class.error]="accountForm.submitted && EmailRef.invalid"
                                                             #EmailRef="ngModel"
                                                             required
@@ -312,7 +273,16 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 d-flex flex-sm-row flex-column mt-2">
-                                                <button type="reset" class="btn btn-outline-secondary" rippleEffect>
+                                                <button
+                                                        type="submit"
+                                                        (click)="submit(accountForm)"
+                                                        class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
+                                                        rippleEffect
+                                                >
+                                                    Save Changes
+                                                </button>
+                                                <button (click)="resetFormWithDefaultValues()"
+                                                        class="btn btn-outline-secondary" rippleEffect>
                                                     Reset
                                                 </button>
                                             </div>
@@ -320,8 +290,16 @@
                                     </form>
                                     <!-- users edit Info form ends -->
                                 </div>
-                                <!-- Information Tab ends -->
+
+                                <!-- Account Tab ends -->
                             </ng-template>
+                        </li>
+                        <li ngbNavItem>
+                            <a ngbNavLink class="d-flex align-items-center">
+                                <i data-feather="info" class="mr-sm-50"></i><span
+                                    class="d-none d-sm-block">Information</span></a
+                            >
+
                         </li>
                         <li ngbNavItem>
 

@@ -9,6 +9,7 @@ import {EcoleControllerService} from "gs-api/src/services/ecole-controller.servi
 import {EcoleDto} from "gs-api/src/models/ecole-dto";
 import {map} from 'rxjs/operators';
 import Swal from "sweetalert2";
+import {AdresseDto} from "../../../../../gs-api/src/models/adresse-dto";
 
 
 @Component({
@@ -23,6 +24,8 @@ export class EcoleEditComponent implements OnInit, OnDestroy {
     public currentRow;
     public tempRow;
     public avatarImage: string;
+    public adresseDto:AdresseDto={};
+
 
     ecoleDto: EcoleDto = {};
 
@@ -173,6 +176,8 @@ export class EcoleEditComponent implements OnInit, OnDestroy {
             this.ecoleService.findByIdUsingGET2(idClasse)
                 .subscribe(classe => {
                     this.ecoleDto = classe;
+                    this.adresseDto = this.ecoleDto.adresse ? this.ecoleDto.adresse : {};
+
                 });
         }
     }

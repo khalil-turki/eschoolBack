@@ -10,6 +10,7 @@ import {EcoleDto} from "../../../../../gs-api/src/models/ecole-dto";
 import {Subject} from "rxjs";
 import {takeUntil} from "rxjs/operators";
 import {AuthenticationService} from "../../../../auth/service";
+import {AdresseDto} from "../../../../../gs-api/src/models/adresse-dto";
 
 
 @Component({
@@ -19,7 +20,7 @@ import {AuthenticationService} from "../../../../auth/service";
 })
 export class EcoleNewComponent implements OnInit {
    ecoleDto: EcoleDto = {};
-
+  adresseDto:AdresseDto={};
   public error = '';
   public submitted = false;
   private _unsubscribeAll: Subject<any>;
@@ -44,7 +45,10 @@ export class EcoleNewComponent implements OnInit {
 
 
   submit(form) {
+
     if (form.valid) {
+      this.ecoleDto.adresse=this.adresseDto;
+
       return new Promise((resolve, reject) => {
         Swal.fire({
           title: 'Patientez svp',
@@ -134,6 +138,7 @@ export class EcoleNewComponent implements OnInit {
       password: ['', Validators.required]
     });
     this.currentUser = this.userService.currentUserValue;
+    this.adresseDto = this.ecoleDto.adresse ? this.ecoleDto.adresse : {};
 
   }
 
