@@ -36,6 +36,9 @@ public class EtudiantValidator {
         if (etudiantDto.getDateDeNaissance() == null) {
             errors.add("Veuillez renseigner la Date de naissance ");
         }
+        if (etudiantDto.getClasse() == null) {
+            errors.add("Veuillez renseigner une classe ");
+        }
 
         errors.addAll(AdresseValidator.validate(etudiantDto.getAdresse()));
 

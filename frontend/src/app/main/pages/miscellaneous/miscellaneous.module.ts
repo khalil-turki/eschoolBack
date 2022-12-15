@@ -30,7 +30,10 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [ComingSoonComponent, NotAuthorizedComponent, MaintenanceComponent, ErrorComponent],
-  imports: [CommonModule, RouterModule.forChild(routes), CoreCommonModule]
+    declarations: [ComingSoonComponent, NotAuthorizedComponent, MaintenanceComponent, ErrorComponent],
+    exports: [
+        NotAuthorizedComponent
+    ],
+    imports: [CommonModule, RouterModule.forChild(routes), CoreCommonModule]
 })
 export class MiscellaneousModule {}
