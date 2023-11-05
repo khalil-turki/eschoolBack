@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="EschoolApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
     <option name="ACTIVE_PROFILES" />
-    <module name="eschool" />
+    <module name="kaddem" />
     <option name="SPRING_BOOT_MAIN_CLASS" value="edu.esprit.kaddem.EschoolApplication" />
     <extension name="coverage">
       <pattern>

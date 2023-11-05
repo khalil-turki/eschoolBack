@@ -45,8 +45,6 @@ public class PayementController {
 
     @GetMapping("/pay")
     public PaymentSessionResponseDTO pay() {
-        String body = "Salam alaykoum, votre payement a été effectué avec succés, merci de votre confiance";
-        twillioService.sendSms(to, from, body);
         return paymentService.createCheckoutSession();
     }
 
