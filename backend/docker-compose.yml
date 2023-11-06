@@ -3,7 +3,7 @@ services:
   devops:
     container_name: devops
     hostname: devops
-    image: "devops:latest"
+    image: "khalilturki/devops-application:1.0.0"
     build: .
     ports:
       - "8081:8081"
