@@ -7,7 +7,7 @@ WORKDIR /app
 COPY target/timesheetdevops.jar timesheetdevops.jar
 
 # Expose the port your application is listening on (if necessary)
-EXPOSE 8081
+EXPOSE 8087
 
 # Define the entry point
 ENTRYPOINT ["java", "-jar", "timesheetdevops.jar"]
