@@ -227,6 +227,8 @@
 
         </plugins>
 
+        <finalName>timesheetdevops</finalName>
+
     </build>
 
 
