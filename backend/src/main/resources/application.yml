@@ -77,9 +77,3 @@ app:
     toPhoneNo: +21698975800
 
   name: Kaddem
-
-  management:
-    endpoints:
-      web:
-        exposure:
-          include=*:
