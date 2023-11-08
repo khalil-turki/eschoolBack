@@ -2,7 +2,7 @@ package edu.esprit.kaddem.controller;
 
 import com.flickr4java.flickr.FlickrException;
 import edu.esprit.kaddem.services.srategy.StrategyPhotoContext;
-import io.swagger.annotations.Api;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

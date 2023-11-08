@@ -15,7 +15,6 @@ import edu.esprit.kaddem.model.user.Etudiant;
 import edu.esprit.kaddem.model.user.Utilisateur;
 import edu.esprit.kaddem.services.AuthenticationService;
 import edu.esprit.kaddem.services.EmailService;
-import io.swagger.annotations.Api;
 import org.jboss.aerogear.security.otp.Totp;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
-@Api
+
 @RestController()
 @CrossOrigin
 @RequestMapping("/auth")

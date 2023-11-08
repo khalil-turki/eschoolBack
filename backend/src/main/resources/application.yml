@@ -47,6 +47,8 @@ spring:
 server:
   port: 8087
 
+
+
 logging:
   level:
     org:
@@ -77,3 +79,6 @@ app:
     toPhoneNo: +21698975800
 
   name: Kaddem
+
+management.endpoints.web.exposure.include: "*"
+management.endpoint.health.show-details: always

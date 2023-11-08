@@ -8,7 +8,6 @@ import edu.esprit.kaddem.model.Classe;
 import edu.esprit.kaddem.model.Ecole;
 import edu.esprit.kaddem.model.user.Etudiant;
 import edu.esprit.kaddem.services.*;
-import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @CrossOrigin(origins = "*")
-@Api
+
 @RestController
 @RequestMapping(value = "/etudiants", produces = "application/json")
 public class EtudiantController extends AbstractCrudController<Etudiant, EtudiantDto> {
