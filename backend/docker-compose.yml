@@ -2,7 +2,7 @@ version: "3.9"
 services:
   devops:
     container_name: devops
-    image: "khalilturki/devops-application:1.0.0"
+    image: "ahmedm210/devops-application:1.0.0"
     build: .
     ports:
       - "8087:8087"
