@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 4200
 
 # Define the command to run your app
-CMD ["npm", "start"]
+CMD ["npm", "start", "--host", "0.0.0.0"]
