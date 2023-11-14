@@ -244,6 +244,7 @@
 
     </build>
 
+    <profiles>
     <profile>
         <id>coverage</id>
         <build>
@@ -272,8 +273,8 @@
                         </execution>
                     </executions>
                 </plugin>
-                ...
             </plugins>
         </build>
     </profile>
+    </profiles>
 </project>
