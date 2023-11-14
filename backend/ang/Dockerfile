@@ -11,7 +11,7 @@ COPY package*.json ./
 RUN npm install
 
 # Copy the application files to the working directory
-COPY . .
+COPY ../../frontend .
 
 # Expose the port the app runs on
 EXPOSE 4200
