@@ -31,6 +31,7 @@ public class AdresseTest {
 
     @Test
     public void testRetrieveAllAdresses() {
+        log.info("testRetrieveAllAdresses");
         List<Adresse> etudiantList = Collections.singletonList(new Adresse());
 
         // Mock the repository to return the sample list when findAll is called
@@ -43,6 +44,7 @@ public class AdresseTest {
 
     @Test
     public void testAddAdresse(){
+        log.info("testAddAdresse");
         Adresse adresse = new Adresse();
         adresse.setAdresse1("Adresse1");
         adresse.setAdresse2("Adresse2");
