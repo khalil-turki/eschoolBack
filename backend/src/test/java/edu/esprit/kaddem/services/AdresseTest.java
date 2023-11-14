@@ -61,4 +61,64 @@ public class AdresseTest {
 
     }
 
+    @Test
+    public  void testRetrieveAdresse(){
+        log.info("testRetrieveAdresse");
+        Adresse adresse = new Adresse();
+        adresse.setAdresse1("Adresse1");
+        adresse.setAdresse2("Adresse2");
+        adresse.setVille("ville");
+        adresse.setCodePostale("codePostal");
+        adresse.setPays("pays");
+
+        Mockito.when(adresseRepository.findById(1)).thenReturn(java.util.Optional.of(adresse));
+
+        Adresse result = adresseService.findById(1);
+        Mockito.verify(adresseRepository).findById(1);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(adresse, result);
+    }
+
+    @Test
+    public void testDeleteAdresse(){
+        log.info("testDeleteAdresse");
+        Adresse adresse = new Adresse();
+        adresse.setAdresse1("Adresse1");
+        adresse.setAdresse2("Adresse2");
+        adresse.setVille("ville");
+        adresse.setCodePostale("codePostal");
+        adresse.setPays("pays");
+
+        Mockito.when(adresseRepository.findById(1)).thenReturn(java.util.Optional.of(adresse));
+
+        adresseService.delete(adresse);
+        Mockito.verify(adresseRepository).delete(adresse);
+    }
+
+    @Test
+    public void testUpdateAdresse(){
+        log.info("testUpdateAdresse");
+        Adresse adresse = new Adresse();
+        adresse.setAdresse1("Adresse1");
+        adresse.setAdresse2("Adresse2");
+        adresse.setVille("ville");
+        adresse.setCodePostale("codePostal");
+        adresse.setPays("pays");
+
+        Mockito.when(adresseRepository.findById(1)).thenReturn(java.util.Optional.of(adresse));
+
+        adresse.setAdresse1("Adresse1");
+        adresse.setAdresse2("Adresse2");
+        adresse.setVille("ville");
+        adresse.setCodePostale("codePostal");
+        adresse.setPays("pays");
+
+        Mockito.when(adresseRepository.save(adresse)).thenReturn(adresse);
+
+        Adresse result = adresseService.update(1,adresse);
+        Mockito.verify(adresseRepository).save(adresse);
+        Assert.assertNotNull(result);
+        Assert.assertEquals(adresse, result);
+    }
+
 }
