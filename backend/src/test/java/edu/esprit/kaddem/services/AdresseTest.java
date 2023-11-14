@@ -25,6 +25,7 @@ import java.util.Optional;
 @Slf4j
 @SpringBootTest
 @ExtendWith(MockitoExtension.class)
+@DataJpaTest
 public class AdresseTest {
 
     @Mock
