@@ -3,23 +3,17 @@ spring:
   main:
     allow-circular-references: true
   datasource:
-    url: jdbc:mysql://localhost:3306/university?createDatabaseIfNotExist=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
-    username: root
-    password:  # Leave this field empty
-    driver-class-name: com.mysql.cj.jdbc.Driver
-  ## Specify DBMS
-  jpa:
-    database: MYSQL
-    show-sql: true
-    properties:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+    h2:
+      console:
+        enabled: true
+    jpa:
       hibernate:
         ddl-auto: update
-        dialect: org.hibernate.dialect.MySQL8Dialect
-        show_sql: false
-        format_sql: false
-
-    generate-ddl: true
-
+      show-sql: true
 
   mvc:
     pathmatch:
