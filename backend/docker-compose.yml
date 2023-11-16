@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   devops:
-    container_name: devops
+    container_name: spring-app
     image: "ahmedm210/devops-application:1.0.0"
     build: .
     ports:
@@ -29,7 +29,7 @@ services:
 
   angular-app:
     container_name: angular-app
-    image: "khalilturki/devops-application:angular-app-1.0.1"
+    image: "ahmedm210/devops-application:angular-app-1.0.1"
     build:
       context: ../frontend
     ports:
