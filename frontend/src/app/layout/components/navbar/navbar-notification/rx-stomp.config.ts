@@ -9,7 +9,7 @@ function getToken() {
 }
 
 export const myRxStompConfig: RxStompConfig = {
-    brokerURL: `ws://localhost:8081/ws`,
+    brokerURL: `ws://http://172.18.137.75:8087/ws`,
     connectHeaders: {
         Authorization: getToken()
     },

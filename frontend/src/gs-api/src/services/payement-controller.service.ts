@@ -64,7 +64,7 @@ class PayementControllerService extends __BaseService {
 
 
   payUsingGET(){
-    return this.http.get("http://localhost:8081/payment/pay")
+    return this.http.get("http://172.18.137.75:8087/payment/pay")
   }
 
 

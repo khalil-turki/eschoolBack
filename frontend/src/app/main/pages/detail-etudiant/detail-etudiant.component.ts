@@ -68,7 +68,7 @@ export class DetailEtudiantComponent implements OnInit {
 
   PDF(idEtudiant: number,idClasse:number): void {
     console.log(idEtudiant);
-  window.location.href = '///localhost:8081/etudiants/pdf/'+idEtudiant+'/'+idClasse;
+  window.location.href = '///http://172.18.137.75:8087/etudiants/pdf/'+idEtudiant+'/'+idClasse;
   Swal.fire('PDG GENERATED !', '', 'success')
 
 
