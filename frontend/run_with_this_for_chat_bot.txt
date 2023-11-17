@@ -5,4 +5,4 @@ ng s --host "default_ipv4"
 
 
 
-ou ng s --host 127.0.0.1
+ou ng s --host 192.168.10.10
