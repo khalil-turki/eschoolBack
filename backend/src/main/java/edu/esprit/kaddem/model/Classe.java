@@ -31,4 +31,11 @@ public class Classe extends AbstractEntity<Classe> {
 
     @OneToMany(mappedBy = "classe", cascade = CascadeType.MERGE)
     private List<Etudiant> etudiants;
+
+    // Add this constructor to your Classe class
+    public Classe(String nomClasse) {
+        this.nomClasse = nomClasse;
+    }
+
+
 }
