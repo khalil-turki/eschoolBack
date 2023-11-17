@@ -43,4 +43,31 @@ class EquipeTest {
         assertEquals(expectedEcoles, resultEcoles);
     }
     // Add more test methods as needed for other service methods
+
+    @Test
+    public void testDeleteEquipe() {
+        // Arrange
+        Equipe existingEquioe = new Equipe(/* initialize with appropriate values */);
+
+        // Act
+        equipeService.delete(existingEquioe);
+
+        // Assert
+        verify(equipeRepository).delete(existingEquioe);
+    }
+    @Test
+    public void testCreateEcole() {
+        // Arrange
+        Equipe newEquipe = new Equipe();
+
+        when(equipeRepository.save(newEquipe)).thenReturn(newEquipe);
+
+        // Act
+        Equipe createdEcole = equipeService.create(newEquipe);
+
+        // Assert
+        assertEquals(newEquipe, createdEcole);
+    }
+
+
 }
