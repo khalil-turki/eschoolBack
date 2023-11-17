@@ -31,30 +31,4 @@ public class Equipe extends AbstractEntity<Equipe> implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     private DetailEquipe detailEquipe;
-
-
-
-    public String getNomEquipe() {
-        return nomEquipe;
-    }
-
-    public void setNomEquipe(String nomEquipe) {
-        this.nomEquipe = nomEquipe;
-    }
-
-    public Niveau getNiveau() {
-        return niveau;
-    }
-
-    public void setNiveau(Niveau niveau) {
-        this.niveau = niveau;
-    }
-
-    public DetailEquipe getDetailEquipe() {
-        return detailEquipe;
-    }
-
-    public void setDetailEquipe(DetailEquipe detailEquipe) {
-        this.detailEquipe = detailEquipe;
-    }
 }
