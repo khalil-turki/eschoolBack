@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   hmr: false,
-  apiUrl: '192.168.10.10:8087'
+  apiUrl: 'http://192.168.10.10:8087'
 };
 
 /*
