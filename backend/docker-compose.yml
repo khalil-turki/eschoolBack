@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  devops:
+  backend:
     container_name: springboot
     image: "karimtrabelsi/devops-application:1.0.0"
     build: .
@@ -22,3 +22,12 @@ services:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
+
+  frontend:
+    container_name: angular-app
+    image: "karimtrabelsi/angular-app:1.0.0"
+    build:
+      context: ../frontend
+    ports:
+      - "4200:4200"
+    command: [ "npm", "start", "--", "--host", "0.0.0.0" ]
