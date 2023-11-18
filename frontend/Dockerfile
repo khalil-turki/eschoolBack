@@ -1,5 +1,5 @@
 # Use an official Node runtime as a base image
-FROM node:16
+FROM node:14
 
 # Set the working directory in the container
 WORKDIR /usr/src/app
@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install app dependencies
-RUN npm install --force
+RUN npm install
 
 # Copy the application files to the working directory
 COPY . .

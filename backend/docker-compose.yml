@@ -29,7 +29,7 @@ services:
 
   angular-app:
     container_name: angular-app
-    image: "khalilturki/devops-application:latest"
+    image: "khalilturki/devops-application:angular-app-1.0.1"
     build:
       context: ../frontend
     ports:
