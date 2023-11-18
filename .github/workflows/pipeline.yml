@@ -1,0 +1,15 @@
+name: Trigger Jenkins Pipeline
+
+on:
+  push:
+    branches:
+      - Wahib-Mkadmi-User
+
+jobs:
+  trigger-jenkins:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Curl request to Jenkins
+      run: |
+        curl -X POST "http://40.76.244.158:8080/generic-webhook-trigger/invoke"
