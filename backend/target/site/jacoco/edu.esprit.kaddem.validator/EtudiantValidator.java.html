@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EtudiantValidator.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.validator</a> &gt; <span class="el_source">EtudiantValidator.java</span></div><h1>EtudiantValidator.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.validator;
+
+import edu.esprit.kaddem.model.user.Etudiant;
+import org.springframework.util.StringUtils;
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="nc" id="L8">public class EtudiantValidator {</span>
+    public static List&lt;String&gt; validate(Etudiant etudiantDto) {
+<span class="fc" id="L10">        List&lt;String&gt; errors = new ArrayList&lt;&gt;();</span>
+
+<span class="pc bpc" id="L12" title="1 of 2 branches missed.">        if (etudiantDto == null) {</span>
+<span class="nc" id="L13">            errors.add(&quot;Veuillez renseigner le nom de l'etudiant&quot;);</span>
+<span class="nc" id="L14">            errors.add(&quot;Veuillez renseigner le prenom de l'etudiant&quot;);</span>
+<span class="nc" id="L15">            errors.add(&quot;Veuillez renseigner le mot de passe de l'etudiant&quot;);</span>
+<span class="nc" id="L16">            errors.add(&quot;Veuillez renseigner l'adresse de l'etudiant&quot;);</span>
+<span class="nc" id="L17">            errors.add(&quot;Veuillez renseigner l'Email de l'etudiant&quot;);</span>
+<span class="nc" id="L18">            errors.add(&quot;Veuillez renseigner le numero de telephone de l'etudiant&quot;);</span>
+<span class="nc" id="L19">            errors.addAll(AdresseValidator.validate(null));</span>
+<span class="nc" id="L20">            return errors;</span>
+        }
+
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        if (!StringUtils.hasLength(etudiantDto.getNom())) {</span>
+<span class="nc" id="L24">            errors.add(&quot;Veuillez renseigner le Nom d'utilisateur&quot;);</span>
+        }
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">        if (!StringUtils.hasLength(etudiantDto.getPrenom())) {</span>
+<span class="nc" id="L27">            errors.add(&quot;Veuillez renseigner le Prenom d'utilisateur&quot;);</span>
+        }
+<span class="pc bpc" id="L29" title="1 of 2 branches missed.">        if (!StringUtils.hasLength(etudiantDto.getEmail())) {</span>
+<span class="nc" id="L30">            errors.add(&quot;Veuillez renseigner l'Email&quot;);</span>
+        }
+
+<span class="pc bpc" id="L33" title="1 of 2 branches missed.">        if (etudiantDto.getClass() == null) {</span>
+<span class="nc" id="L34">            errors.add(&quot;Veuillez renseigner la Classe&quot;);</span>
+        }
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">        if (etudiantDto.getDateDeNaissance() == null) {</span>
+<span class="nc" id="L37">            errors.add(&quot;Veuillez renseigner la Date de naissance &quot;);</span>
+        }
+<span class="pc bpc" id="L39" title="1 of 2 branches missed.">        if (etudiantDto.getClasse() == null) {</span>
+<span class="nc" id="L40">            errors.add(&quot;Veuillez renseigner une classe &quot;);</span>
+        }
+
+<span class="fc" id="L43">        errors.addAll(AdresseValidator.validate(etudiantDto.getAdresse()));</span>
+
+<span class="fc" id="L45">        return errors;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

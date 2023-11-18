@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Utilisateur.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.model.user</a> &gt; <span class="el_source">Utilisateur.java</span></div><h1>Utilisateur.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.model.user;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import edu.esprit.kaddem.deserializers.CustomAuthorityDeserializer;
+import edu.esprit.kaddem.lib.AbstractEntity;
+import edu.esprit.kaddem.listeners.UtilisateurListener;
+import edu.esprit.kaddem.model.Adresse;
+import edu.esprit.kaddem.model.Ecole;
+import edu.esprit.kaddem.model.notification.Notification;
+import edu.esprit.kaddem.model.PaymentSession;
+import edu.esprit.kaddem.model.notification.NotificationUser;
+import lombok.*;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import javax.persistence.*;
+import java.util.*;
+
+<span class="fc" id="L24">@NoArgsConstructor</span>
+@Getter
+<span class="pc" id="L26">@Setter</span>
+<span class="nc" id="L27">@AllArgsConstructor</span>
+@Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = &quot;role&quot;, discriminatorType = DiscriminatorType.STRING)
+@Component
+@EntityListeners(UtilisateurListener.class)
+public class Utilisateur extends AbstractEntity&lt;Utilisateur&gt; implements UserDetails {
+    @Column(name = &quot;nom&quot;)
+<span class="fc" id="L35">    private String nom;</span>
+
+    @Column(name = &quot;prenom&quot;)
+<span class="fc" id="L38">    private String prenom;</span>
+
+    @Column(name = &quot;email&quot;, unique = true)
+<span class="fc" id="L41">    private String email;</span>
+
+    @Column(name = &quot;numtel&quot;)
+<span class="nc" id="L44">    private String numTel;</span>
+
+    @Column(name = &quot;datedenaissance&quot;)
+<span class="fc" id="L47">    private Date dateDeNaissance;</span>
+
+    @Column(name = &quot;password&quot;)
+<span class="nc" id="L50">    private String password;</span>
+
+    @Transient
+<span class="nc" id="L53">    private String plainPassword;</span>
+
+
+    @Column(name = &quot;photo&quot;)
+<span class="nc" id="L57">    private String photo;</span>
+
+<span class="pc" id="L59">    @Column(name = &quot;is_using_2fa&quot;, columnDefinition = &quot;boolean default false&quot;)</span>
+<span class="pc" id="L60">    private Boolean isUsing2FA = false;</span>
+
+    @Column(name = &quot;secret_2fa&quot;)
+<span class="nc" id="L63">    private String secret;</span>
+
+    @Column(name = &quot;avatar&quot;)
+<span class="nc" id="L66">    private String avatar;</span>
+
+    @Column
+<span class="nc" id="L69">    private String confirmationToken;</span>
+
+    @ManyToOne
+    @JoinColumn(name = &quot;id_ecole&quot;)
+<span class="nc" id="L73">    private Ecole ecole;</span>
+
+<span class="pc" id="L75">    @OneToMany(mappedBy = &quot;initiator&quot;, cascade = CascadeType.ALL,fetch=FetchType.EAGER)</span>
+    @Fetch(FetchMode.SELECT)
+<span class="nc" id="L77">    private List&lt;PaymentSession&gt; paymentSessions = new ArrayList&lt;&gt;();</span>
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = &quot;role&quot;, nullable = false, insertable = false, updatable = false)
+<span class="nc" id="L81">    private Role role;</span>
+
+<span class="pc" id="L83">    @Column(name = &quot;enabled&quot;, columnDefinition = &quot;boolean default true&quot;)</span>
+<span class="pc" id="L84">    private Boolean enabled = true;</span>
+
+    @Override
+    @JsonDeserialize(using = CustomAuthorityDeserializer.class)
+    public Collection&lt;? extends GrantedAuthority&gt; getAuthorities() {
+<span class="nc" id="L89">        return Collections.singleton(new SimpleGrantedAuthority(this.getRole().toString()));</span>
+    }
+
+    @Override
+    public String getUsername() {
+<span class="nc" id="L94">        return this.getEmail();</span>
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+<span class="nc" id="L99">        return true;</span>
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+<span class="nc" id="L104">        return true;</span>
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+<span class="nc" id="L109">        return true;</span>
+    }
+
+    @Override
+    public boolean isEnabled() {
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if(this.enabled == null) {</span>
+<span class="nc" id="L115">            this.enabled = true;</span>
+        }
+<span class="nc" id="L117">        return this.enabled;</span>
+    }
+
+<span class="pc" id="L120">    @OneToMany(mappedBy = &quot;user&quot;)</span>
+    @JsonIgnore
+<span class="nc" id="L122">    private List&lt;NotificationUser&gt; users = new ArrayList&lt;&gt;();</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

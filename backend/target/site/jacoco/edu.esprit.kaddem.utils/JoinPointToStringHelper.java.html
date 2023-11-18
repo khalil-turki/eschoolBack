@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>JoinPointToStringHelper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.utils</a> &gt; <span class="el_source">JoinPointToStringHelper.java</span></div><h1>JoinPointToStringHelper.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.utils;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.aspectj.lang.reflect.SourceLocation;
+
+import java.util.Optional;
+
+<span class="nc" id="L10">public class JoinPointToStringHelper {</span>
+
+    public static String toString(JoinPoint jp) {
+<span class="nc" id="L13">        StringBuilder sb = new StringBuilder();</span>
+<span class="nc" id="L14">        appendType(sb, getType(jp));</span>
+<span class="nc" id="L15">        Signature signature = jp.getSignature();</span>
+<span class="nc bnc" id="L16" title="All 2 branches missed.">        if (signature instanceof MethodSignature) {</span>
+<span class="nc" id="L17">            MethodSignature ms = (MethodSignature) signature;</span>
+<span class="nc" id="L18">            sb.append(&quot;#&quot;);</span>
+<span class="nc" id="L19">            sb.append(ms.getMethod().getName());</span>
+<span class="nc" id="L20">            sb.append(&quot;(&quot;);</span>
+<span class="nc" id="L21">            appendTypes(sb, ms.getMethod().getParameterTypes());</span>
+<span class="nc" id="L22">            sb.append(&quot;)&quot;);</span>
+        }
+<span class="nc" id="L24">        return sb.toString();</span>
+    }
+
+    private static Class&lt;?&gt; getType(JoinPoint jp) {
+<span class="nc" id="L28">        return Optional.ofNullable(jp.getSourceLocation())</span>
+<span class="nc" id="L29">                .map(SourceLocation::getWithinType)</span>
+<span class="nc" id="L30">                .orElse(jp.getSignature().getDeclaringType());</span>
+    }
+
+    private static void appendTypes(StringBuilder sb, Class&lt;?&gt;[] types) {
+<span class="nc bnc" id="L34" title="All 2 branches missed.">        for (int size = types.length, i = 0; i &lt; size; i++) {</span>
+<span class="nc" id="L35">            appendType(sb, types[i]);</span>
+<span class="nc bnc" id="L36" title="All 2 branches missed.">            if (i &lt; size - 1) {</span>
+<span class="nc" id="L37">                sb.append(&quot;,&quot;);</span>
+            }
+        }
+<span class="nc" id="L40">    }</span>
+
+    private static void appendType(StringBuilder sb, Class&lt;?&gt; type) {
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (type.isArray()) {</span>
+<span class="nc" id="L44">            appendType(sb, type.getComponentType());</span>
+<span class="nc" id="L45">            sb.append(&quot;[]&quot;);</span>
+        } else {
+<span class="nc" id="L47">            sb.append(type.getName());</span>
+        }
+<span class="nc" id="L49">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

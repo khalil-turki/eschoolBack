@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EtudiantController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.controller</a> &gt; <span class="el_source">EtudiantController.java</span></div><h1>EtudiantController.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.controller;
+
+import edu.esprit.kaddem.config.EmailSenderConfiguration;
+import edu.esprit.kaddem.dto.EtudiantDto;
+import edu.esprit.kaddem.exception.EntityNotFoundException;
+import edu.esprit.kaddem.lib.AbstractCrudController;
+import edu.esprit.kaddem.model.Classe;
+import edu.esprit.kaddem.model.Ecole;
+import edu.esprit.kaddem.model.user.Etudiant;
+import edu.esprit.kaddem.services.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+@CrossOrigin(origins = &quot;*&quot;)
+
+@RestController
+@RequestMapping(value = &quot;/etudiants&quot;, produces = &quot;application/json&quot;)
+public class EtudiantController extends AbstractCrudController&lt;Etudiant, EtudiantDto&gt; {
+
+    @Autowired
+    private EtudiantService etudiantService;
+
+    @Autowired
+    private final PDFGeneratorService pdfGeneratorService;
+
+    @Autowired
+    private EcoleService ecoleService;
+    @Autowired
+    private ClasseService classeService;
+    @Autowired
+    private EmailService emailService;
+
+    public EtudiantController(PDFGeneratorService pdfGeneratorService) {
+<span class="nc" id="L41">        super();</span>
+<span class="nc" id="L42">        this.pdfGeneratorService = pdfGeneratorService;</span>
+<span class="nc" id="L43">    }</span>
+
+    @PostMapping(&quot;/affecttoclasse/{etudiantid}/{classeid}&quot;)
+    public void assignEtudiantToClasse(@PathVariable(&quot;etudiantid&quot;) Integer etudiantid, @PathVariable(&quot;classeid&quot;) Integer classeid) {
+<span class="nc" id="L47">        Etudiant e = etudiantService.findById(etudiantid);</span>
+<span class="nc" id="L48">        Classe c = classeService.findById(classeid);</span>
+<span class="nc" id="L49">        e.setClasse(c);</span>
+<span class="nc" id="L50">        etudiantService.create(e);</span>
+<span class="nc" id="L51">    }</span>
+
+    @PostMapping(&quot;/desafectfromclasse/{etudiantid}/{classeid}&quot;)
+    public void removeEtudiantFromClasse(@PathVariable(&quot;etudiantid&quot;) Integer etudiantid, @PathVariable(&quot;classeid&quot;) Integer classeid) {
+<span class="nc" id="L55">        Etudiant e = etudiantService.findById(etudiantid);</span>
+<span class="nc" id="L56">        e.setClasse(null);</span>
+<span class="nc" id="L57">        etudiantService.create(e);</span>
+<span class="nc" id="L58">    }</span>
+
+    @PostMapping(&quot;/desafectfromecole/{etudiantid}/{ecoleid}&quot;)
+    public void removeEtudiantFromEcole(@PathVariable(&quot;etudiantid&quot;) Integer etudiantid, @PathVariable(&quot;ecoleid&quot;) Integer ecoleid) {
+<span class="nc" id="L62">        Etudiant e = etudiantService.findById(etudiantid);</span>
+<span class="nc" id="L63">        e.setEcole(null);</span>
+<span class="nc" id="L64">        etudiantService.create(e);</span>
+<span class="nc" id="L65">    }</span>
+
+    @PostMapping(&quot;/affecttoecole/{etudiantid}/{ecoleid}&quot;)
+    public void assignEtudiantToEcole(@PathVariable(&quot;etudiantid&quot;) Integer etudiantid, @PathVariable(&quot;ecoleid&quot;) Integer ecoleid) {
+<span class="nc" id="L69">        Etudiant e = etudiantService.findById(etudiantid);</span>
+<span class="nc" id="L70">        Ecole c = ecoleService.findById(ecoleid);</span>
+<span class="nc" id="L71">        e.setEcole(c);</span>
+<span class="nc" id="L72">        etudiantService.create(e);</span>
+<span class="nc" id="L73">    }</span>
+
+    @GetMapping(&quot;/listByClass/{classeId}&quot;)
+    public List&lt;EtudiantDto&gt; findEtudiantsByClasseId(@PathVariable(&quot;classeId&quot;) Integer classeId) {
+<span class="nc" id="L77">        var etudiants = etudiantService.findAllEtudiantsByIdClasse(classeId);</span>
+<span class="nc" id="L78">        return etudiants.stream().map(this::toDto).toList();</span>
+    }
+
+    @GetMapping(&quot;/countByClass/{classeId}&quot;)
+    public int countEtudiantsByClasseId(@PathVariable(&quot;classeId&quot;) Integer classeId) {
+<span class="nc" id="L83">        return etudiantService.countEtudiantsByIdClasse(classeId);</span>
+    }
+
+    @GetMapping(&quot;/pdf/{etudiantId}/{classeId}&quot;)
+    public void generatePDF(HttpServletResponse response ,@PathVariable(&quot;classeId&quot;) Integer classeId,@PathVariable(&quot;etudiantId&quot;) Integer etudiantId) throws IOException {
+<span class="nc" id="L88">        String nom = etudiantService.findById(etudiantId).getNom();</span>
+<span class="nc" id="L89">        String prenom = etudiantService.findById(etudiantId).getPrenom();</span>
+<span class="nc" id="L90">        Classe classe1 = etudiantService.findById(etudiantId).getClasse();</span>
+<span class="nc bnc" id="L91" title="All 2 branches missed.">        String classe = classe1 != null ? classe1.getNomClasse() : &quot;Member of Kaddem&quot;;</span>
+<span class="nc" id="L92">        response.setContentType(&quot;application/pdf&quot;);</span>
+<span class="nc" id="L93">        DateFormat dateFormatter = new SimpleDateFormat(&quot;yyyy-MM-dd:hh:mm:ss&quot;);</span>
+<span class="nc" id="L94">        String currentDateTime = dateFormatter.format(new Date());</span>
+
+<span class="nc" id="L96">        String headerKey = &quot;Content-Disposition&quot;;</span>
+<span class="nc" id="L97">        String headerValue = &quot;attachment; filename=pdf_&quot; + currentDateTime + &quot;.pdf&quot;;</span>
+<span class="nc" id="L98">        response.setHeader(headerKey, headerValue);</span>
+
+<span class="nc" id="L100">        this.pdfGeneratorService.export(response,nom,prenom,classe);</span>
+<span class="nc" id="L101">        System.out.println(&quot;PDF Generated&quot;);</span>
+<span class="nc" id="L102">    }</span>
+    @PostMapping(&quot;/sendemail/{subject}/{etudiantId}&quot;)
+    public void sendEmail(@PathVariable String subject,@PathVariable(&quot;etudiantId&quot;) Integer etudiantId) throws IOException {
+<span class="nc" id="L105">        String msg = &quot;&quot;;</span>
+        try {
+<span class="nc" id="L107">            Etudiant e = etudiantService.findById(etudiantId);</span>
+<span class="nc" id="L108">        } catch (Exception e) {</span>
+<span class="nc bnc" id="L109" title="All 2 branches missed.">            if (e instanceof EntityNotFoundException)</span>
+<span class="nc" id="L110">                throw new EntityNotFoundException(&quot;Etudiant with id &quot; + etudiantId + &quot; not found&quot;);</span>
+
+<span class="nc" id="L112">        }</span>
+<span class="nc" id="L113">        String To = etudiantService.findById(etudiantId).getEmail();</span>
+<span class="nc bnc" id="L114" title="All 4 branches missed.">        if (subject.equals(&quot;payement&quot;) || subject.equals(&quot;absence&quot;)) {</span>
+
+<span class="nc bnc" id="L116" title="All 3 branches missed.">            switch (subject) {</span>
+                case &quot;payement&quot;:
+<span class="nc" id="L118">                    msg = &quot;Bonjour &quot; + etudiantService.findById(etudiantId).getNom() + &quot; &quot; + etudiantService.findById(etudiantId).getPrenom() + &quot; ,\n&quot; +</span>
+                            &quot;Nous vous informons que vous devez payez\n&quot; +
+                            &quot;Merci pour votre comprhension.\n&quot; +
+                            &quot;Cordialement,\n&quot; +
+                            &quot;L'équipe Kaddem&quot;;
+<span class="nc" id="L123">                    break;</span>
+                case &quot;absence&quot;:
+<span class="nc" id="L125">                    msg = &quot;Bonjour &quot; + etudiantService.findById(etudiantId).getNom() + &quot; &quot; + etudiantService.findById(etudiantId).getPrenom() + &quot; ,\n&quot; +</span>
+                            &quot;Nous vous informons que vous avez beacoup d'absences \n&quot; +
+                            &quot;Merci pour votre comprhension.\n&quot; +
+                            &quot;Cordialement,\n&quot; +
+                            &quot;L'équipe Kaddem&quot;;
+
+                    break;
+
+
+            }
+
+
+<span class="nc" id="L137">            emailService.sendSimpleMessage(To, subject, msg);</span>
+        } else {
+<span class="nc" id="L139">            throw new EntityNotFoundException(&quot;subject not found&quot;);</span>
+        }
+
+<span class="nc" id="L142">    }</span>
+
+
+}
+
+
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

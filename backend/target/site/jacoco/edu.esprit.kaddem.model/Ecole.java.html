@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Ecole.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.model</a> &gt; <span class="el_source">Ecole.java</span></div><h1>Ecole.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.model;
+
+import edu.esprit.kaddem.lib.AbstractEntity;
+import edu.esprit.kaddem.model.user.Etudiant;
+import edu.esprit.kaddem.model.user.Professeur;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.List;
+
+<span class="nc" id="L14">@Data</span>
+<span class="nc" id="L15">@NoArgsConstructor</span>
+<span class="nc" id="L16">@AllArgsConstructor</span>
+<span class="nc bnc" id="L17" title="All 88 branches missed.">@EqualsAndHashCode(callSuper = true)</span>
+@Entity
+@Table(name = &quot;ecole&quot;)
+public class Ecole extends AbstractEntity&lt;Ecole&gt; {
+
+    @Column(name = &quot;nom&quot;)
+<span class="nc" id="L23">    private String nom;</span>
+
+    @Column(name = &quot;description&quot;)
+<span class="nc" id="L26">    private String description;</span>
+
+    @OneToOne(cascade = CascadeType.ALL)
+<span class="nc" id="L29">    private Adresse adresse;</span>
+
+    @Column(name = &quot;codefiscal&quot;)
+<span class="nc" id="L32">    private String codeFiscal;</span>
+
+    @Column(name = &quot;photo&quot;)
+<span class="nc" id="L35">    private String photo;</span>
+
+    @Column(name = &quot;email&quot;)
+<span class="nc" id="L38">    private String email;</span>
+
+    @Column(name = &quot;numtel&quot;)
+<span class="nc" id="L41">    private String numTel;</span>
+
+    @Column(name = &quot;siteweb&quot;)
+<span class="nc" id="L44">    private String steWeb;</span>
+
+    @OneToMany(mappedBy = &quot;ecole&quot;)
+<span class="nc" id="L47">    private List&lt;Etudiant&gt; etudiants;</span>
+
+    @OneToMany(mappedBy = &quot;ecole&quot;)
+<span class="nc" id="L50">    private List&lt;Professeur&gt; professeurs;</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

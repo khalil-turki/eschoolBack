@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: edu.esprit.kaddem.EtudiantServiceImplTest
+-------------------------------------------------------------------------------
+Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.481 s - in edu.esprit.kaddem.EtudiantServiceImplTest

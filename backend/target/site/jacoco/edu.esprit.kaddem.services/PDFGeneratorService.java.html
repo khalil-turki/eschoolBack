@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PDFGeneratorService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.services</a> &gt; <span class="el_source">PDFGeneratorService.java</span></div><h1>PDFGeneratorService.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.services;
+
+import com.lowagie.text.*;
+import com.lowagie.text.pdf.PdfWriter;
+import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@Service
+<span class="nc" id="L11">public class PDFGeneratorService {</span>
+    public void export(HttpServletResponse response, String nom, String prenom , String classe) throws IOException {
+<span class="nc" id="L13">        Document document = new Document(PageSize.A4);</span>
+<span class="nc" id="L14">        PdfWriter.getInstance(document, response.getOutputStream());</span>
+<span class="nc" id="L15">        document.open();</span>
+<span class="nc" id="L16">        Font fontTitle = FontFactory.getFont(FontFactory.HELVETICA_BOLD);</span>
+<span class="nc" id="L17">        fontTitle.setSize(18);</span>
+<span class="nc" id="L18">        Paragraph paragraph = new Paragraph(&quot;ATTESTATION DE PRESENCE&quot;, fontTitle);</span>
+<span class="nc" id="L19">        paragraph.setAlignment(Paragraph.ALIGN_CENTER);</span>
+
+<span class="nc" id="L21">        Font fontParagraph = FontFactory.getFont(FontFactory.HELVETICA);</span>
+<span class="nc" id="L22">          fontParagraph.setSize(12);</span>
+<span class="nc" id="L23">        Paragraph paragraph2 = new Paragraph(&quot;\n \n \n Je soussigné(e) mr KADDEM  directeur general,\n \n&quot; +</span>
+
+                &quot; certifie que  Madame/Monsieur&quot; + &quot; &quot; + nom + &quot; &quot; + prenom + &quot; &quot; +
+                &quot; fait partie actuellement au sein de notre ecole esprit \n&quot; +
+                &quot; et qu'il est inscri  à la classe  &quot; + classe + &quot;\n&quot; +
+                &quot;\n \n \n \n Signature&quot;
+
+
+                , fontParagraph);
+<span class="nc" id="L32">        paragraph2.setAlignment(Paragraph.ALIGN_LEFT);</span>
+
+<span class="nc" id="L34">        document.add(paragraph);</span>
+<span class="nc" id="L35">        document.add(paragraph2);</span>
+<span class="nc" id="L36">        document.close();</span>
+<span class="nc" id="L37">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

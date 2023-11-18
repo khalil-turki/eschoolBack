@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>EtudiantService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.services</a> &gt; <span class="el_source">EtudiantService.java</span></div><h1>EtudiantService.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.services;
+
+import edu.esprit.kaddem.dto.EtudiantDto;
+import edu.esprit.kaddem.exception.EntityNotFoundException;
+import edu.esprit.kaddem.exception.ErrorCodes;
+import edu.esprit.kaddem.exception.InvalidEntityException;
+import edu.esprit.kaddem.lib.AbstractCrudService;
+import edu.esprit.kaddem.model.user.Etudiant;
+import edu.esprit.kaddem.repository.ClasseRepository;
+import edu.esprit.kaddem.repository.EtudiantRepository;
+import edu.esprit.kaddem.validator.EtudiantValidator;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+<span class="fc" id="L19">@Slf4j</span>
+<span class="fc" id="L20">public class EtudiantService extends AbstractCrudService&lt;Etudiant&gt; {</span>
+
+    @Autowired
+    private EtudiantRepository etudiantRepository;
+
+    public List&lt;Etudiant&gt; findAllEtudiantsByIdClasse(Integer idClasse) {
+<span class="nc bnc" id="L26" title="All 2 branches missed.">        if (idClasse == null) {</span>
+<span class="nc" id="L27">            log.error(&quot;classe ID is null&quot;);</span>
+        }
+<span class="nc" id="L29">        return etudiantRepository.findEtudiantsByClasseId(idClasse);</span>
+    }
+
+    public int countEtudiantsByIdClasse(Integer idClasse) {
+<span class="nc bnc" id="L33" title="All 2 branches missed.">        if (idClasse == null) {</span>
+<span class="nc" id="L34">            log.error(&quot;classe ID is null&quot;);</span>
+        }
+<span class="nc" id="L36">        return etudiantRepository.countEtudiantsByClasseId(idClasse);</span>
+    }
+
+    @Override
+    public Etudiant create(Etudiant entity) {
+<span class="fc" id="L41">        List&lt;String&gt; errors = EtudiantValidator.validate(entity);</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">        if (!errors.isEmpty()) {</span>
+<span class="nc" id="L43">            log.error(&quot;etudiant is not valid {}&quot;, entity);</span>
+<span class="nc" id="L44">            throw new InvalidEntityException(&quot;L'etudiant n'est pas valide&quot;, ErrorCodes.ETUDIANT_NOT_VALID, errors);</span>
+        }
+<span class="fc" id="L46">        return super.create(entity);</span>
+    }
+
+    @Override
+    public Etudiant update(Integer id, Etudiant entity) {
+        // Check if the entity exists before updating
+<span class="nc bnc" id="L52" title="All 2 branches missed.">        if (!etudiantRepository.existsById(id)) {</span>
+<span class="nc" id="L53">            log.error(&quot;Etudiant with ID {} not found&quot;, id);</span>
+<span class="nc" id="L54">            throw new EntityNotFoundException(&quot;Etudiant not found&quot;, new Throwable(&quot;ErrorCodes: &quot; + ErrorCodes.ETUDIANT_NOT_FOUND));</span>
+        }
+
+<span class="nc" id="L57">        List&lt;String&gt; errors = EtudiantValidator.validate(entity);</span>
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (!errors.isEmpty()) {</span>
+<span class="nc" id="L59">            log.error(&quot;Etudiant is not valid {}&quot;, entity);</span>
+<span class="nc" id="L60">            throw new InvalidEntityException(&quot;L'etudiant n'est pas valide&quot;, ErrorCodes.ETUDIANT_NOT_VALID, errors);</span>
+        }
+
+<span class="nc" id="L63">        return super.update(id, entity);</span>
+    }
+
+
+    public Etudiant insertSilently(Etudiant entity) {
+<span class="nc" id="L68">        return super.create(entity);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

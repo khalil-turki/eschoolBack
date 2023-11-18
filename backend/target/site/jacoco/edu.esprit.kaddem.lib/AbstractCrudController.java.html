@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AbstractCrudController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.lib</a> &gt; <span class="el_source">AbstractCrudController.java</span></div><h1>AbstractCrudController.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.lib;
+
+import edu.esprit.kaddem.dto.search.PagedResponse;
+import edu.esprit.kaddem.dto.search.SearchRequest;
+import edu.esprit.kaddem.dto.search.util.SearchRequestUtil;
+import edu.esprit.kaddem.exception.InvalidEntityException;
+import edu.esprit.kaddem.model.user.Utilisateur;
+import org.modelmapper.Conditions;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import javax.json.JsonMergePatch;
+import java.lang.reflect.ParameterizedType;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+
+public abstract class AbstractCrudController&lt;T extends AbstractEntity&lt;?&gt;, U extends AbstractDto&lt;?&gt;&gt; {
+    @Autowired
+    private AbstractCrudService&lt;T&gt; service;
+<span class="nc" id="L25">    protected final ModelMapper mapper = new ModelMapper();</span>
+    private final Class&lt;U&gt; dtoClass;
+    private final Class&lt;T&gt; entityClass;
+<span class="nc" id="L28">    public AbstractCrudController() {</span>
+<span class="nc" id="L29">        mapper.getConfiguration().setPropertyCondition(Conditions.isNotNull());</span>
+<span class="nc" id="L30">        entityClass = (Class&lt;T&gt;) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];</span>
+<span class="nc" id="L31">        dtoClass = (Class&lt;U&gt;) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1];</span>
+<span class="nc" id="L32">        mapper.createTypeMap(entityClass, dtoClass);</span>
+<span class="nc" id="L33">        mapper.createTypeMap(dtoClass, entityClass);</span>
+<span class="nc" id="L34">    }</span>
+
+    protected U toDto(T entity) {
+        try {
+<span class="nc" id="L38">            return mapper.map(entity, this.dtoClass);</span>
+<span class="nc" id="L39">        } catch (Exception e) {</span>
+<span class="nc" id="L40">            throw new InvalidEntityException(e.getMessage());</span>
+        }
+    }
+    private T toEntity(U dto) {
+        try {
+<span class="nc" id="L45">            return mapper.map(dto, entityClass);</span>
+<span class="nc" id="L46">        } catch (Exception e) {</span>
+<span class="nc" id="L47">            throw new InvalidEntityException(e.getMessage());</span>
+        }
+    }
+
+    @GetMapping()
+    public Iterable&lt;U&gt; findAll() {
+<span class="nc" id="L53">        return service.getAll().stream().map(this::toDto).toList();</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    public U findById(@PathVariable(&quot;id&quot;) Integer id) {
+<span class="nc" id="L58">        return toDto(service.findById(id));</span>
+    }
+
+    @PostMapping()
+    public U create(@RequestBody U dto) {
+<span class="nc" id="L63">        var entity = toEntity(dto);</span>
+<span class="nc" id="L64">        var created = service.create(entity);</span>
+<span class="nc" id="L65">        return toDto(created);</span>
+    }
+
+    @DeleteMapping(&quot;/{id}&quot;)
+    public void delete(@PathVariable(&quot;id&quot;) Integer id) {
+<span class="nc" id="L70">        service.deleteById(id);</span>
+<span class="nc" id="L71">    }</span>
+
+    @PutMapping(&quot;/{id}&quot;)
+    public U update(@PathVariable(&quot;id&quot;) Integer id, @RequestBody U dto) {
+<span class="nc" id="L75">        var newEntity = toEntity(dto);</span>
+<span class="nc" id="L76">        var updated = service.update(id, newEntity);</span>
+<span class="nc" id="L77">        return toDto(updated);</span>
+    }
+
+    @PatchMapping(path=&quot;/{id}&quot;, consumes = &quot;application/merge-patch+json&quot;)
+    public U patch(@PathVariable(&quot;id&quot;) Integer id, @RequestBody JsonMergePatch patch) {
+<span class="nc" id="L82">        return toDto(service.patch(id, patch));</span>
+    }
+    @GetMapping(&quot;/list&quot;)
+    public List&lt;U&gt; list(SearchRequest searchRequest) {
+<span class="nc" id="L86">        var list = service.list(searchRequest);</span>
+<span class="nc" id="L87">        return list.getContent().stream().map(this::toDto).collect(Collectors.toList());</span>
+    }
+
+    private Utilisateur getAuthenticatedUser(){
+<span class="nc" id="L91">        return (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

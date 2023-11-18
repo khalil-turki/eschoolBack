@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WebsocketUserSessionStore.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.utils</a> &gt; <span class="el_source">WebsocketUserSessionStore.java</span></div><h1>WebsocketUserSessionStore.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.utils;
+
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
+@Component
+<span class="nc" id="L10">public class WebsocketUserSessionStore {</span>
+<span class="nc" id="L11">    private Lock lock = new ReentrantLock();</span>
+<span class="nc" id="L12">    private HashMap&lt;String, String&gt; store = new HashMap&lt;&gt;();</span>
+
+    public void add(String sessionId, String userId) {
+<span class="nc" id="L15">        lock.lock();</span>
+        try {
+<span class="nc" id="L17">            store.compute(sessionId, (k, v) -&gt; userId);</span>
+        } finally {
+<span class="nc" id="L19">            lock.unlock();</span>
+        }
+<span class="nc" id="L21">    }</span>
+
+    public String getSessionId(String userId) {
+<span class="nc" id="L24">        lock.lock();</span>
+        try {
+<span class="nc" id="L26">            return store.entrySet().stream()</span>
+<span class="nc" id="L27">                    .filter(it -&gt; it.getValue().equals(userId))</span>
+<span class="nc" id="L28">                    .map(it -&gt; it.getKey())</span>
+<span class="nc" id="L29">                    .findFirst()</span>
+<span class="nc" id="L30">                    .orElse(null);</span>
+        } finally {
+<span class="nc" id="L32">            lock.unlock();</span>
+        }
+    }
+
+    public void remove(String sessionId) {
+<span class="nc" id="L37">        lock.lock();</span>
+        try {
+<span class="nc" id="L39">            store.remove(sessionId);</span>
+        } finally {
+<span class="nc" id="L41">            lock.unlock();</span>
+        }
+<span class="nc" id="L43">    }</span>
+
+    public void remove(Long userId) {
+<span class="nc" id="L46">        lock.lock();</span>
+        try {
+<span class="nc" id="L48">            store.values().remove(userId);</span>
+        } finally {
+<span class="nc" id="L50">            lock.unlock();</span>
+        }
+<span class="nc" id="L52">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

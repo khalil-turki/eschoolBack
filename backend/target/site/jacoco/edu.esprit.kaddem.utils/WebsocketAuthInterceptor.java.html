@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WebsocketAuthInterceptor.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.utils</a> &gt; <span class="el_source">WebsocketAuthInterceptor.java</span></div><h1>WebsocketAuthInterceptor.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.utils;
+
+
+import com.nimbusds.oauth2.sdk.token.AccessToken;
+import edu.esprit.kaddem.services.AuthenticationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageChannel;
+import org.springframework.messaging.simp.stomp.StompCommand;
+import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
+import org.springframework.messaging.support.ChannelInterceptor;
+import org.springframework.messaging.support.MessageHeaderAccessor;
+import org.springframework.stereotype.Component;
+
+@Component
+<span class="nc" id="L16">public class WebsocketAuthInterceptor implements ChannelInterceptor {</span>
+
+    @Autowired
+    private JwtTokenUtil jwtUtil;
+    @Autowired
+    private WebsocketUserSessionStore sessionStore;
+
+    @Override
+    public Message&lt;?&gt; preSend(Message&lt;?&gt; message, MessageChannel channel) {
+<span class="nc" id="L25">        StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);</span>
+<span class="nc" id="L26">        String sessionId = accessor.getMessageHeaders().get(&quot;simpSessionId&quot;).toString();</span>
+
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if (StompCommand.CONNECT == accessor.getCommand()) {</span>
+<span class="nc" id="L29">            String jwtToken = accessor.getFirstNativeHeader(&quot;Authorization&quot;).substring(7);</span>
+<span class="nc" id="L30">            var username = jwtUtil.getUsernameFromToken(jwtToken);</span>
+<span class="nc" id="L31">            sessionStore.add(sessionId, username);</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">        } else if (StompCommand.DISCONNECT == accessor.getCommand()) {</span>
+<span class="nc" id="L33">            sessionStore.remove(sessionId);</span>
+        }
+<span class="nc" id="L35">        return message;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,84 @@
+spring:
+
+  main:
+    allow-circular-references: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/university?createDatabaseIfNotExist=true&useSSL=false&useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC
+    username: root
+    password:  # Leave this field empty
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  ## Specify DBMS
+  jpa:
+    database: MYSQL
+    show-sql: true
+    properties:
+      hibernate:
+        ddl-auto: update
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: false
+        format_sql: false
+
+    generate-ddl: true
+
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+    hiddenmethod:
+      filter:
+        enabled: true
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: kaddemapp@gmail.com
+    password: hotcathnnsznlixw
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+
+
+
+server:
+  port: 8087
+
+
+
+logging:
+  level:
+    org:
+      springframework:
+        context: INFO
+
+flickr:
+  apiKey: 549cd43ad8fc8568b69b13d91ee1eca1
+  apiSecret: 9468348914fd0a76
+  appKey: 72157720862863076-5649b6e4ea675541
+  appSecret: 6a3469fbb2622203
+
+
+stripe:
+  private_key: sk_test_51Lx9G5BIfp2CHd1jgu16OK9ZQb1MfGxuGbKxuDMQRhhL2N2l1HZ1qSYxecTrZVzF3YwicpbxisjoQ4OMAYqc7LUw00USconkYv
+  public_key: pk_test_51Lx9G5BIfp2CHd1jNkaZ14NyJGwdlOtXPOk9uhKG5lraLhRoW7NqNn5ruKGDFyg7Hy9YAG2pq9BfFypiptaeAbwl00sVziuw7a
+  webhook_secret: whsec_ed2832d4a2b3cc01b86486f3560ba0243e8c343ab0ea32799daef378290e1a27
+
+rsa:
+  private-key: classpath:certs/private:pem
+  public-key: classpath:certs/public.pem
+
+app:
+  twillio:
+    fromPhoneNo: +14246229984
+    accountSID: AC2ebedfd3ee1e0b41e0065f6166bbd642
+    authToken: 80de8f7aedda794f21c3825da35d58f2
+    toPhoneNo: +21698975800
+
+  name: Kaddem
+
+management.endpoints.web.exposure.include: "*"
+management.endpoint.health.show-details: always

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ConvertersConfig.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.config</a> &gt; <span class="el_source">ConvertersConfig.java</span></div><h1>ConvertersConfig.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.config;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.MapperFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import edu.esprit.kaddem.converters.JsonMergePatchHttpMessageConverter;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import javax.json.JsonMergePatch;
+
+@Configuration
+<span class="nc" id="L15">public class ConvertersConfig {</span>
+
+    @Bean
+    public HttpMessageConverter&lt;JsonMergePatch&gt; createJsonPatchHttpMessageConverter() {
+<span class="nc" id="L19">        return new JsonMergePatchHttpMessageConverter();</span>
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+<span class="nc" id="L24">        return new ObjectMapper()</span>
+<span class="nc" id="L25">                .setDefaultPropertyInclusion(JsonInclude.Include.NON_NULL)</span>
+<span class="nc" id="L26">                .disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)</span>
+<span class="nc" id="L27">                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)</span>
+<span class="nc" id="L28">                .enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS)</span>
+<span class="nc" id="L29">                .findAndRegisterModules();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

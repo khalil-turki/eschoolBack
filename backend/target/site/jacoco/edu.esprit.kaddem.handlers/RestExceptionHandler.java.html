@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RestExceptionHandler.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.handlers</a> &gt; <span class="el_source">RestExceptionHandler.java</span></div><h1>RestExceptionHandler.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.handlers;
+
+import com.fasterxml.jackson.databind.exc.InvalidDefinitionException;
+import edu.esprit.kaddem.exception.EntityNotFoundException;
+import edu.esprit.kaddem.exception.ErrorCodes;
+import edu.esprit.kaddem.exception.InvalidEntityException;
+import edu.esprit.kaddem.exception.InvalidOperationException;
+import io.jsonwebtoken.SignatureException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.orm.jpa.JpaObjectRetrievalFailureException;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import java.util.Collections;
+
+@RestControllerAdvice
+<span class="nc" id="L23">public class RestExceptionHandler extends ResponseEntityExceptionHandler {</span>
+    @ExceptionHandler({EntityNotFoundException.class, javax.persistence.EntityNotFoundException.class, JpaObjectRetrievalFailureException.class})
+    public ResponseEntity&lt;ErrorDto&gt; handleException(EntityNotFoundException exception, WebRequest webRequest) {
+<span class="nc" id="L26">        final HttpStatus notFound = HttpStatus.NOT_FOUND;</span>
+<span class="nc" id="L27">        final ErrorDto errorDto = ErrorDto.builder()</span>
+<span class="nc" id="L28">                .code(exception.getErrorCode())</span>
+<span class="nc" id="L29">                .httpCode(notFound.value())</span>
+<span class="nc" id="L30">                .message(exception.getMessage())</span>
+<span class="nc" id="L31">                .build();</span>
+
+<span class="nc" id="L33">        return new ResponseEntity&lt;&gt;(errorDto, notFound);</span>
+    }
+
+    @ExceptionHandler(InvalidOperationException.class)
+    public ResponseEntity&lt;ErrorDto&gt; handleException(InvalidOperationException exception, WebRequest webRequest) {
+
+<span class="nc" id="L39">        final HttpStatus notFound = HttpStatus.INTERNAL_SERVER_ERROR;</span>
+<span class="nc" id="L40">        final ErrorDto errorDto = ErrorDto.builder()</span>
+<span class="nc" id="L41">                .code(exception.getErrorCode())</span>
+<span class="nc" id="L42">                .httpCode(notFound.value())</span>
+<span class="nc" id="L43">                .message(exception.getMessage())</span>
+<span class="nc" id="L44">                .build();</span>
+
+<span class="nc" id="L46">        return new ResponseEntity&lt;&gt;(errorDto, notFound);</span>
+    }
+
+    @ExceptionHandler({InvalidEntityException.class, InvalidDefinitionException.class})
+    public ResponseEntity&lt;ErrorDto&gt; handleException(InvalidEntityException exception, WebRequest webRequest) {
+<span class="nc" id="L51">        final HttpStatus badRequest = HttpStatus.BAD_REQUEST;</span>
+
+<span class="nc" id="L53">        final ErrorDto errorDto = ErrorDto.builder()</span>
+<span class="nc" id="L54">                .code(exception.getErrorCode())</span>
+<span class="nc" id="L55">                .httpCode(badRequest.value())</span>
+<span class="nc" id="L56">                .message(exception.getMessage())</span>
+<span class="nc" id="L57">                .errors(exception.getErrors())</span>
+<span class="nc" id="L58">                .build();</span>
+
+<span class="nc" id="L60">        return new ResponseEntity&lt;&gt;(errorDto, badRequest);</span>
+    }
+
+    @ExceptionHandler({BadCredentialsException.class, SignatureException.class})
+    public ResponseEntity&lt;ErrorDto&gt; handleException(BadCredentialsException exception, WebRequest webRequest) {
+<span class="nc" id="L65">        final HttpStatus badRequest = HttpStatus.UNAUTHORIZED;</span>
+
+<span class="nc" id="L67">        final ErrorDto errorDto = ErrorDto.builder()</span>
+<span class="nc" id="L68">                .code(ErrorCodes.BAD_CREDENTIALS)</span>
+<span class="nc" id="L69">                .httpCode(badRequest.value())</span>
+<span class="nc" id="L70">                .message(exception.getMessage())</span>
+<span class="nc" id="L71">                .errors(Collections.singletonList(&quot;Login et / ou mot de passe incorrect&quot;))</span>
+<span class="nc" id="L72">                .build();</span>
+
+<span class="nc" id="L74">        return new ResponseEntity&lt;&gt;(errorDto, badRequest);</span>
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity&lt;ErrorDto&gt; handleException(AccessDeniedException exception, WebRequest webRequest) {
+<span class="nc" id="L79">        final HttpStatus badRequest = HttpStatus.FORBIDDEN;</span>
+
+<span class="nc" id="L81">        final ErrorDto errorDto = ErrorDto.builder()</span>
+<span class="nc" id="L82">                .code(ErrorCodes.FORBIDDEN)</span>
+<span class="nc" id="L83">                .httpCode(badRequest.value())</span>
+<span class="nc" id="L84">                .message(exception.getMessage())</span>
+<span class="nc" id="L85">                .errors(Collections.singletonList(exception.getMessage()))</span>
+<span class="nc" id="L86">                .build();</span>
+
+<span class="nc" id="L88">        return new ResponseEntity&lt;&gt;(errorDto, badRequest);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

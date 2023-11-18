@@ -1,0 +1,1156 @@
+Index: backend/src/main/java/edu/esprit/kaddem/controller/EcoleController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/main/java/edu/esprit/kaddem/controller/EcoleController.java b/backend/src/main/java/edu/esprit/kaddem/controller/EcoleController.java
+--- a/backend/src/main/java/edu/esprit/kaddem/controller/EcoleController.java	(revision 8e9012071593bc4e46ad42b16f83f81ef9558167)
++++ b/backend/src/main/java/edu/esprit/kaddem/controller/EcoleController.java	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -9,7 +9,7 @@
+ import org.springframework.web.bind.annotation.CrossOrigin;
+ import org.springframework.web.bind.annotation.RequestMapping;
+ import org.springframework.web.bind.annotation.RestController;
+-@CrossOrigin(origins = "http://localhost:4200")
++@CrossOrigin(origins = "http://127.0.0.1:4200")
+ 
+ @Api
+ @RestController
+Index: backend/src/main/java/edu/esprit/kaddem/controller/PayementController.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/main/java/edu/esprit/kaddem/controller/PayementController.java b/backend/src/main/java/edu/esprit/kaddem/controller/PayementController.java
+--- a/backend/src/main/java/edu/esprit/kaddem/controller/PayementController.java	(revision 8e9012071593bc4e46ad42b16f83f81ef9558167)
++++ b/backend/src/main/java/edu/esprit/kaddem/controller/PayementController.java	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -6,6 +6,7 @@
+ import com.stripe.model.StripeObject;
+ import com.stripe.model.checkout.Session;
+ import com.stripe.net.Webhook;
++import edu.esprit.kaddem.dto.PaymentSessionResponseDTO;
+ import edu.esprit.kaddem.model.PaymentSession;
+ import edu.esprit.kaddem.services.PayementSessionService;
+ import edu.esprit.kaddem.services.PaymentService;
+@@ -17,7 +18,7 @@
+ import org.springframework.web.bind.annotation.*;
+ 
+ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+-@CrossOrigin(origins = "http://localhost:4200")
++@CrossOrigin(origins = "http://127.0.0.1:4200")
+ 
+ @RestController
+ @RequestMapping("/payment")
+@@ -43,7 +44,7 @@
+     private String webhookSecret;
+ 
+     @GetMapping("/pay")
+-    public String pay() {
++    public PaymentSessionResponseDTO pay() {
+         String body = "Salam alaykoum, votre payement a été effectué avec succés, merci de votre confiance";
+         twillioService.sendSms(to, from, body);
+         return paymentService.createCheckoutSession();
+Index: backend/src/main/java/edu/esprit/kaddem/dto/PaymentSessionResponseDTO.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/main/java/edu/esprit/kaddem/dto/PaymentSessionResponseDTO.java b/backend/src/main/java/edu/esprit/kaddem/dto/PaymentSessionResponseDTO.java
+new file mode 100644
+--- /dev/null	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
++++ b/backend/src/main/java/edu/esprit/kaddem/dto/PaymentSessionResponseDTO.java	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -0,0 +1,12 @@
++package edu.esprit.kaddem.dto;
++
++import lombok.Getter;
++import lombok.NoArgsConstructor;
++import lombok.Setter;
++
++@Getter
++@Setter
++@NoArgsConstructor
++public class PaymentSessionResponseDTO {
++    private String checkoutURI;
++}
+Index: backend/src/main/java/edu/esprit/kaddem/services/PaymentService.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/backend/src/main/java/edu/esprit/kaddem/services/PaymentService.java b/backend/src/main/java/edu/esprit/kaddem/services/PaymentService.java
+--- a/backend/src/main/java/edu/esprit/kaddem/services/PaymentService.java	(revision 8e9012071593bc4e46ad42b16f83f81ef9558167)
++++ b/backend/src/main/java/edu/esprit/kaddem/services/PaymentService.java	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -1,10 +1,11 @@
+ package edu.esprit.kaddem.services;
+ 
++import com.fasterxml.jackson.databind.JsonNode;
++import com.fasterxml.jackson.databind.ObjectMapper;
+ import com.stripe.Stripe;
+-import com.stripe.exception.StripeException;
+ import com.stripe.model.*;
+ import com.stripe.model.checkout.Session;
+-import com.stripe.param.PaymentLinkCreateParams;
++import edu.esprit.kaddem.dto.PaymentSessionResponseDTO;
+ import edu.esprit.kaddem.model.PaymentSession;
+ import lombok.SneakyThrows;
+ import org.springframework.beans.factory.annotation.Autowired;
+@@ -12,7 +13,6 @@
+ import org.springframework.stereotype.Service;
+ 
+ import javax.annotation.PostConstruct;
+-import java.time.LocalDateTime;
+ import java.util.ArrayList;
+ import java.util.HashMap;
+ import java.util.List;
+@@ -33,7 +33,7 @@
+     }
+ 
+     @SneakyThrows
+-    public String createCheckoutSession() {
++    public PaymentSessionResponseDTO createCheckoutSession() {
+         var product = this.createProduct();
+         var price = this.createPrice(product);
+ 
+@@ -58,6 +58,14 @@
+         System.out.println("session = " + session);
+         session.getId();
+ 
++
++        String url = stringToJSONObject(session.getLastResponse().body()).get("url").asText();
++        PaymentSessionResponseDTO paymentResponseRequestDTO = new PaymentSessionResponseDTO();
++        paymentResponseRequestDTO.setCheckoutURI(url);
++
++
++
++
+         var affec = new PaymentSession();
+         affec.setPaid(true);
+         affec.setInitiator(null); //get user id !
+@@ -68,7 +76,7 @@
+ 
+ 
+ 
+-        return session.getUrl();
++        return paymentResponseRequestDTO;
+     }
+ 
+     @SneakyThrows
+@@ -88,6 +96,10 @@
+         return Product.create(params);
+     }
+ 
++    private static JsonNode stringToJSONObject(String jsonString) throws Exception {
++        ObjectMapper jacksonObjMapper = new ObjectMapper();
++        return jacksonObjMapper.readTree(jsonString);
++    }
+     @SneakyThrows
+     private Object processWebhookMessage(Charge event) {
+         System.out.println("event = " + event);
+Index: frontend/angular.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/angular.json b/frontend/angular.json
+--- a/frontend/angular.json	(revision 8e9012071593bc4e46ad42b16f83f81ef9558167)
++++ b/frontend/angular.json	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -116,7 +116,8 @@
+         "serve": {
+           "builder": "@angular-devkit/build-angular:dev-server",
+           "options": {
+-            "browserTarget": "vuexy:build"
++            "browserTarget": "vuexy:build",
++            "host": "127.0.0.1"
+           },
+           "configurations": {
+             "production": {
+Index: frontend/run_with_this_for_chat_bot.txt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/run_with_this_for_chat_bot.txt b/frontend/run_with_this_for_chat_bot.txt
+new file mode 100644
+--- /dev/null	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
++++ b/frontend/run_with_this_for_chat_bot.txt	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -0,0 +1,8 @@
++ng s --host "default_ipv4"
++
+++ change it on tawk 
++
++
++
++
++ou ng s --host 127.0.0.1
+\ No newline at end of file
+Index: frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.html b/frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.html
+new file mode 100644
+--- /dev/null	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
++++ b/frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.html	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -0,0 +1,603 @@
++<div class="content-wrapper container-xxl p-0">
++    <div class="content-body">
++        <!-- users edit start -->
++        <section class="app-user-edit">
++            <div class="card">
++                <div class="card-body">
++                    <ul ngbNav #nav="ngbNav" class="nav nav-pills">
++                        <li ngbNavItem>
++                            <a ngbNavLink class="d-flex align-items-center"
++                            ><i data-feather="user" class="mr-sm-50"></i><span class="d-none d-sm-block">Account</span></a
++                            >
++                            <ng-template ngbNavContent>
++                                <!-- Account Tab starts -->
++                                <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
++                                    <!-- users edit media object start -->
++                                    <div class="media mb-2">
++
++                                        <ng-template #customAvatar>
++                                            <div
++                                                    class="mr-1 ml-0"
++                                                    [ngClass]="{
++                          'bg-light-success': currentRow.status == 'active',
++                          'bg-light-secondary': currentRow.status == 'inactive',
++                          'bg-light-warning': currentRow.status == 'pending'
++                        }"
++                                            >
++                                                <div class="rounded p-3">{{ ecoleDto.nom | initials }}</div>
++                                            </div>
++                                        </ng-template>
++                                        <div class="media-body mt-50">
++                                            <h4>{{ ecoleDto.nom }}</h4>
++                                        </div>
++                                    </div>
++                                    <!-- users edit media object ends -->
++                                    <!-- users edit account form start -->
++                                    <form class="form-validate" (ngSubmit)="(accountForm.form.valid)"
++                                          #accountForm="ngForm">
++                                        <div class="row">
++                                            <div class="col-md-4">
++                                                <div class="form-group">
++                                                    <label for="username">Nom Ecole</label>
++                                                    <input
++                                                            type="text"
++                                                            id="username"
++                                                            class="form-control"
++                                                            placeholder="Nom"
++                                                            name="username"
++                                                            [(ngModel)]="this.ecoleDto.nom"
++                                                            [class.error]="accountForm.submitted && UserNameRef.invalid"
++                                                            #UserNameRef="ngModel"
++                                                            required
++                                                    />
++                                                    <span *ngIf="accountForm.submitted && UserNameRef.invalid"
++                                                          class="invalid-form">
++                            <small class="form-text text-danger" *ngIf="UserNameRef.errors.required"
++                            >This field is required!</small
++                            >
++                          </span>
++                                                </div>
++                                            </div>
++                                            <div class="col-md-4">
++                                                <div class="form-group">
++                                                    <label for="email">Email</label>
++                                                    <input
++                                                            type="text"
++                                                            id="email"
++                                                            class="form-control"
++                                                            placeholder="Email"
++                                                            name="email"
++                                                            [(ngModel)]="ecoleDto.email"
++                                                            [class.error]="accountForm.submitted && FullNameRef.invalid"
++                                                            #FullNameRef="ngModel"
++                                                            required
++                                                    />
++                                                    <span *ngIf="accountForm.submitted && FullNameRef.invalid"
++                                                          class="invalid-form">
++                            <small class="form-text text-danger" *ngIf="FullNameRef.errors.required"
++                            >This field is required!</small
++                            >
++                          </span>
++                                                </div>
++                                            </div>
++                                            <div class="col-md-4">
++                                                <div class="form-group">
++                                                    <label for="email">Telephone</label>
++                                                    <input
++                                                            type="email"
++                                                            id="tee"
++                                                            class="form-control"
++                                                            placeholder="Numero telephone"
++                                                            name="email"
++                                                            [(ngModel)]="ecoleDto.numTel"
++                                                            [class.error]="accountForm.submitted && EmailRef.invalid"
++                                                            #EmailRef="ngModel"
++                                                            required
++                                                    />
++                                                    <span *ngIf="accountForm.submitted && EmailRef.invalid"
++                                                          class="invalid-form">
++                            <small class="form-text text-danger" *ngIf="EmailRef.errors.required"
++                            >This field is required!</small
++                            >
++                          </span>
++                                                </div>
++                                            </div>
++                                            <div class="col-md-4">
++                                                <div class="form-group">
++                                                    <label for="status">Status</label>
++                                                    <select class="form-control" [(ngModel)]="ecoleDto.codeFiscal"
++                                                            name="status" id="status">
++                                                        <option>active</option>
++                                                        <option>inactive</option>
++                                                        <option>pending</option>
++                                                    </select>
++                                                </div>
++                                            </div>
++                                            <div class="col-12">
++                                                <div class="table-responsive border rounded mt-1">
++                                                    <h6 class="py-1 mx-1 mb-0 font-medium-2">
++                                                        <i data-feather="lock" [size]="20" class="mr-25"></i>
++                                                        <span class="align-middle">Permission</span>
++                                                    </h6>
++                                                    <table class="table table-striped table-borderless">
++                                                        <thead class="thead-light">
++                                                        <tr>
++                                                            <th>Module</th>
++                                                            <th>Read</th>
++                                                            <th>Write</th>
++                                                            <th>Create</th>
++                                                            <th>Delete</th>
++                                                        </tr>
++                                                        </thead>
++                                                        <tbody>
++                                                        <tr>
++                                                            <td>Admin</td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="admin-read" checked/>
++                                                                    <label class="custom-control-label"
++                                                                           for="admin-read"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="admin-write"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="admin-write"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="admin-create"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="admin-create"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="admin-delete"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="admin-delete"></label>
++                                                                </div>
++                                                            </td>
++                                                        </tr>
++                                                        <tr>
++                                                            <td>Staff</td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="staff-read"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="staff-read"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="staff-write" checked/>
++                                                                    <label class="custom-control-label"
++                                                                           for="staff-write"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="staff-create"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="staff-create"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="staff-delete"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="staff-delete"></label>
++                                                                </div>
++                                                            </td>
++                                                        </tr>
++                                                        <tr>
++                                                            <td>Author</td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="author-read" checked/>
++                                                                    <label class="custom-control-label"
++                                                                           for="author-read"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="author-write"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="author-write"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="author-create" checked/>
++                                                                    <label class="custom-control-label"
++                                                                           for="author-create"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="author-delete"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="author-delete"></label>
++                                                                </div>
++                                                            </td>
++                                                        </tr>
++                                                        <tr>
++                                                            <td>Contributor</td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="contributor-read"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="contributor-read"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="contributor-write"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="contributor-write"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="contributor-create"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="contributor-create"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="contributor-delete"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="contributor-delete"></label>
++                                                                </div>
++                                                            </td>
++                                                        </tr>
++                                                        <tr>
++                                                            <td>User</td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="user-read"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="user-read"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="user-create"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="user-create"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="user-write"/>
++                                                                    <label class="custom-control-label"
++                                                                           for="user-write"></label>
++                                                                </div>
++                                                            </td>
++                                                            <td>
++                                                                <div class="custom-control custom-checkbox">
++                                                                    <input type="checkbox" class="custom-control-input"
++                                                                           id="user-delete" checked/>
++                                                                    <label class="custom-control-label"
++                                                                           for="user-delete"></label>
++                                                                </div>
++                                                            </td>
++                                                        </tr>
++                                                        </tbody>
++                                                    </table>
++                                                </div>
++                                            </div>
++                                            <div class="col-12 d-flex flex-sm-row flex-column mt-2">
++                                                <button
++                                                        type="submit"
++                                                        (click)="submit(accountForm)"
++                                                        class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
++                                                        rippleEffect
++                                                >
++                                                    Save Changes
++                                                </button>
++                                                <button (click)="resetFormWithDefaultValues()"
++                                                        class="btn btn-outline-secondary" rippleEffect>
++                                                    Reset
++                                                </button>
++                                            </div>
++                                        </div>
++                                    </form>
++                                    <!-- users edit account form ends -->
++                                </div>
++                                <!-- Account Tab ends -->
++                            </ng-template>
++                        </li>
++                        <li ngbNavItem>
++                            <a ngbNavLink class="d-flex align-items-center">
++                                <i data-feather="info" class="mr-sm-50"></i><span
++                                    class="d-none d-sm-block">Information</span></a
++                            >
++                            <ng-template ngbNavContent let-row="row">
++                                <!-- Information Tab starts -->
++                                <div class="tab-pane" id="information" aria-labelledby="information-tab"
++                                     role="tabpanel">
++                                    <!-- users edit Info form start  -->
++                                    <form class="form-validate">
++                                        <div class="row mt-1">
++                                            <div class="col-12">
++                                                <h4 class="mb-1">
++                                                    <i data-feather="user" [size]="16" class="mr-75 font-medium-4"></i>
++                                                    <span class="align-middle">Personal Information</span>
++                                                </h4>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6">
++                                                <div class="form-group">
++                                                    <label for="website">Website</label>
++                                                    <input
++                                                            id="website"
++                                                            type="text"
++                                                            class="form-control"
++                                                            placeholder="Website here..."
++                                                            value="https://rowboat.com/insititious/Angelo"
++                                                            name="website"
++                                                    />
++                                                </div>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6">
++                                                <div class="form-group">
++                                                    <label class="d-block mb-1">Contact Options</label>
++                                                    <div class="custom-control custom-checkbox custom-control-inline">
++                                                        <input type="checkbox" class="custom-control-input"
++                                                               id="email-cb" checked/>
++                                                        <label class="custom-control-label" for="email-cb">Email</label>
++                                                    </div>
++                                                    <div class="custom-control custom-checkbox custom-control-inline">
++                                                        <input type="checkbox" class="custom-control-input" id="message"
++                                                               checked/>
++                                                        <label class="custom-control-label"
++                                                               for="message">Message</label>
++                                                    </div>
++                                                    <div class="custom-control custom-checkbox custom-control-inline">
++                                                        <input type="checkbox" class="custom-control-input" id="phone"/>
++                                                        <label class="custom-control-label" for="phone">Phone</label>
++                                                    </div>
++                                                </div>
++                                            </div>
++                                            <div class="col-12">
++                                                <h4 class="mb-1 mt-2">
++                                                    <i data-feather="map-pin" [size]="16"
++                                                       class="mr-75 font-medium-4"></i>
++                                                    <span class="align-middle">Address</span>
++                                                </h4>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6">
++                                                <div class="form-group">
++                                                    <label for="address-1">Address Line 1</label>
++                                                    <input
++                                                            id="address-1"
++                                                            type="text"
++                                                            class="form-control"
++                                                            value="A-65, Belvedere Streets"
++                                                            name="address"
++                                                    />
++                                                </div>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6">
++                                                <div class="form-group">
++                                                    <label for="address-2">Address Line 2</label>
++                                                    <input id="address-2" type="text" class="form-control"
++                                                           placeholder="T-78, Groove Street"/>
++                                                </div>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6">
++                                                <div class="form-group">
++                                                    <label for="postcode">Postcode</label>
++                                                    <input id="postcode" type="text" class="form-control"
++                                                           placeholder="597626" name="zip"/>
++                                                </div>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6">
++                                                <div class="form-group">
++                                                    <label for="city">City</label>
++                                                    <input id="city" type="text" class="form-control" value="New York"
++                                                           name="city"/>
++                                                </div>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6">
++                                                <div class="form-group">
++                                                    <label for="state">State</label>
++                                                    <input id="state" type="text" class="form-control" name="state"
++                                                           placeholder="Manhattan"/>
++                                                </div>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6">
++                                                <div class="form-group">
++                                                    <label for="country">Country</label>
++                                                    <input
++                                                            id="country"
++                                                            type="text"
++                                                            class="form-control"
++                                                            name="country"
++                                                            placeholder="United States"
++                                                    />
++                                                </div>
++                                            </div>
++                                            <div class="col-12 d-flex flex-sm-row flex-column mt-2">
++                                                <button (click)="modifierClasse()" type="submit"
++                                                        class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
++                                                        rippleEffect>
++                                                    Save Changes
++                                                </button>
++                                                <button type="reset" class="btn btn-outline-secondary" rippleEffect>
++                                                    Reset
++                                                </button>
++                                            </div>
++                                        </div>
++                                    </form>
++                                    <!-- users edit Info form ends -->
++                                </div>
++                                <!-- Information Tab ends -->
++                            </ng-template>
++                        </li>
++                        <li ngbNavItem>
++                            <a ngbNavLink class="d-flex align-items-center"
++                            ><i data-feather="share-2" class="mr-sm-50"></i><span
++                                    class="d-none d-sm-block">Social</span></a
++                            >
++                            <ng-template ngbNavContent>
++                                <!-- Social Tab starts -->
++                                <div class="tab-pane" id="social" aria-labelledby="social-tab" role="tabpanel">
++                                    <!-- users edit social form start -->
++                                    <form class="form-validate">
++                                        <div class="row">
++                                            <div class="col-lg-4 col-md-6 form-group">
++                                                <label for="twitter-input">Twitter</label>
++                                                <div class="input-group input-group-merge">
++                                                    <div class="input-group-prepend">
++                            <span class="input-group-text" id="basic-addon3">
++                              <i class="font-medium-2" data-feather="twitter"></i>
++                            </span>
++                                                    </div>
++                                                    <input
++                                                            id="twitter-input"
++                                                            type="text"
++                                                            class="form-control"
++                                                            value="https://www.twitter.com/adoptionism744"
++                                                            placeholder="https://www.twitter.com/"
++                                                            aria-describedby="basic-addon3"
++                                                    />
++                                                </div>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6 form-group">
++                                                <label for="facebook-input">Facebook</label>
++                                                <div class="input-group input-group-merge">
++                                                    <div class="input-group-prepend">
++                            <span class="input-group-text" id="basic-addon4">
++                              <i class="font-medium-2" data-feather="facebook"></i>
++                            </span>
++                                                    </div>
++                                                    <input
++                                                            id="facebook-input"
++                                                            type="text"
++                                                            class="form-control"
++                                                            value="https://www.facebook.com/adoptionism664"
++                                                            placeholder="https://www.facebook.com/"
++                                                            aria-describedby="basic-addon4"
++                                                    />
++                                                </div>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6 form-group">
++                                                <label for="instagram-input">Instagram</label>
++                                                <div class="input-group input-group-merge">
++                                                    <div class="input-group-prepend">
++                            <span class="input-group-text" id="basic-addon5">
++                              <i class="font-medium-2" data-feather="instagram"></i>
++                            </span>
++                                                    </div>
++                                                    <input
++                                                            id="instagram-input"
++                                                            type="text"
++                                                            class="form-control"
++                                                            value="https://www.instagram.com/adopt-ionism744"
++                                                            placeholder="https://www.instagram.com/"
++                                                            aria-describedby="basic-addon5"
++                                                    />
++                                                </div>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6 form-group">
++                                                <label for="github-input">Github</label>
++                                                <div class="input-group input-group-merge">
++                                                    <div class="input-group-prepend">
++                            <span class="input-group-text" id="basic-addon9">
++                              <i class="font-medium-2" data-feather="github"></i>
++                            </span>
++                                                    </div>
++                                                    <input
++                                                            id="github-input"
++                                                            type="text"
++                                                            class="form-control"
++                                                            value="https://www.github.com/madop818"
++                                                            placeholder="https://www.github.com/"
++                                                            aria-describedby="basic-addon9"
++                                                    />
++                                                </div>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6 form-group">
++                                                <label for="codepen-input">Codepen</label>
++                                                <div class="input-group input-group-merge">
++                                                    <div class="input-group-prepend">
++                            <span class="input-group-text" id="basic-addon12">
++                              <i class="font-medium-2" data-feather="codepen"></i>
++                            </span>
++                                                    </div>
++                                                    <input
++                                                            id="codepen-input"
++                                                            type="text"
++                                                            class="form-control"
++                                                            value="https://www.codepen.com/adoptism243"
++                                                            placeholder="https://www.codepen.com/"
++                                                            aria-describedby="basic-addon12"
++                                                    />
++                                                </div>
++                                            </div>
++                                            <div class="col-lg-4 col-md-6 form-group">
++                                                <label for="slack-input">Slack</label>
++                                                <div class="input-group input-group-merge">
++                                                    <div class="input-group-prepend">
++                            <span class="input-group-text" id="basic-addon11">
++                              <i class="font-medium-2" data-feather="slack"></i>
++                            </span>
++                                                    </div>
++                                                    <input
++                                                            id="slack-input"
++                                                            type="text"
++                                                            class="form-control"
++                                                            value="@adoptionism744"
++                                                            placeholder="https://www.slack.com/"
++                                                            aria-describedby="basic-addon11"
++                                                    />
++                                                </div>
++                                            </div>
++
++                                            <div class="col-12 d-flex flex-sm-row flex-column mt-2">
++                                                <button type="submit" class="btn btn-primary mb-1 mb-sm-0 mr-0 mr-sm-1"
++                                                        rippleEffect>
++                                                    Save Changes
++                                                </button>
++                                                <button type="reset" class="btn btn-outline-secondary" rippleEffect>
++                                                    Reset
++                                                </button>
++                                            </div>
++                                        </div>
++                                    </form>
++                                    <!-- users edit socail form ends -->
++                                </div>
++                                <!-- Social Tab ends -->
++                            </ng-template>
++                        </li>
++                    </ul>
++                    <div [ngbNavOutlet]="nav" class="mt-2"></div>
++                </div>
++            </div>
++        </section>
++        <!-- users edit ends -->
++    </div>
++</div>
+Index: frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.scss b/frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.scss
+new file mode 100644
+--- /dev/null	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
++++ b/frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.scss	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -0,0 +1,3 @@
++@import '~@core/scss/angular/libs/flatpickr.component.scss';
++@import '~@core/scss/angular/libs/select.component.scss';
++@import '~@core/scss/base/pages/app-user.scss';
+Index: frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.spec.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.spec.ts b/frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.spec.ts
+new file mode 100644
+--- /dev/null	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
++++ b/frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.spec.ts	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -0,0 +1,23 @@
++import { ComponentFixture, TestBed } from '@angular/core/testing';
++
++import { EcoleEditComponent } from './ecole-edit.component';
++
++describe('EcoleEditComponent', () => {
++  let component: EcoleEditComponent;
++  let fixture: ComponentFixture<EcoleEditComponent>;
++
++  beforeEach(async () => {
++    await TestBed.configureTestingModule({
++      declarations: [ EcoleEditComponent ]
++    })
++    .compileComponents();
++
++    fixture = TestBed.createComponent(EcoleEditComponent);
++    component = fixture.componentInstance;
++    fixture.detectChanges();
++  });
++
++  it('should create', () => {
++    expect(component).toBeTruthy();
++  });
++});
+Index: frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.ts b/frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.ts
+new file mode 100644
+--- /dev/null	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
++++ b/frontend/src/app/main/pages/ecole/ecole-edit/ecole-edit.component.ts	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -0,0 +1,188 @@
++import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
++import {NgForm} from "@angular/forms";
++import {FlatpickrOptions} from "ng2-flatpickr";
++import {Observable, Subject} from "rxjs";
++import {ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot} from "@angular/router";
++import {takeUntil} from "rxjs/operators";
++import {cloneDeep} from 'lodash';
++import {EcoleControllerService} from "gs-api/src/services/ecole-controller.service";
++import {EcoleDto} from "gs-api/src/models/ecole-dto";
++import {map} from 'rxjs/operators';
++import Swal from "sweetalert2";
++
++
++@Component({
++    selector: 'app-ecole-edit',
++    templateUrl: './ecole-edit.component.html',
++    styleUrls: ['./ecole-edit.component.scss']
++})
++export class EcoleEditComponent implements OnInit, OnDestroy {
++    public url = this.router.url;
++    public urlLastValue;
++    public rows;
++    public currentRow;
++    public tempRow;
++    public avatarImage: string;
++
++    ecoleDto: EcoleDto = {};
++
++
++    @ViewChild('accountForm') accountForm: NgForm;
++
++    public birthDateOptions: FlatpickrOptions = {
++        altInput: true
++    };
++
++    public selectMultiLanguages = ['English', 'Spanish', 'French', 'Russian', 'German', 'Arabic', 'Sanskrit'];
++    public selectMultiLanguagesSelected = [];
++
++    // Private
++    private _unsubscribeAll: Subject<any>;
++
++
++    constructor(
++
++        private router: Router,
++        private ecoleService: EcoleControllerService,
++        private activatedRoute: ActivatedRoute,
++        private ecoleControllerService: EcoleControllerService,
++        private _router: Router,
++
++    ) {
++        this._unsubscribeAll = new Subject();
++        this.urlLastValue = this.url.substr(this.url.lastIndexOf('/') + 1);
++
++
++    }
++
++    // Public Methods
++    // -----------------------------------------------------------------------------------------------------
++
++    /**
++     * Reset Form With Default Values
++     */
++    resetFormWithDefaultValues() {
++        this.accountForm.resetForm(this.tempRow);
++    }
++
++    /**
++     * Upload Image
++     *
++     * @param event
++     */
++    uploadImage(event: any) {
++        if (event.target.files && event.target.files[0]) {
++            let reader = new FileReader();
++
++            reader.onload = (event: any) => {
++                this.avatarImage = event.target.result;
++            };
++
++            reader.readAsDataURL(event.target.files[0]);
++        }
++    }
++
++    /**
++     * Submit
++     *
++     * @param form
++     */
++
++
++    /**
++     * Resolver
++     *
++     * @param {ActivatedRouteSnapshot} route
++     * @param {RouterStateSnapshot} state
++     * @returns {Observable<any> | Promise<any> | any}
++     */
++    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<any> | Promise<any> | any {
++        return new Promise<void>((resolve, reject) => {
++            Promise.all([this.findAllEcoles()]).then(() => {
++                resolve();
++            }, reject);
++        });
++    }
++
++    findAllEcoles(): Promise<any[]> {
++        return new Promise((resolve, reject) => {
++
++            this.ecoleService.findAllUsingGET2().subscribe(res => {
++                this.rows = res;
++                this.ecoleService.onUserEditChanged.next(this.rows);
++                resolve(this.rows);
++            }, reject);
++        });
++    }
++
++    submit(form) {
++        if (form.valid) {
++            return new Promise((resolve, reject) => {
++                Swal.fire({
++                    title: 'Patientez svp',
++                    html: 'En cours  ...',// add html attribute if you want or remove
++                    allowOutsideClick: false,
++                    onBeforeOpen: () => {
++                        Swal.showLoading();
++                    },
++                });
++                console.log(this.ecoleDto)
++                this.ecoleControllerService.createUsingPOST2(this.ecoleDto).subscribe(response => {
++                        this._router.navigate(['ecoles/listecoles']);
++                        Swal.fire({
++                            icon: 'success',
++                            title: 'Updated!',
++                            text: 'Your School has been updated.!',
++                        });
++                        resolve(response);
++                    }
++                    , rejectMessage => {
++                        Swal.fire({
++                            icon: 'error',
++                            title: 'Failed!',
++                            text: 'Your School has not been updated. Reason: ' + rejectMessage,
++                            customClass: {
++                                confirmButton: 'btn btn-danger'
++                            }
++                        });
++                        reject();
++                    }
++                );
++            });
++        } else {
++            Swal.fire({
++                icon: 'error',
++                title: 'Failed!',
++                text: 'Invalid data',
++                customClass: {
++                    confirmButton: 'btn btn-danger'
++                }
++            });
++        }
++    }
++
++
++    // Lifecycle Hooks
++    // -----------------------------------------------------------------------------------------------------
++    /**
++     * On init
++     */
++    ngOnInit(): void {
++        const idClasse = this.activatedRoute.snapshot.params['id'];
++        if (idClasse) {
++            this.ecoleService.findByIdUsingGET2(idClasse)
++                .subscribe(classe => {
++                    this.ecoleDto = classe;
++                });
++        }
++    }
++
++    /**
++     * On destroy
++     */
++    ngOnDestroy(): void {
++        // Unsubscribe from all subscriptions
++        this._unsubscribeAll.next();
++        this._unsubscribeAll.complete();
++    }
++}
+Index: frontend/src/app/main/pages/invoice/invoice.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/app/main/pages/invoice/invoice.component.ts b/frontend/src/app/main/pages/invoice/invoice.component.ts
+--- a/frontend/src/app/main/pages/invoice/invoice.component.ts	(revision 8e9012071593bc4e46ad42b16f83f81ef9558167)
++++ b/frontend/src/app/main/pages/invoice/invoice.component.ts	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -90,6 +90,7 @@
+         },
+       });
+       this.payementService.payUsingGET().subscribe((response: any) => {
++        console.log((response));
+         Swal.close();
+         resolve(this.apiData);
+         window.location = response.checkoutURI;
+Index: frontend/src/app/main/pages/payment-session/payment-session.component.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/app/main/pages/payment-session/payment-session.component.html b/frontend/src/app/main/pages/payment-session/payment-session.component.html
+--- a/frontend/src/app/main/pages/payment-session/payment-session.component.html	(revision 8e9012071593bc4e46ad42b16f83f81ef9558167)
++++ b/frontend/src/app/main/pages/payment-session/payment-session.component.html	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -1,1 +1,38 @@
+-<p>payment-session works!</p>
++<!-- Table head options -->
++<div class="row" id="table-head">
++    <div class="col-12">
++        <div class="card">
++            <div class="card-header"><h4 class="card-title">Table head options</h4></div>
++            <div class="card-body">
++                <p class="card-text">
++                    Similar to tables and dark tables, use the modifier classes
++                    <code class="highlighter-rouge">.thead-dark</code> to make
++                    <code class="highlighter-rouge">&lt;thead&gt;</code> s appear dark.
++                </p>
++            </div>
++            <div class="table-responsive">
++                <table class="table">
++                    <thead class="thead-dark">
++                    <tr>
++                        <th>Chekout Session-ID</th>
++                        <th>Date</th>
++                        <th>Paid</th>
++                        <th>Actions</th>
++                    </tr>
++                    </thead>
++                    <tbody >
++
++                    </tbody>
++                </table>
++            </div>
++            <div class="card-body mt-2">
++                <p class="card-text">
++                    Use the modifier class <code class="highlighter-rouge">.thead-light</code> to make
++                    <code class="highlighter-rouge">&lt;thead&gt;</code> s appear light.
++                </p>
++            </div>
++
++        </div>
++    </div>
++</div>
++<!-- Table head options -->
+\ No newline at end of file
+Index: frontend/src/app/main/pages/payment-session/payment-session.component.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/app/main/pages/payment-session/payment-session.component.ts b/frontend/src/app/main/pages/payment-session/payment-session.component.ts
+--- a/frontend/src/app/main/pages/payment-session/payment-session.component.ts	(revision 8e9012071593bc4e46ad42b16f83f81ef9558167)
++++ b/frontend/src/app/main/pages/payment-session/payment-session.component.ts	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -7,6 +7,7 @@
+ })
+ export class PaymentSessionComponent implements OnInit {
+ 
++
+   constructor() { }
+ 
+   ngOnInit(): void {
+Index: frontend/src/gs-api/src/services/payement-controller.service.ts
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/frontend/src/gs-api/src/services/payement-controller.service.ts b/frontend/src/gs-api/src/services/payement-controller.service.ts
+--- a/frontend/src/gs-api/src/services/payement-controller.service.ts	(revision 8e9012071593bc4e46ad42b16f83f81ef9558167)
++++ b/frontend/src/gs-api/src/services/payement-controller.service.ts	(revision 6bbeb0d42aaa149026951799049b8e6461bf2adc)
+@@ -50,15 +50,23 @@
+       })
+     );
+   }
+-  /**
++
++
++/* /**
+    * pay
+    * @return OK
+-   */
++
+   payUsingGET(): __Observable<string> {
+     return this.payUsingGETResponse().pipe(
+       __map(_r => _r.body as string)
+     );
++  }   */
++
++
++  payUsingGET(){
++    return this.http.get("http://localhost:8081/payment/pay")
+   }
++
+ 
+   /**
+    * webhook

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotificationsController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.controller</a> &gt; <span class="el_source">NotificationsController.java</span></div><h1>NotificationsController.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.controller;
+
+import edu.esprit.kaddem.dto.NotificationDto;
+import edu.esprit.kaddem.model.notification.Notification;
+import edu.esprit.kaddem.model.user.Utilisateur;
+import edu.esprit.kaddem.services.NotificationService;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@RestController
+@RequestMapping(&quot;/notifications&quot;)
+<span class="nc" id="L17">public class NotificationsController {</span>
+<span class="nc" id="L18">    private final ModelMapper modelMapper = new ModelMapper();</span>
+
+    @Autowired
+    private NotificationService notificationService;
+
+
+
+    @GetMapping(&quot;/me&quot;)
+    public List&lt;NotificationDto&gt; getNotifications() {
+<span class="nc" id="L27">        var authed = SecurityContextHolder.getContext().getAuthentication();</span>
+<span class="nc bnc" id="L28" title="All 2 branches missed.">        if(authed.getPrincipal() instanceof Utilisateur user) {</span>
+<span class="nc" id="L29">            return notificationService.getNotifications(user).stream()</span>
+<span class="nc" id="L30">                    .map(notification -&gt; modelMapper.map(notification, NotificationDto.class))</span>
+<span class="nc" id="L31">                    .collect(Collectors.toList());</span>
+<span class="nc" id="L32">        } else return List.of();</span>
+    }
+
+    @GetMapping(&quot;/test&quot;)
+    public void testNotification() {
+<span class="nc" id="L37">        Utilisateur user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</span>
+<span class="nc" id="L38">        notificationService.sendNotification(user, new Notification(&quot;And this is its body&quot;, &quot;You have a new notification!&quot;, &quot;alert-octagon&quot;, &quot;/dashboard/ecommerce&quot;));</span>
+<span class="nc" id="L39">    }</span>
+
+    @PostMapping(&quot;/markAsRead/{id}&quot;)
+    public void markAsRead(@PathVariable Integer id) {
+<span class="nc" id="L43">        Utilisateur user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</span>
+<span class="nc" id="L44">        notificationService.markAsRead(id, user);</span>
+<span class="nc" id="L45">    }</span>
+
+    @PostMapping(&quot;/markAllAsRead&quot;)
+    public void markAllAsRead() {
+<span class="nc" id="L49">        Utilisateur user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</span>
+<span class="nc" id="L50">        notificationService.markAllAsRead(user);</span>
+<span class="nc" id="L51">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

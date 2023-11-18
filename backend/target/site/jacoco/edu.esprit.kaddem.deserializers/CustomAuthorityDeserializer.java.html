@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomAuthorityDeserializer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.deserializers</a> &gt; <span class="el_source">CustomAuthorityDeserializer.java</span></div><h1>CustomAuthorityDeserializer.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.deserializers;
+
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.JsonDeserializer;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
+<span class="nc" id="L16">public class CustomAuthorityDeserializer extends JsonDeserializer {</span>
+
+    @Override
+    public Object deserialize(JsonParser jp, DeserializationContext ctxt) throws IOException {
+<span class="nc" id="L20">        ObjectMapper mapper = (ObjectMapper) jp.getCodec();</span>
+<span class="nc" id="L21">        JsonNode jsonNode = mapper.readTree(jp);</span>
+<span class="nc" id="L22">        List&lt;GrantedAuthority&gt; grantedAuthorities = new LinkedList&lt;&gt;();</span>
+
+<span class="nc" id="L24">        Iterator&lt;JsonNode&gt; elements = jsonNode.elements();</span>
+<span class="nc bnc" id="L25" title="All 2 branches missed.">        while (elements.hasNext()) {</span>
+<span class="nc" id="L26">            JsonNode next = elements.next();</span>
+<span class="nc" id="L27">            JsonNode authority = next.get(&quot;authority&quot;);</span>
+<span class="nc" id="L28">            grantedAuthorities.add(new SimpleGrantedAuthority(authority.asText()));</span>
+<span class="nc" id="L29">        }</span>
+<span class="nc" id="L30">        return grantedAuthorities;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

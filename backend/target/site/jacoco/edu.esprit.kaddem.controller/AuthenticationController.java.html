@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthenticationController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Kaddem</a> &gt; <a href="index.source.html" class="el_package">edu.esprit.kaddem.controller</a> &gt; <span class="el_source">AuthenticationController.java</span></div><h1>AuthenticationController.java</h1><pre class="source lang-java linenums">package edu.esprit.kaddem.controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.esprit.kaddem.annotations.RateLimit;
+import edu.esprit.kaddem.annotations.TrackPerformance;
+import edu.esprit.kaddem.dto.AbstractUserDto;
+import edu.esprit.kaddem.dto.EtudiantDto;
+import edu.esprit.kaddem.dto.ParentDto;
+import edu.esprit.kaddem.dto.ProfesseurDto;
+import edu.esprit.kaddem.dto.auth.AuthReqDto;
+import edu.esprit.kaddem.dto.auth.AuthResDto;
+import edu.esprit.kaddem.dto.auth.ReqNewPasswdDto;
+import edu.esprit.kaddem.dto.auth.ResPasswdDto;
+import edu.esprit.kaddem.model.user.Etudiant;
+import edu.esprit.kaddem.model.user.Utilisateur;
+import edu.esprit.kaddem.services.AuthenticationService;
+import edu.esprit.kaddem.services.EmailService;
+import org.jboss.aerogear.security.otp.Totp;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
+
+
+@RestController()
+@CrossOrigin
+@RequestMapping(&quot;/auth&quot;)
+<span class="nc" id="L32">public class AuthenticationController {</span>
+<span class="nc" id="L33">    private final ModelMapper mapper = new ModelMapper();</span>
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
+<span class="nc" id="L38">    ObjectMapper oMapper = new ObjectMapper();</span>
+
+
+    @Autowired
+    EmailService emailService;
+
+    @RateLimit(3)
+    @TrackPerformance
+    @PostMapping(&quot;/login&quot;)
+    public ResponseEntity&lt;?&gt; login(@RequestBody AuthReqDto authReqDto) {
+<span class="nc" id="L48">        var token = authenticationService.getToken(authReqDto.getUsername(), authReqDto.getPassword(), authReqDto.getRememberMe());</span>
+
+<span class="nc" id="L50">        var user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">        if(user.getIsUsing2FA()) {</span>
+<span class="nc bnc" id="L52" title="All 4 branches missed.">            if(authReqDto.getTotp() == null || authReqDto.getTotp().isEmpty())</span>
+<span class="nc" id="L53">                throw new AccessDeniedException(&quot;2FA is enabled for this account&quot;);</span>
+<span class="nc" id="L54">            var totp = new Totp(user.getSecret());</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">            if(!totp.verify(authReqDto.getTotp()))</span>
+<span class="nc" id="L56">                throw new AccessDeniedException(&quot;TOTP is invalid&quot;);</span>
+        }
+<span class="nc" id="L58">        var retVal = oMapper.convertValue(getAuthenticatedUser(), Map.class);</span>
+<span class="nc" id="L59">        retVal.put(&quot;token&quot;, token);</span>
+<span class="nc" id="L60">        return ResponseEntity.ok(retVal);</span>
+    }
+
+    @GetMapping(value = &quot;/refresh&quot;)
+    @TrackPerformance
+    public AuthResDto refreshtoken(HttpServletRequest request) {
+<span class="nc" id="L66">        String token = request.getHeader(&quot;Authorization&quot;).substring(7);</span>
+<span class="nc" id="L67">        var newToken = authenticationService.refreshToken(token);</span>
+<span class="nc" id="L68">        return new AuthResDto(newToken);</span>
+    }
+
+    @GetMapping(&quot;/me&quot;)
+    public AbstractUserDto&lt;? extends Utilisateur&gt; getAuthenticatedUser() {
+<span class="nc" id="L73">        Utilisateur user = null;</span>
+        try {
+<span class="nc" id="L75">            user = (Utilisateur) SecurityContextHolder.getContext().getAuthentication().getPrincipal();</span>
+<span class="nc" id="L76">        } catch (Exception e) {</span>
+<span class="nc" id="L77">            throw new AccessDeniedException(&quot;Access denied&quot;);</span>
+<span class="nc" id="L78">        }</span>
+        // switch to check for roles
+<span class="nc bnc" id="L80" title="All 4 branches missed.">        return switch (user.getRole()) {</span>
+<span class="nc" id="L81">            case ROLE_ETUDIANT -&gt; mapper.map(user, EtudiantDto.class);</span>
+<span class="nc" id="L82">            case ROLE_ADMIN, ROLE_PROFESSEUR -&gt; mapper.map(user, ProfesseurDto.class);</span>
+<span class="nc" id="L83">            case ROLE_PARENT -&gt; mapper.map(user, ParentDto.class);</span>
+<span class="nc" id="L84">            default -&gt; throw new RuntimeException(&quot;Unknown role&quot;);</span>
+        };
+    }
+
+    @PostMapping(&quot;/signup&quot;)
+    @TrackPerformance
+    public ResponseEntity&lt;?&gt; signup(@RequestBody EtudiantDto etudiantDto) {
+<span class="nc" id="L91">        var user = mapper.map(etudiantDto, Etudiant.class);</span>
+<span class="nc" id="L92">        return ResponseEntity.ok(mapper.map(authenticationService.signup(user), EtudiantDto.class));</span>
+    }
+
+    @PostMapping(&quot;/request-password-reset&quot;)
+    public ResponseEntity&lt;?&gt; resetPassword(@RequestBody ReqNewPasswdDto reqDto) {
+<span class="nc" id="L97">        authenticationService.forgotPassword(reqDto.getEmail());</span>
+<span class="nc" id="L98">        return ResponseEntity.ok().build();</span>
+    }
+
+    @PostMapping(&quot;/reset-password/{token}&quot;)
+    public ResponseEntity&lt;?&gt; resetPassword(@PathVariable String token, @RequestBody ResPasswdDto resPwd) {
+<span class="nc" id="L103">        authenticationService.resetPassword(token, resPwd.getEmail(), resPwd.getPassword());</span>
+<span class="nc" id="L104">        return ResponseEntity.ok().build();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
