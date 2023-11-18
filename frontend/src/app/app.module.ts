@@ -194,7 +194,7 @@ const appRoutes: Routes = [
         BasicCustomContextMenuComponent,
         AnimatedCustomContextMenuComponent,
         SubMenuCustomContextMenuComponent
-    ],
+        ],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,

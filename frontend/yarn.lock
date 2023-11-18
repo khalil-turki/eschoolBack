@@ -3673,7 +3673,7 @@
   dependencies:
     "websocket-driver" ">=0.5.1"
 
-"feather-icons@4.28.0":
+"feather-icons@^4.28.0":
   "integrity" "sha512-gRdqKESXRBUZn6Nl0VBq2wPHKRJgZz7yblrrc2lYsS6odkNFDnA4bqvrlEVRUPjE1tFax+0TdbJKZ31ziJuzjg=="
   "resolved" "https://registry.npmjs.org/feather-icons/-/feather-icons-4.28.0.tgz"
   "version" "4.28.0"
